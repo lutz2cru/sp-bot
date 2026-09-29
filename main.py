@@ -102,7 +102,7 @@ def cmd_check(config: Config, send_notifications: bool = True):
 
     events = tracker.process_stations(stations, config)
 
-    # Mode 1 : Envoi régulier de la liste complète des stations en stock
+    # Mode périodique (digest toutes les X minutes, si explicitement activé)
     if config.notify_mode == "periodic_list":
         if send_notifications:
             ok = notifier.broadcast_stock_list(stations, config.filters.fuels)
@@ -110,24 +110,34 @@ def cmd_check(config: Config, send_notifications: bool = True):
                 print(f"[*] 📲 Liste des stations avec {'/'.join(config.filters.fuels)} en stock envoyée sur votre téléphone via Ntfy.")
 
     if not events:
-        print("[*] Aucun nouveau réapprovisionnement détecté depuis le dernier passage.")
+        print("[*] Aucun changement de stock (ni réapprovisionnement, ni rupture). Aucune notification envoyée.")
         return
 
-    print(f"\n🚨 \033[1;32m{len(events)} RÉAPPROVISIONNEMENT(S) DÉTECTÉ(S) !\033[0m")
+    print(f"\n🚨 \033[1;33m{len(events)} CHANGEMENT(S) DE STOCK DÉTECTÉ(S) !\033[0m")
     for ev in events:
-        print(f"\n✨ {ev.status_badge} : {ev.brand} ({ev.city} - {ev.distance_km} km)")
-        print(f"   Adresse : {ev.address}")
-        for rf in ev.fuels_restocked:
-            p_str = f"{rf.price:.3f} €/L" if rf.price else "Prix non précisé"
-            rel_str = f"({rf.relative_time})" if rf.relative_time else ""
-            print(f"   -> Carburant disponible : \033[1;32m{rf.fuel}\033[0m ({p_str}) {rel_str}")
-        if ev.alternatives:
-            print(f"   -> Alternatives en stock : {', '.join(ev.alternatives)}")
+        if ev.event_type == "RESTOCK":
+            print(f"\n✨ \033[1;32m{ev.status_badge} [RÉAPPROVISIONNEMENT]\033[0m : {ev.brand} ({ev.city} - {ev.distance_km} km)")
+            print(f"   Adresse : {ev.address}")
+            for rf in ev.fuels_restocked:
+                p_str = f"{rf.price:.3f} €/L" if rf.price else "Prix non précisé"
+                rel_str = f"({rf.relative_time})" if rf.relative_time else ""
+                print(f"   -> Carburant de nouveau disponible : \033[1;32m{rf.fuel}\033[0m ({p_str}) {rel_str}")
+            if ev.alternatives:
+                print(f"   -> Alternatives en stock : {', '.join(ev.alternatives)}")
+        else:  # SHORTAGE
+            print(f"\n⚠️ \033[1;31m{ev.status_badge} [RUPTURE DE STOCK]\033[0m : {ev.brand} ({ev.city} - {ev.distance_km} km)")
+            print(f"   Adresse : {ev.address}")
+            print(f"   -> Carburant épuisé : \033[1;31m{', '.join(ev.fuels_affected)}\033[0m")
+            if ev.alternatives:
+                print(f"   -> Alternatives restantes : {', '.join(ev.alternatives)}")
+            elif ev.all_available:
+                print(f"   -> Reste en stock : {', '.join(ev.all_available)}")
+
         print(f"   Lien : {ev.google_maps_url}")
 
         if send_notifications:
-            sent = notifier.broadcast_restock(ev)
-            print(f"   📲 Alertes expédiées avec succès vers {sent} canal/canaux.")
+            sent = notifier.broadcast_stock_event(ev)
+            print(f"   📲 Alerte expédiée avec succès vers {sent} canal/canaux.")
 
 def cmd_run(config: Config):
     notifier = NotificationManager(config)

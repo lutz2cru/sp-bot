@@ -1,5 +1,7 @@
 # Fichiers de données et cache
-data/
+data/*
+!data/total_stations.json
+!data/state.json
 *.pyc
 __pycache__/
 .env

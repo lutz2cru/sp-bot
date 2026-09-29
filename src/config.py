@@ -45,7 +45,7 @@ class Config:
     filters: FiltersConfig = field(default_factory=FiltersConfig)
     ntfy: NtfyConfig = field(default_factory=NtfyConfig)
     check_interval_seconds: int = 180
-    notify_mode: str = "periodic_list"  # "periodic_list" ou "restock_only"
+    notify_mode: str = "events_only"  # "events_only" (reappro/rupture) ou "periodic_list"
     notify_on_startup: bool = False
 
 def geocode_city_gouv(city_name: str) -> Optional[tuple[float, float, str]]:
@@ -128,7 +128,7 @@ def load_config(config_path: str = "config.json") -> Config:
         filters=filters,
         ntfy=ntfy,
         check_interval_seconds=int(os.environ.get("CHECK_INTERVAL", data.get("check_interval_seconds", 180))),
-        notify_mode=data.get("notify_mode", "periodic_list"),
+        notify_mode=data.get("notify_mode", "events_only"),
         notify_on_startup=bool(data.get("notify_on_startup", False))
     )
 

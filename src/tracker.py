@@ -42,7 +42,7 @@ class RestockedFuel:
     relative_time: str
 
 @dataclass
-class RestockEvent:
+class StockChangeEvent:
     station_id: int
     brand: str
     address: str
@@ -59,6 +59,11 @@ class RestockEvent:
     alternatives: List[str]
     google_maps_url: str
     waze_url: str
+    event_type: str = "RESTOCK"  # "RESTOCK" (disponible) ou "SHORTAGE" (rupture)
+    fuels_affected: List[str] = field(default_factory=list)
+
+# Alias pour rétrocompatibilité
+RestockEvent = StockChangeEvent
 
 class FuelTracker:
     def __init__(self, data_dir: str = "data"):
@@ -86,16 +91,17 @@ class FuelTracker:
         except Exception as e:
             print(f"[!] Erreur d'écriture de state.json : {e}")
 
-    def process_stations(self, stations: List[Station], config: Config) -> List[RestockEvent]:
+    def process_stations(self, stations: List[Station], config: Config) -> List[StockChangeEvent]:
         """
-        Compare l'état actuel et précédent en appliquant les heuristiques de détection
-        avancées de Gasoil Now et Essence&CO (transition de statut, horodatage frais, alternatives).
+        Compare l'état actuel et précédent en détectant :
+        1. Les réapprovisionnements (RESTOCK) : un carburant ciblé redevient disponible.
+        2. Les ruptures (SHORTAGE) : un carburant ciblé tombe en rupture de stock.
         """
         old_state = self.load_state()
         old_stations = old_state.get("stations", {})
         is_initialized = old_state.get("initialized", False)
 
-        events: List[RestockEvent] = []
+        events: List[StockChangeEvent] = []
         new_stations_state: Dict[str, Any] = {}
         target_fuels = [normalize_fuel(f) for f in config.filters.fuels]
 
@@ -121,56 +127,69 @@ class FuelTracker:
                 continue
 
             restocked_fuels: List[RestockedFuel] = []
+            shortage_fuels: List[str] = []
 
-            for fuel_name in s.disponibles:
-                if normalize_fuel(fuel_name) not in target_fuels:
-                    continue
+            if prev is None:
+                if is_initialized:
+                    for fuel_name in s.disponibles:
+                        if normalize_fuel(fuel_name) in target_fuels:
+                            price_info = s.prices.get(fuel_name, {})
+                            restocked_fuels.append(RestockedFuel(
+                                fuel=fuel_name,
+                                price=price_info.get("valeur"),
+                                maj=price_info.get("maj", ""),
+                                relative_time=price_info.get("relative_time", "À l'instant")
+                            ))
+            else:
+                prev_dispos = prev.get("disponibles", [])
+                prev_status = prev.get("status", "")
+                prev_prices = prev.get("prices", {})
 
-                price_info = s.prices.get(fuel_name, {})
-                price_val = price_info.get("valeur")
-                price_maj = price_info.get("maj", "")
-                rel_time = price_info.get("relative_time", "À l'instant")
+                for f_norm in target_fuels:
+                    prev_matching = [d for d in prev_dispos if normalize_fuel(d) == f_norm]
+                    was_avail = len(prev_matching) > 0
 
-                if prev is None:
-                    if is_initialized:
-                        restocked_fuels.append(RestockedFuel(
-                            fuel=fuel_name,
-                            price=price_val,
-                            maj=price_maj,
-                            relative_time=rel_time
-                        ))
-                else:
-                    prev_dispos = prev.get("disponibles", [])
-                    prev_rupt_temp = prev.get("rupture_temporaire", [])
-                    prev_status = prev.get("status", "")
-                    prev_prices = prev.get("prices", {})
-                    prev_fuel_info = prev_prices.get(fuel_name, {})
-                    prev_maj = prev_fuel_info.get("maj", "")
+                    curr_matching = [d for d in s.disponibles if normalize_fuel(d) == f_norm]
+                    is_avail = len(curr_matching) > 0
 
-                    # 1. Était en rupture temporaire et n'y est plus
-                    was_in_rupture = any(r.lower() == fuel_name.lower() for r in prev_rupt_temp)
-                    # 2. Était absent des disponibles
-                    was_unavailable = not any(d.lower() == fuel_name.lower() for d in prev_dispos)
-                    # 3. La station était en rupture totale
-                    was_total_shortage = prev_status == "RUPTURE_TOTALE"
-                    # 4. Nouveau prix ou horodatage maj mis à jour (livraison par camion)
-                    has_fresh_update = price_maj and price_maj != prev_maj and (was_in_rupture or was_unavailable or was_total_shortage)
+                    # Cas 1 : Réapprovisionnement (n'était pas dispo -> est dispo maintenant)
+                    if not was_avail and is_avail:
+                        for fuel_name in curr_matching:
+                            price_info = s.prices.get(fuel_name, {})
+                            restocked_fuels.append(RestockedFuel(
+                                fuel=fuel_name,
+                                price=price_info.get("valeur"),
+                                maj=price_info.get("maj", ""),
+                                relative_time=price_info.get("relative_time", "À l'instant")
+                            ))
 
-                    if was_in_rupture or was_unavailable or has_fresh_update:
-                        restocked_fuels.append(RestockedFuel(
-                            fuel=fuel_name,
-                            price=price_val,
-                            maj=price_maj,
-                            relative_time=rel_time
-                        ))
+                    # Cas 2 : Rupture (était dispo -> n'est plus dispo)
+                    elif was_avail and not is_avail:
+                        for fuel_name in prev_matching:
+                            if fuel_name not in shortage_fuels:
+                                shortage_fuels.append(fuel_name)
 
+                    # Cas 3 : Déjà dispo, mais nouvelle livraison confirmée par nouveau prix après rupture totale
+                    elif was_avail and is_avail:
+                        for fuel_name in curr_matching:
+                            price_info = s.prices.get(fuel_name, {})
+                            price_maj = price_info.get("maj", "")
+                            prev_maj = prev_prices.get(fuel_name, {}).get("maj", "")
+                            was_total_shortage = prev_status == "RUPTURE_TOTALE"
+                            if price_maj and price_maj != prev_maj and was_total_shortage:
+                                restocked_fuels.append(RestockedFuel(
+                                    fuel=fuel_name,
+                                    price=price_info.get("valeur"),
+                                    maj=price_maj,
+                                    relative_time=price_info.get("relative_time", "À l'instant")
+                                ))
+
+            # Événement RESTOCK (disponible)
             if restocked_fuels:
                 badge = "🟢 DISPONIBLE" if s.status == "DISPONIBLE" else "🟠 RUPTURE PARTIELLE"
-
-                # Détection d'alternatives disponibles (Essence&CO style)
                 alternatives = []
                 for rf in restocked_fuels:
-                    alts = FUEL_ALTERNATIVES.get(rf.fuel.lower(), [])
+                    alts = FUEL_ALTERNATIVES.get(normalize_fuel(rf.fuel), [])
                     for alt in alts:
                         if alt.lower() != rf.fuel.lower() and alt in s.disponibles:
                             p = s.prices.get(alt, {}).get("valeur")
@@ -179,7 +198,7 @@ class FuelTracker:
                             if alt_entry not in alternatives:
                                 alternatives.append(alt_entry)
 
-                events.append(RestockEvent(
+                events.append(StockChangeEvent(
                     station_id=s.id,
                     brand=s.brand,
                     address=s.address,
@@ -195,7 +214,44 @@ class FuelTracker:
                     all_available=s.disponibles,
                     alternatives=alternatives,
                     google_maps_url=s.google_maps_url,
-                    waze_url=s.waze_url
+                    waze_url=s.waze_url,
+                    event_type="RESTOCK",
+                    fuels_affected=[rf.fuel for rf in restocked_fuels]
+                ))
+
+            # Événement SHORTAGE (rupture)
+            if shortage_fuels:
+                badge = "🔴 RUPTURE" if not s.disponibles else ("🔴 RUPTURE TOTALE" if s.status == "RUPTURE_TOTALE" else "🟠 RUPTURE PARTIELLE")
+                remaining_alts = []
+                for sf in shortage_fuels:
+                    alts = FUEL_ALTERNATIVES.get(normalize_fuel(sf), [])
+                    for alt in alts:
+                        if alt.lower() != sf.lower() and alt in s.disponibles:
+                            p = s.prices.get(alt, {}).get("valeur")
+                            p_str = f" ({p:.3f} €/L)" if p else ""
+                            alt_entry = f"{alt}{p_str}"
+                            if alt_entry not in remaining_alts:
+                                remaining_alts.append(alt_entry)
+
+                events.append(StockChangeEvent(
+                    station_id=s.id,
+                    brand=s.brand,
+                    address=s.address,
+                    city=s.city,
+                    postal_code=s.postal_code,
+                    latitude=s.latitude,
+                    longitude=s.longitude,
+                    distance_km=s.distance_km,
+                    zone_name=s.zone_name,
+                    status=s.status,
+                    status_badge=badge,
+                    fuels_restocked=[],
+                    all_available=s.disponibles,
+                    alternatives=remaining_alts,
+                    google_maps_url=s.google_maps_url,
+                    waze_url=s.waze_url,
+                    event_type="SHORTAGE",
+                    fuels_affected=shortage_fuels
                 ))
 
         self.save_state({

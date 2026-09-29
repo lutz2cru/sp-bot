@@ -82,10 +82,46 @@ def test_simulation():
     assert "Gazole" not in restocked_names, "Gazole ne doit PAS être notifié car seuls E10 et SP95 sont demandés"
     assert "SP98" not in restocked_names, "SP98 ne doit pas être redéclenché"
 
+    # Étape 3 : Rupture de stock de E10 !
+    station_shortage = Station(
+        id=90000015,
+        brand="Total Access",
+        address="56, AVENUE DU GENERAL LECLERC",
+        city="Belfort",
+        postal_code="90000",
+        latitude=47.636,
+        longitude=6.838,
+        distance_km=2.0,
+        zone_name="Belfort",
+        status="RUPTURE_PARTIELLE",
+        disponibles=["Gazole", "SP98"],
+        rupture_temporaire=["E10"],
+        rupture_definitive=["E85", "GPLc"],
+        prices={
+            "Gazole": {"valeur": 1.789, "maj": "2026-09-29 11:30:00", "relative_time": "il y a 2h"},
+            "SP98": {"valeur": 2.289, "maj": "2026-09-29 10:00:00", "relative_time": "il y a 3h"}
+        },
+        google_maps_url="https://maps.google.com/?q=47.636,6.838",
+        waze_url="https://waze.com/ul?ll=47.636,6.838"
+    )
+
+    events_3 = tracker.process_stations([station_shortage], config)
+    print(f"Étape 3 (Rupture de stock E10) : {len(events_3)} événement(s) détecté(s) !")
+    assert len(events_3) == 1, "Étape 3 devrait détecter 1 événement de rupture."
+    ev_shortage = events_3[0]
+    assert ev_shortage.event_type == "SHORTAGE", "L'événement doit être de type SHORTAGE"
+    assert "E10" in ev_shortage.fuels_affected, "E10 doit être marqué en rupture"
+    print(f"Statut badge rupture : {ev_shortage.status_badge} - Carburant épuisé : {ev_shortage.fuels_affected}")
+
+    # Étape 4 : Scan 5 minutes plus tard sans aucun changement -> 0 événement (zéro spam)
+    events_4 = tracker.process_stations([station_shortage], config)
+    print(f"Étape 4 (5 min plus tard, aucun changement) : {len(events_4)} événement (attendu: 0)")
+    assert len(events_4) == 0, "Étape 4 ne doit générer aucun événement si rien n'a changé."
+
     # Nettoyage dossier test
     import shutil
     shutil.rmtree("data_test", ignore_errors=True)
-    print("\n[+] TOUS LES TESTS DE SIMULATION ONT RÉUSSI AVEC SUCCÈS ! 🎉")
+    print("\n[+] TOUS LES TESTS DE SIMULATION (RÉAPPROVISIONNEMENT + RUPTURE + SILENCE) ONT RÉUSSI AVEC SUCCÈS ! 🎉")
 
 if __name__ == "__main__":
     test_simulation()

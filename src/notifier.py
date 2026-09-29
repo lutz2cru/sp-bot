@@ -32,8 +32,41 @@ class NtfyNotifier:
             print(f"[!] Erreur Ntfy : {e}")
             return False
 
-    def send_restock_event(self, event: RestockEvent) -> bool:
-        title = f"⛽ [{event.zone_name}] {event.brand} ({event.city} - {event.distance_km} km)"
+    def send_stock_event(self, event: RestockEvent) -> bool:
+        """Envoie une notification push instantanée pour un réapprovisionnement (RESTOCK) ou une rupture (SHORTAGE)."""
+        if getattr(event, "event_type", "RESTOCK") == "SHORTAGE":
+            fuels_str = " / ".join(event.fuels_affected)
+            title = f"⚠️ [{event.zone_name}] RUPTURE {fuels_str} : {event.brand} ({event.city})"
+            lines = [
+                f"📍 {event.address}, {event.postal_code} {event.city} ({event.distance_km} km)",
+                f"Statut : {event.status_badge}",
+                "",
+                "🔴 Carburant épuisé / Rupture de stock :",
+                f"  • {fuels_str} n'est plus disponible."
+            ]
+            if event.alternatives:
+                lines.append(f"\n🔄 Alternatives encore en stock : {', '.join(event.alternatives)}")
+            elif event.all_available:
+                lines.append(f"\n🔄 Autres carburants restants : {', '.join(event.all_available)}")
+            else:
+                lines.append("\n⚠️ La station est désormais en rupture totale !")
+
+            payload = {
+                "topic": self.topic,
+                "title": title,
+                "message": "\n".join(lines).strip(),
+                "priority": 3,
+                "tags": ["warning", "fuelpump", "no_entry"],
+                "click": event.google_maps_url,
+                "actions": [
+                    {"action": "view", "label": "Google Maps", "url": event.google_maps_url}
+                ]
+            }
+            return self._post(payload)
+
+        # Cas RESTOCK (de nouveau disponible)
+        fuels_str = " / ".join(f.fuel for f in event.fuels_restocked)
+        title = f"⛽ [{event.zone_name}] {fuels_str} DISPONIBLE : {event.brand} ({event.city})"
         lines = [
             f"📍 {event.address}, {event.postal_code} {event.city} ({event.distance_km} km)",
             f"Statut : {event.status_badge}",
@@ -51,7 +84,7 @@ class NtfyNotifier:
         payload = {
             "topic": self.topic,
             "title": title,
-            "message": "\n".join(lines),
+            "message": "\n".join(lines).strip(),
             "priority": self.config.priority,
             "tags": ["fuelpump", "white_check_mark", "round_pushpin"],
             "click": event.google_maps_url,
@@ -61,6 +94,8 @@ class NtfyNotifier:
             ]
         }
         return self._post(payload)
+
+    send_restock_event = send_stock_event
 
     def send_stock_list(self, stations: List[Station], target_fuels: List[str]) -> bool:
         """Envoie la liste en direct de toutes les stations Total ayant les carburants ciblés en stock."""
@@ -146,8 +181,10 @@ class NotificationManager:
     def active_channels(self) -> List[str]:
         return [self.notifier.name]
 
-    def broadcast_restock(self, event: RestockEvent) -> int:
-        return 1 if self.notifier.send_restock_event(event) else 0
+    def broadcast_stock_event(self, event: RestockEvent) -> int:
+        return 1 if self.notifier.send_stock_event(event) else 0
+
+    broadcast_restock = broadcast_stock_event
 
     def broadcast_stock_list(self, stations: List[Station], target_fuels: List[str]) -> bool:
         return self.notifier.send_stock_list(stations, target_fuels)
