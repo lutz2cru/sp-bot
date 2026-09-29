@@ -1,91 +1,65 @@
 {
   "initialized": true,
-  "last_check": "2026-09-29T12:42:24.944238",
+  "last_check": "2026-09-29T18:05:44.052636",
   "stations": {
-    "90000015": {
-      "brand": "Total Access",
+    "90000002": {
+      "brand": "TotalEnergies",
       "city": "Belfort",
-      "address": "56, AVENUE DU GENERAL LECLERC",
-      "disponibles": [
-        "SP98"
-      ],
+      "address": "4 Faubourg de Brisach",
+      "status": "RUPTURE_TOTALE",
+      "distance_km": 0.3,
+      "disponibles": [],
       "rupture_temporaire": [
         "Gazole",
-        "SP95",
-        "E10"
+        "E10",
+        "SP98"
       ],
-      "rupture_definitive": [
+      "rupture_definitive": [],
+      "prices": {},
+      "last_seen": "2026-09-29T18:05:44.051966"
+    },
+    "90000013": {
+      "brand": "TotalEnergies",
+      "city": "Belfort",
+      "address": "AVENUE D'ALTKIRCH",
+      "status": "RUPTURE_PARTIELLE",
+      "distance_km": 1.0,
+      "disponibles": [
+        "Gazole",
         "E85",
         "GPLc"
       ],
-      "prices": {},
-      "last_seen": "2026-09-29T12:42:24.944169"
-    },
-    "68210001": {
-      "brand": "Total",
-      "city": "Dannemarie",
-      "address": "18A Rue de Belfort",
-      "disponibles": [],
       "rupture_temporaire": [
-        "Gazole",
-        "E10",
-        "SP98"
-      ],
-      "rupture_definitive": [],
-      "prices": {},
-      "last_seen": "2026-09-29T12:42:24.944199"
-    },
-    "25700003": {
-      "brand": "Total",
-      "city": "Valentigney",
-      "address": "1 ROUTE DE BELCHAMP",
-      "disponibles": [
-        "E10"
-      ],
-      "rupture_temporaire": [
-        "Gazole",
-        "SP98"
-      ],
-      "rupture_definitive": [
         "SP95",
-        "E85",
-        "GPLc"
-      ],
-      "prices": {},
-      "last_seen": "2026-09-29T12:42:24.944203"
-    },
-    "90150001": {
-      "brand": "Total",
-      "city": "Menoncourt",
-      "address": "Rue de la baume, RD83",
-      "disponibles": [],
-      "rupture_temporaire": [
-        "Gazole",
         "E10",
         "SP98"
       ],
       "rupture_definitive": [],
-      "prices": {},
-      "last_seen": "2026-09-29T12:42:24.944210"
-    },
-    "90200003": {
-      "brand": "Total",
-      "city": "Giromagny",
-      "address": "72 Faubourg de Belfort",
-      "disponibles": [],
-      "rupture_temporaire": [
-        "Gazole",
-        "E10",
-        "SP98"
-      ],
-      "rupture_definitive": [],
-      "prices": {},
-      "last_seen": "2026-09-29T12:42:24.944212"
+      "prices": {
+        "Gazole": {
+          "valeur": 2.25,
+          "maj": "2026-09-29 16:00:56",
+          "relative_time": "il y a 2h"
+        },
+        "E85": {
+          "valeur": 0.902,
+          "maj": "2026-09-29 15:03:39",
+          "relative_time": "il y a 3h"
+        },
+        "GPLc": {
+          "valeur": 0.949,
+          "maj": "2026-09-29 15:21:00",
+          "relative_time": "il y a 2h"
+        }
+      },
+      "last_seen": "2026-09-29T18:05:44.052056"
     },
     "90000014": {
       "brand": "Total Access",
       "city": "Belfort",
       "address": "3 rue de Besançon",
+      "status": "RUPTURE_PARTIELLE",
+      "distance_km": 1.5,
       "disponibles": [
         "E85"
       ],
@@ -99,26 +73,31 @@
         "GPLc"
       ],
       "prices": {},
-      "last_seen": "2026-09-29T12:42:24.944215"
+      "last_seen": "2026-09-29T18:05:44.052138"
     },
-    "25420002": {
-      "brand": "Total",
-      "city": "Voujeaucourt",
-      "address": "Rue de la Cray",
-      "disponibles": [],
-      "rupture_temporaire": [
-        "Gazole",
-        "E10",
-        "SP98"
-      ],
-      "rupture_definitive": [],
-      "prices": {},
-      "last_seen": "2026-09-29T12:42:24.944221"
-    },
-    "90000002": {
-      "brand": "TotalEnergies",
+    "90000015": {
+      "brand": "Total Access",
       "city": "Belfort",
-      "address": "4 Faubourg de Brisach",
+      "address": "56, AVENUE DU GENERAL LECLERC",
+      "status": "RUPTURE_TOTALE",
+      "distance_km": 2.0,
+      "disponibles": [],
+      "rupture_temporaire": [
+        "Gazole",
+        "SP95",
+        "E10",
+        "SP98"
+      ],
+      "rupture_definitive": [],
+      "prices": {},
+      "last_seen": "2026-09-29T18:05:44.052169"
+    },
+    "90150001": {
+      "brand": "Total",
+      "city": "Menoncourt",
+      "address": "Rue de la baume, RD83",
+      "status": "RUPTURE_TOTALE",
+      "distance_km": 8.7,
       "disponibles": [],
       "rupture_temporaire": [
         "Gazole",
@@ -127,12 +106,61 @@
       ],
       "rupture_definitive": [],
       "prices": {},
-      "last_seen": "2026-09-29T12:42:24.944224"
+      "last_seen": "2026-09-29T18:05:44.052193"
+    },
+    "90200003": {
+      "brand": "Total",
+      "city": "Giromagny",
+      "address": "72 Faubourg de Belfort",
+      "status": "RUPTURE_TOTALE",
+      "distance_km": 10.9,
+      "disponibles": [],
+      "rupture_temporaire": [
+        "Gazole",
+        "E10",
+        "SP98"
+      ],
+      "rupture_definitive": [],
+      "prices": {},
+      "last_seen": "2026-09-29T18:05:44.052208"
+    },
+    "70200006": {
+      "brand": "Total",
+      "city": "Lure",
+      "address": "16 Rue de Belfort",
+      "status": "RUPTURE_PARTIELLE",
+      "distance_km": 2.4,
+      "disponibles": [
+        "Gazole",
+        "E10"
+      ],
+      "rupture_temporaire": [
+        "SP95",
+        "E85",
+        "GPLc",
+        "SP98"
+      ],
+      "rupture_definitive": [],
+      "prices": {
+        "Gazole": {
+          "valeur": 2.25,
+          "maj": "2026-09-29 07:55:32",
+          "relative_time": "il y a 10h"
+        },
+        "E10": {
+          "valeur": 1.99,
+          "maj": "2026-09-29 07:55:32",
+          "relative_time": "il y a 10h"
+        }
+      },
+      "last_seen": "2026-09-29T18:05:44.052224"
     },
     "25200007": {
       "brand": "Total Access",
       "city": "Montbéliard",
       "address": "16 AVENUE HELVETIE",
+      "status": "RUPTURE_TOTALE",
+      "distance_km": 0.8,
       "disponibles": [],
       "rupture_temporaire": [
         "Gazole",
@@ -142,12 +170,51 @@
       ],
       "rupture_definitive": [],
       "prices": {},
-      "last_seen": "2026-09-29T12:42:24.944226"
+      "last_seen": "2026-09-29T18:05:44.052407"
+    },
+    "25420002": {
+      "brand": "Total",
+      "city": "Voujeaucourt",
+      "address": "Rue de la Cray",
+      "status": "RUPTURE_TOTALE",
+      "distance_km": 3.4,
+      "disponibles": [],
+      "rupture_temporaire": [
+        "Gazole",
+        "E10",
+        "SP98"
+      ],
+      "rupture_definitive": [],
+      "prices": {},
+      "last_seen": "2026-09-29T18:05:44.052429"
+    },
+    "25700003": {
+      "brand": "Total",
+      "city": "Valentigney",
+      "address": "1 ROUTE DE BELCHAMP",
+      "status": "RUPTURE_PARTIELLE",
+      "distance_km": 4.0,
+      "disponibles": [
+        "SP98"
+      ],
+      "rupture_temporaire": [
+        "Gazole",
+        "E10"
+      ],
+      "rupture_definitive": [
+        "SP95",
+        "E85",
+        "GPLc"
+      ],
+      "prices": {},
+      "last_seen": "2026-09-29T18:05:44.052445"
     },
     "25750002": {
       "brand": "TotalEnergies",
       "city": "Aibre",
       "address": "29 grande rue",
+      "status": "RUPTURE_TOTALE",
+      "distance_km": 8.8,
       "disponibles": [],
       "rupture_temporaire": [
         "Gazole",
@@ -156,34 +223,58 @@
       ],
       "rupture_definitive": [],
       "prices": {},
-      "last_seen": "2026-09-29T12:42:24.944228"
+      "last_seen": "2026-09-29T18:05:44.052528"
     },
-    "90000013": {
+    "70004001": {
       "brand": "TotalEnergies",
-      "city": "Belfort",
-      "address": "AVENUE D'ALTKIRCH",
+      "city": "Vesoul",
+      "address": "RN 19 ROUTE DE PARIS BP 30217",
+      "status": "RUPTURE_PARTIELLE",
+      "distance_km": 1.1,
       "disponibles": [
-        "E85",
-        "GPLc"
+        "E85"
       ],
       "rupture_temporaire": [
         "Gazole",
-        "SP95",
         "E10",
         "SP98"
       ],
-      "rupture_definitive": [],
+      "rupture_definitive": [
+        "SP95",
+        "GPLc"
+      ],
+      "prices": {},
+      "last_seen": "2026-09-29T18:05:44.052549"
+    },
+    "70000005": {
+      "brand": "TotalEnergies",
+      "city": "Vesoul",
+      "address": "22 Route de Paris",
+      "status": "DISPONIBLE",
+      "distance_km": 1.1,
+      "disponibles": [
+        "Gazole",
+        "E10"
+      ],
+      "rupture_temporaire": [],
+      "rupture_definitive": [
+        "SP95",
+        "E85",
+        "GPLc"
+      ],
       "prices": {
-        "E85": {
-          "valeur": 0.902,
-          "maj": "2026-09-29 10:57:00"
+        "Gazole": {
+          "valeur": 2.25,
+          "maj": "2026-09-29 08:11:11",
+          "relative_time": "il y a 9h"
         },
-        "GPLc": {
-          "valeur": 0.949,
-          "maj": "2026-09-29 00:01:00"
+        "E10": {
+          "valeur": 1.99,
+          "maj": "2026-09-29 08:11:11",
+          "relative_time": "il y a 9h"
         }
       },
-      "last_seen": "2026-09-29T12:42:24.944231"
+      "last_seen": "2026-09-29T18:05:44.052568"
     }
   }
 }
