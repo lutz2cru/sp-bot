@@ -17,6 +17,23 @@ FUEL_ALTERNATIVES = {
     "gplc": ["GPLc"]
 }
 
+def normalize_fuel(name: str) -> str:
+    """Normalise les noms de carburants (ex: 'SP95-E10', 'E10', 'Diesel' -> 'e10', 'gazole')."""
+    n = name.strip().lower().replace("-", "").replace(" ", "")
+    if "e10" in n:
+        return "e10"
+    if "95" in n:
+        return "sp95"
+    if "98" in n:
+        return "sp98"
+    if "gazole" in n or "diesel" in n:
+        return "gazole"
+    if "e85" in n or "ethanol" in n:
+        return "e85"
+    if "gpl" in n:
+        return "gplc"
+    return n
+
 @dataclass
 class RestockedFuel:
     fuel: str
@@ -80,7 +97,7 @@ class FuelTracker:
 
         events: List[RestockEvent] = []
         new_stations_state: Dict[str, Any] = {}
-        target_fuels = [f.lower() for f in config.filters.fuels]
+        target_fuels = [normalize_fuel(f) for f in config.filters.fuels]
 
         for s in stations:
             sid_str = str(s.id)
@@ -106,7 +123,7 @@ class FuelTracker:
             restocked_fuels: List[RestockedFuel] = []
 
             for fuel_name in s.disponibles:
-                if fuel_name.lower() not in target_fuels:
+                if normalize_fuel(fuel_name) not in target_fuels:
                     continue
 
                 price_info = s.prices.get(fuel_name, {})
