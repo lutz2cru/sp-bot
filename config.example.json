@@ -1,0 +1,56 @@
+{
+  "location": {
+    "mode": "gps",
+    "latitude": 47.6397,
+    "longitude": 6.8638,
+    "radius_km": 20,
+    "city": "Belfort",
+    "department": "90"
+  },
+  "filters": {
+    "brands": [
+      "Total",
+      "Total Access",
+      "TotalEnergies"
+    ],
+    "fuels": [
+      "Gazole",
+      "SP95",
+      "E10",
+      "SP98",
+      "E85",
+      "GPLc"
+    ]
+  },
+  "notifications": {
+    "ntfy": {
+      "enabled": true,
+      "topic": "sp-bot-alert-total-belfort-secret",
+      "server": "https://ntfy.sh",
+      "priority": 4
+    },
+    "telegram": {
+      "enabled": false,
+      "bot_token": "VOTRE_BOT_TOKEN",
+      "chat_id": "VOTRE_CHAT_ID"
+    },
+    "discord": {
+      "enabled": false,
+      "webhook_url": "https://discord.com/api/webhooks/VOTRE_WEBHOOK"
+    },
+    "email": {
+      "enabled": false,
+      "smtp_host": "smtp.gmail.com",
+      "smtp_port": 587,
+      "use_tls": true,
+      "username": "monadresse@gmail.com",
+      "password": "mot_de_passe_d_application",
+      "from_addr": "monadresse@gmail.com",
+      "to_addrs": [
+        "monadresse@gmail.com"
+      ]
+    }
+  },
+  "check_interval_seconds": 300,
+  "notify_on_startup": false
+}

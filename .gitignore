@@ -1,0 +1,6 @@
+# Fichiers de données et cache
+data/
+*.pyc
+__pycache__/
+.env
+.venv/

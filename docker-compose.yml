@@ -1,0 +1,9 @@
+services:
+  sp-bot:
+    build: .
+    restart: unless-stopped
+    volumes:
+      - ./data:/app/data
+      - ./config.json:/app/config.json:ro
+    environment:
+      - TZ=Europe/Paris
