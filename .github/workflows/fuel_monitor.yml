@@ -9,17 +9,20 @@ on:
 
 concurrency:
   group: fuel-monitor
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   check-fuel:
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     permissions:
       contents: write
 
     steps:
       - name: Récupération du code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
 
       - name: Configuration de Python
         uses: actions/setup-python@v5
@@ -28,11 +31,11 @@ jobs:
 
       - name: Vérification des stations et envoi alerte Ntfy
         run: |
-          python main.py check
+          python -u main.py check
 
       - name: Sauvegarde de l'état des stocks
         run: |
           git config --global user.name "SP-Bot Cloud Runner"
           git config --global user.email "sp-bot@github-actions.local"
           git add data/state.json
-          git diff --quiet && git diff --staged --quiet || (git commit -m "Mise à jour état des stations [skip ci]" && git push)
+          git diff --quiet && git diff --staged --quiet || (git pull --rebase origin main && git commit -m "Mise à jour état des stations [skip ci]" && git push)
