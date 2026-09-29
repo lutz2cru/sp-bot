@@ -98,12 +98,19 @@ def cmd_check(config: Config, send_notifications: bool = True):
     notifier = NotificationManager(config)
 
     stations = fetcher.fetch_stations(config)
-    print(f"[*] {len(stations)} station(s) surveillée(s) dans un rayon de {config.location.radius_km} km.")
+    print(f"[*] {len(stations)} station(s) surveillée(s) dans le secteur.")
 
     events = tracker.process_stations(stations, config)
 
+    # Mode 1 : Envoi régulier de la liste complète des stations en stock
+    if config.notify_mode == "periodic_list":
+        if send_notifications:
+            ok = notifier.broadcast_stock_list(stations, config.filters.fuels)
+            if ok:
+                print(f"[*] 📲 Liste des stations avec {'/'.join(config.filters.fuels)} en stock envoyée sur votre téléphone via Ntfy.")
+
     if not events:
-        print("[*] Aucun nouveau réapprovisionnement détecté.")
+        print("[*] Aucun nouveau réapprovisionnement détecté depuis le dernier passage.")
         return
 
     print(f"\n🚨 \033[1;32m{len(events)} RÉAPPROVISIONNEMENT(S) DÉTECTÉ(S) !\033[0m")

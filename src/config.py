@@ -44,7 +44,8 @@ class Config:
     location: LocationConfig = field(default_factory=LocationConfig)
     filters: FiltersConfig = field(default_factory=FiltersConfig)
     ntfy: NtfyConfig = field(default_factory=NtfyConfig)
-    check_interval_seconds: int = 300
+    check_interval_seconds: int = 180
+    notify_mode: str = "periodic_list"  # "periodic_list" ou "restock_only"
     notify_on_startup: bool = False
 
 def geocode_city_gouv(city_name: str) -> Optional[tuple[float, float, str]]:
@@ -126,7 +127,8 @@ def load_config(config_path: str = "config.json") -> Config:
         location=loc,
         filters=filters,
         ntfy=ntfy,
-        check_interval_seconds=int(os.environ.get("CHECK_INTERVAL", data.get("check_interval_seconds", 300))),
+        check_interval_seconds=int(os.environ.get("CHECK_INTERVAL", data.get("check_interval_seconds", 180))),
+        notify_mode=data.get("notify_mode", "periodic_list"),
         notify_on_startup=bool(data.get("notify_on_startup", False))
     )
 
@@ -159,6 +161,7 @@ def save_config(config: Config, config_path: str = "config.json") -> None:
             "priority": config.ntfy.priority
         },
         "check_interval_seconds": config.check_interval_seconds,
+        "notify_mode": config.notify_mode,
         "notify_on_startup": config.notify_on_startup
     }
     with open(config_path, "w", encoding="utf-8") as f:
