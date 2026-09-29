@@ -30,7 +30,7 @@ class LocationConfig:
 @dataclass
 class FiltersConfig:
     brands: List[str] = field(default_factory=lambda: ["Total", "Total Access", "TotalEnergies"])
-    fuels: List[str] = field(default_factory=lambda: ["Gazole", "SP95", "E10", "SP98", "E85", "GPLc"])
+    fuels: List[str] = field(default_factory=lambda: ["E10", "SP95"])
 
 @dataclass
 class NtfyConfig:
@@ -110,7 +110,7 @@ def load_config(config_path: str = "config.json") -> Config:
     filt_data = data.get("filters", {})
     filters = FiltersConfig(
         brands=filt_data.get("brands", ["Total", "Total Access", "TotalEnergies"]),
-        fuels=filt_data.get("fuels", ["Gazole", "SP95", "E10", "SP98", "E85", "GPLc"])
+        fuels=filt_data.get("fuels", ["E10", "SP95"])
     )
 
     ntfy_data = data.get("ntfy", {})

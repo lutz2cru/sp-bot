@@ -78,10 +78,9 @@ def test_simulation():
     print(f"Station : {ev.brand} ({ev.city}) - Distance : {ev.distance_km} km")
     print(f"Statut badge : {ev.status_badge}")
     restocked_names = [f.fuel for f in ev.fuels_restocked]
-    print(f"Carburants réapprovisionnés : {restocked_names}")
-    assert "Gazole" in restocked_names, "Gazole devrait être dans les réapprovisionnés"
-    assert "E10" in restocked_names, "E10 devrait être dans les réapprovisionnés"
-    assert "SP98" not in restocked_names, "SP98 était déjà disponible, il ne doit pas être redéclenché"
+    assert "E10" in restocked_names, "E10 doit être détecté"
+    assert "Gazole" not in restocked_names, "Gazole ne doit PAS être notifié car seuls E10 et SP95 sont demandés"
+    assert "SP98" not in restocked_names, "SP98 ne doit pas être redéclenché"
 
     # Nettoyage dossier test
     import shutil
