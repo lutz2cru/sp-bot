@@ -23,8 +23,6 @@ jobs:
     steps:
       - name: Récupération du code
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 1
 
       - name: Configuration de Python
         uses: actions/setup-python@v5
@@ -40,4 +38,9 @@ jobs:
           git config --global user.name "SP-Bot Cloud Runner"
           git config --global user.email "sp-bot@github-actions.local"
           git add data/state.json
-          git diff --quiet && git diff --staged --quiet || (git pull --rebase origin main && git commit -m "Mise à jour état des stations [skip ci]" && git push)
+          if ! git diff --staged --quiet; then
+            git commit -m "Mise à jour état des stations [skip ci]"
+            git push || true
+          else
+            echo "Aucun changement d'état à archiver."
+          fi
