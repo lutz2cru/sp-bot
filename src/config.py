@@ -7,7 +7,7 @@ from typing import List, Optional
 
 @dataclass
 class LocationConfig:
-    mode: str = "gps"  # "gps", "city", or "department"
+    mode: str = "gps"  # "gps", "city", ou "department"
     latitude: float = 47.6397
     longitude: float = 6.8638
     radius_km: int = 20
@@ -27,27 +27,15 @@ class NtfyConfig:
     priority: int = 4
 
 @dataclass
-class EmailConfig:
-    enabled: bool = False
-    smtp_host: str = "smtp.gmail.com"
-    smtp_port: int = 587
-    use_tls: bool = True
-    username: str = ""
-    password: str = ""
-    from_addr: str = ""
-    to_addrs: List[str] = field(default_factory=list)
-
-@dataclass
 class Config:
     location: LocationConfig = field(default_factory=LocationConfig)
     filters: FiltersConfig = field(default_factory=FiltersConfig)
-    email: EmailConfig = field(default_factory=EmailConfig)
     ntfy: NtfyConfig = field(default_factory=NtfyConfig)
     check_interval_seconds: int = 300
     notify_on_startup: bool = False
 
 def geocode_city_gouv(city_name: str) -> Optional[tuple[float, float, str]]:
-    """Résout une ville en coordonnées GPS via l'API officielle gratuite api-adresse.data.gouv.fr."""
+    """Résout une commune en coordonnées GPS via l'API officielle api-adresse.data.gouv.fr."""
     try:
         params = urllib.parse.urlencode({'q': city_name, 'limit': 1})
         url = f"https://api-adresse.data.gouv.fr/search/?{params}"
@@ -63,7 +51,7 @@ def geocode_city_gouv(city_name: str) -> Optional[tuple[float, float, str]]:
     return None
 
 def load_config(config_path: str = "config.json") -> Config:
-    """Charge la configuration depuis config.json ou les variables d'environnement (cloud / GitHub Actions)."""
+    """Charge la configuration depuis config.json ou l'environnement Cloud."""
     if not os.path.isabs(config_path):
         base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
         config_path = os.path.join(base_dir, config_path)
@@ -97,38 +85,11 @@ def load_config(config_path: str = "config.json") -> Config:
         fuels=filt_data.get("fuels", ["Gazole", "SP95", "E10", "SP98", "E85", "GPLc"])
     )
 
-    notif_data = data.get("notifications", {})
-    mail_data = notif_data.get("email", {})
-    ntfy_data = notif_data.get("ntfy", {})
-
-    # Surcharges par variables d'environnement (GitHub Actions / Cloud)
-    env_email_enabled = os.environ.get("EMAIL_ENABLED")
-    email_enabled = env_email_enabled.lower() in ("true", "1", "yes") if env_email_enabled else mail_data.get("enabled", False)
-
-    env_email_user = os.environ.get("EMAIL_USER") or os.environ.get("MAIL_USERNAME")
-    env_email_pass = os.environ.get("EMAIL_PASS") or os.environ.get("MAIL_PASSWORD")
-    env_email_to = os.environ.get("EMAIL_TO") or os.environ.get("MAIL_TO")
-    env_smtp_host = os.environ.get("SMTP_HOST")
-    env_smtp_port = os.environ.get("SMTP_PORT")
-
-    to_addrs = mail_data.get("to_addrs", [])
-    if env_email_to:
-        to_addrs = [addr.strip() for addr in env_email_to.split(",") if addr.strip()]
-
-    email = EmailConfig(
-        enabled=email_enabled or bool(env_email_user and to_addrs),
-        smtp_host=env_smtp_host or mail_data.get("smtp_host", "smtp.gmail.com"),
-        smtp_port=int(env_smtp_port or mail_data.get("smtp_port", 587)),
-        use_tls=mail_data.get("use_tls", True),
-        username=env_email_user or mail_data.get("username", ""),
-        password=env_email_pass or mail_data.get("password", ""),
-        from_addr=mail_data.get("from_addr", "") or env_email_user or "",
-        to_addrs=to_addrs
-    )
-
+    ntfy_data = data.get("ntfy", {})
+    ntfy_topic = os.environ.get("NTFY_TOPIC") or ntfy_data.get("topic", "sp-bot-alert-total-belfort")
     ntfy = NtfyConfig(
-        enabled=ntfy_data.get("enabled", True),
-        topic=os.environ.get("NTFY_TOPIC", ntfy_data.get("topic", "sp-bot-alert-total-belfort")),
+        enabled=True,
+        topic=ntfy_topic,
         server=ntfy_data.get("server", "https://ntfy.sh"),
         priority=int(ntfy_data.get("priority", 4))
     )
@@ -136,7 +97,6 @@ def load_config(config_path: str = "config.json") -> Config:
     return Config(
         location=loc,
         filters=filters,
-        email=email,
         ntfy=ntfy,
         check_interval_seconds=int(os.environ.get("CHECK_INTERVAL", data.get("check_interval_seconds", 300))),
         notify_on_startup=bool(data.get("notify_on_startup", False))
@@ -156,23 +116,10 @@ def save_config(config: Config, config_path: str = "config.json") -> None:
             "brands": config.filters.brands,
             "fuels": config.filters.fuels
         },
-        "notifications": {
-            "email": {
-                "enabled": config.email.enabled,
-                "smtp_host": config.email.smtp_host,
-                "smtp_port": config.email.smtp_port,
-                "use_tls": config.email.use_tls,
-                "username": config.email.username,
-                "password": config.email.password,
-                "from_addr": config.email.from_addr,
-                "to_addrs": config.email.to_addrs
-            },
-            "ntfy": {
-                "enabled": config.ntfy.enabled,
-                "topic": config.ntfy.topic,
-                "server": config.ntfy.server,
-                "priority": config.ntfy.priority
-            }
+        "ntfy": {
+            "topic": config.ntfy.topic,
+            "server": config.ntfy.server,
+            "priority": config.ntfy.priority
         },
         "check_interval_seconds": config.check_interval_seconds,
         "notify_on_startup": config.notify_on_startup

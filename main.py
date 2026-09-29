@@ -144,7 +144,7 @@ def cmd_test_notify(config: Config):
     print("🧪 TEST DES CANAUX DE NOTIFICATION")
     print("=" * 75)
     notifier = NotificationManager(config)
-    if not notifier.notifiers:
+    if not notifier.active_channels:
         print("[!] Aucun canal de notification n'est activé dans config.json !")
         return
 

@@ -22,23 +22,10 @@
       "GPLc"
     ]
   },
-  "notifications": {
-    "email": {
-      "enabled": false,
-      "smtp_host": "smtp.gmail.com",
-      "smtp_port": 587,
-      "use_tls": true,
-      "username": "",
-      "password": "",
-      "from_addr": "",
-      "to_addrs": []
-    },
-    "ntfy": {
-      "enabled": true,
-      "topic": "sp-bot-alert-total-belfort-secret",
-      "server": "https://ntfy.sh",
-      "priority": 4
-    }
+  "ntfy": {
+    "topic": "sp-bot-alerte-total-belfort",
+    "server": "https://ntfy.sh",
+    "priority": 4
   },
   "check_interval_seconds": 300,
   "notify_on_startup": false

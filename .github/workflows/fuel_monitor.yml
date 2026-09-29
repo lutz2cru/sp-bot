@@ -26,17 +26,7 @@ jobs:
         with:
           python-version: '3.13'
 
-      - name: Vérification des stations et alertes
-        env:
-          # Configuration E-mail (Secrets GitHub)
-          EMAIL_ENABLED: ${{ secrets.EMAIL_ENABLED || 'true' }}
-          EMAIL_USER: ${{ secrets.EMAIL_USER }}
-          EMAIL_PASS: ${{ secrets.EMAIL_PASS }}
-          EMAIL_TO: ${{ secrets.EMAIL_TO }}
-          SMTP_HOST: ${{ secrets.SMTP_HOST || 'smtp.gmail.com' }}
-          SMTP_PORT: ${{ secrets.SMTP_PORT || '587' }}
-          # Configuration Ntfy (Optionnel)
-          NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
+      - name: Vérification des stations et envoi alerte Ntfy
         run: |
           python main.py check
 
