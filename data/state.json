@@ -1,6 +1,6 @@
 {
   "initialized": true,
-  "last_check": "2026-09-29T18:05:44.052636",
+  "last_check": "2026-09-29T16:17:54.179531",
   "stations": {
     "90000002": {
       "brand": "TotalEnergies",
@@ -16,7 +16,7 @@
       ],
       "rupture_definitive": [],
       "prices": {},
-      "last_seen": "2026-09-29T18:05:44.051966"
+      "last_seen": "2026-09-29T16:17:54.179475"
     },
     "90000013": {
       "brand": "TotalEnergies",
@@ -39,20 +39,20 @@
         "Gazole": {
           "valeur": 2.25,
           "maj": "2026-09-29 16:00:56",
-          "relative_time": "il y a 2h"
+          "relative_time": "il y a 16 min"
         },
         "E85": {
           "valeur": 0.902,
           "maj": "2026-09-29 15:03:39",
-          "relative_time": "il y a 3h"
+          "relative_time": "il y a 1h"
         },
         "GPLc": {
           "valeur": 0.949,
           "maj": "2026-09-29 15:21:00",
-          "relative_time": "il y a 2h"
+          "relative_time": "il y a 56 min"
         }
       },
-      "last_seen": "2026-09-29T18:05:44.052056"
+      "last_seen": "2026-09-29T16:17:54.179487"
     },
     "90000014": {
       "brand": "Total Access",
@@ -73,7 +73,7 @@
         "GPLc"
       ],
       "prices": {},
-      "last_seen": "2026-09-29T18:05:44.052138"
+      "last_seen": "2026-09-29T16:17:54.179497"
     },
     "90000015": {
       "brand": "Total Access",
@@ -90,7 +90,7 @@
       ],
       "rupture_definitive": [],
       "prices": {},
-      "last_seen": "2026-09-29T18:05:44.052169"
+      "last_seen": "2026-09-29T16:17:54.179501"
     },
     "90150001": {
       "brand": "Total",
@@ -106,7 +106,7 @@
       ],
       "rupture_definitive": [],
       "prices": {},
-      "last_seen": "2026-09-29T18:05:44.052193"
+      "last_seen": "2026-09-29T16:17:54.179503"
     },
     "90200003": {
       "brand": "Total",
@@ -122,7 +122,7 @@
       ],
       "rupture_definitive": [],
       "prices": {},
-      "last_seen": "2026-09-29T18:05:44.052208"
+      "last_seen": "2026-09-29T16:17:54.179505"
     },
     "70200006": {
       "brand": "Total",
@@ -145,15 +145,15 @@
         "Gazole": {
           "valeur": 2.25,
           "maj": "2026-09-29 07:55:32",
-          "relative_time": "il y a 10h"
+          "relative_time": "il y a 8h"
         },
         "E10": {
           "valeur": 1.99,
           "maj": "2026-09-29 07:55:32",
-          "relative_time": "il y a 10h"
+          "relative_time": "il y a 8h"
         }
       },
-      "last_seen": "2026-09-29T18:05:44.052224"
+      "last_seen": "2026-09-29T16:17:54.179507"
     },
     "25200007": {
       "brand": "Total Access",
@@ -170,7 +170,7 @@
       ],
       "rupture_definitive": [],
       "prices": {},
-      "last_seen": "2026-09-29T18:05:44.052407"
+      "last_seen": "2026-09-29T16:17:54.179512"
     },
     "25420002": {
       "brand": "Total",
@@ -186,7 +186,7 @@
       ],
       "rupture_definitive": [],
       "prices": {},
-      "last_seen": "2026-09-29T18:05:44.052429"
+      "last_seen": "2026-09-29T16:17:54.179515"
     },
     "25700003": {
       "brand": "Total",
@@ -207,7 +207,7 @@
         "GPLc"
       ],
       "prices": {},
-      "last_seen": "2026-09-29T18:05:44.052445"
+      "last_seen": "2026-09-29T16:17:54.179517"
     },
     "25750002": {
       "brand": "TotalEnergies",
@@ -223,7 +223,7 @@
       ],
       "rupture_definitive": [],
       "prices": {},
-      "last_seen": "2026-09-29T18:05:44.052528"
+      "last_seen": "2026-09-29T16:17:54.179520"
     },
     "70004001": {
       "brand": "TotalEnergies",
@@ -244,7 +244,7 @@
         "GPLc"
       ],
       "prices": {},
-      "last_seen": "2026-09-29T18:05:44.052549"
+      "last_seen": "2026-09-29T16:17:54.179523"
     },
     "70000005": {
       "brand": "TotalEnergies",
@@ -266,15 +266,15 @@
         "Gazole": {
           "valeur": 2.25,
           "maj": "2026-09-29 08:11:11",
-          "relative_time": "il y a 9h"
+          "relative_time": "il y a 8h"
         },
         "E10": {
           "valeur": 1.99,
           "maj": "2026-09-29 08:11:11",
-          "relative_time": "il y a 9h"
+          "relative_time": "il y a 8h"
         }
       },
-      "last_seen": "2026-09-29T18:05:44.052568"
+      "last_seen": "2026-09-29T16:17:54.179526"
     }
   }
 }
