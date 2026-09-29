@@ -2,10 +2,12 @@ name: Fuel Monitor 24-7
 
 on:
   schedule:
-    # Exécution automatique toutes les 5 minutes (fréquence maximale autorisée par GitHub)
+    # Exécution automatique de secours par le cron GitHub
     - cron: '*/5 * * * *'
-  # Permet également de lancer manuellement depuis l'interface GitHub
+  # Permet également de lancer manuellement depuis l'interface GitHub ou via API
   workflow_dispatch:
+  repository_dispatch:
+    types: [check-fuel]
 
 concurrency:
   group: fuel-monitor
