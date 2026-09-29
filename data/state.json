@@ -1,6 +1,6 @@
 {
   "initialized": true,
-  "last_check": "2026-09-29T16:28:20.300570",
+  "last_check": "2026-09-29T21:44:45.155372",
   "stations": {
     "90000002": {
       "brand": "TotalEnergies",
@@ -16,7 +16,7 @@
       ],
       "rupture_definitive": [],
       "prices": {},
-      "last_seen": "2026-09-29T16:28:20.300504"
+      "last_seen": "2026-09-29T21:44:45.155215"
     },
     "90000013": {
       "brand": "TotalEnergies",
@@ -25,34 +25,29 @@
       "status": "RUPTURE_PARTIELLE",
       "distance_km": 1.0,
       "disponibles": [
-        "Gazole",
         "E85",
         "GPLc"
       ],
       "rupture_temporaire": [
+        "Gazole",
         "SP95",
         "E10",
         "SP98"
       ],
       "rupture_definitive": [],
       "prices": {
-        "Gazole": {
-          "valeur": 2.25,
-          "maj": "2026-09-29 16:00:56",
-          "relative_time": "il y a 27 min"
-        },
         "E85": {
           "valeur": 0.902,
           "maj": "2026-09-29 15:03:39",
-          "relative_time": "il y a 1h"
+          "relative_time": "il y a 6h"
         },
         "GPLc": {
           "valeur": 0.949,
           "maj": "2026-09-29 15:21:00",
-          "relative_time": "il y a 1h"
+          "relative_time": "il y a 6h"
         }
       },
-      "last_seen": "2026-09-29T16:28:20.300516"
+      "last_seen": "2026-09-29T21:44:45.155261"
     },
     "90000014": {
       "brand": "Total Access",
@@ -73,7 +68,7 @@
         "GPLc"
       ],
       "prices": {},
-      "last_seen": "2026-09-29T16:28:20.300528"
+      "last_seen": "2026-09-29T21:44:45.155292"
     },
     "90000015": {
       "brand": "Total Access",
@@ -90,7 +85,7 @@
       ],
       "rupture_definitive": [],
       "prices": {},
-      "last_seen": "2026-09-29T16:28:20.300533"
+      "last_seen": "2026-09-29T21:44:45.155306"
     },
     "90150001": {
       "brand": "Total",
@@ -106,7 +101,7 @@
       ],
       "rupture_definitive": [],
       "prices": {},
-      "last_seen": "2026-09-29T16:28:20.300536"
+      "last_seen": "2026-09-29T21:44:45.155313"
     },
     "90200003": {
       "brand": "Total",
@@ -122,38 +117,26 @@
       ],
       "rupture_definitive": [],
       "prices": {},
-      "last_seen": "2026-09-29T16:28:20.300538"
+      "last_seen": "2026-09-29T21:44:45.155320"
     },
     "70200006": {
       "brand": "Total",
       "city": "Lure",
       "address": "16 Rue de Belfort",
-      "status": "RUPTURE_PARTIELLE",
+      "status": "RUPTURE_TOTALE",
       "distance_km": 2.4,
-      "disponibles": [
-        "Gazole",
-        "E10"
-      ],
+      "disponibles": [],
       "rupture_temporaire": [
+        "Gazole",
         "SP95",
         "E85",
         "GPLc",
+        "E10",
         "SP98"
       ],
       "rupture_definitive": [],
-      "prices": {
-        "Gazole": {
-          "valeur": 2.25,
-          "maj": "2026-09-29 07:55:32",
-          "relative_time": "il y a 8h"
-        },
-        "E10": {
-          "valeur": 1.99,
-          "maj": "2026-09-29 07:55:32",
-          "relative_time": "il y a 8h"
-        }
-      },
-      "last_seen": "2026-09-29T16:28:20.300541"
+      "prices": {},
+      "last_seen": "2026-09-29T21:44:45.155326"
     },
     "25200007": {
       "brand": "Total Access",
@@ -170,7 +153,7 @@
       ],
       "rupture_definitive": [],
       "prices": {},
-      "last_seen": "2026-09-29T16:28:20.300548"
+      "last_seen": "2026-09-29T21:44:45.155332"
     },
     "25420002": {
       "brand": "Total",
@@ -186,28 +169,23 @@
       ],
       "rupture_definitive": [],
       "prices": {},
-      "last_seen": "2026-09-29T16:28:20.300550"
+      "last_seen": "2026-09-29T21:44:45.155337"
     },
     "25700003": {
       "brand": "Total",
       "city": "Valentigney",
       "address": "1 ROUTE DE BELCHAMP",
-      "status": "RUPTURE_PARTIELLE",
+      "status": "RUPTURE_TOTALE",
       "distance_km": 4.0,
-      "disponibles": [
-        "SP98"
-      ],
+      "disponibles": [],
       "rupture_temporaire": [
         "Gazole",
-        "E10"
+        "E10",
+        "SP98"
       ],
-      "rupture_definitive": [
-        "SP95",
-        "E85",
-        "GPLc"
-      ],
+      "rupture_definitive": [],
       "prices": {},
-      "last_seen": "2026-09-29T16:28:20.300553"
+      "last_seen": "2026-09-29T21:44:45.155343"
     },
     "25750002": {
       "brand": "TotalEnergies",
@@ -223,7 +201,7 @@
       ],
       "rupture_definitive": [],
       "prices": {},
-      "last_seen": "2026-09-29T16:28:20.300557"
+      "last_seen": "2026-09-29T21:44:45.155349"
     },
     "70004001": {
       "brand": "TotalEnergies",
@@ -244,37 +222,23 @@
         "GPLc"
       ],
       "prices": {},
-      "last_seen": "2026-09-29T16:28:20.300560"
+      "last_seen": "2026-09-29T21:44:45.155356"
     },
     "70000005": {
       "brand": "TotalEnergies",
       "city": "Vesoul",
       "address": "22 Route de Paris",
-      "status": "DISPONIBLE",
+      "status": "RUPTURE_TOTALE",
       "distance_km": 1.1,
-      "disponibles": [
+      "disponibles": [],
+      "rupture_temporaire": [
         "Gazole",
-        "E10"
+        "E10",
+        "SP98"
       ],
-      "rupture_temporaire": [],
-      "rupture_definitive": [
-        "SP95",
-        "E85",
-        "GPLc"
-      ],
-      "prices": {
-        "Gazole": {
-          "valeur": 2.25,
-          "maj": "2026-09-29 08:11:11",
-          "relative_time": "il y a 8h"
-        },
-        "E10": {
-          "valeur": 1.99,
-          "maj": "2026-09-29 08:11:11",
-          "relative_time": "il y a 8h"
-        }
-      },
-      "last_seen": "2026-09-29T16:28:20.300564"
+      "rupture_definitive": [],
+      "prices": {},
+      "last_seen": "2026-09-29T21:44:45.155364"
     }
   }
 }
