@@ -15,7 +15,7 @@ if sys.platform.startswith("win"):
 from src.config import load_config, Config
 from src.fetcher import FuelFetcher, Station
 from src.tracker import FuelTracker, RestockEvent
-from src.notifiers import NotificationManager
+from src.notifier import NotificationManager
 
 def format_price_and_time(prices: dict, fuel: str) -> str:
     p = prices.get(fuel)

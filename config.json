@@ -23,21 +23,6 @@
     ]
   },
   "notifications": {
-    "ntfy": {
-      "enabled": true,
-      "topic": "sp-bot-alert-total-belfort-secret",
-      "server": "https://ntfy.sh",
-      "priority": 4
-    },
-    "telegram": {
-      "enabled": false,
-      "bot_token": "",
-      "chat_id": ""
-    },
-    "discord": {
-      "enabled": false,
-      "webhook_url": ""
-    },
     "email": {
       "enabled": false,
       "smtp_host": "smtp.gmail.com",
@@ -47,6 +32,12 @@
       "password": "",
       "from_addr": "",
       "to_addrs": []
+    },
+    "ntfy": {
+      "enabled": true,
+      "topic": "sp-bot-alert-total-belfort-secret",
+      "server": "https://ntfy.sh",
+      "priority": 4
     }
   },
   "check_interval_seconds": 300,
