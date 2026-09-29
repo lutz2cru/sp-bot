@@ -48,6 +48,6 @@
     "server": "https://ntfy.sh",
     "priority": 4
   },
-  "check_interval_seconds": 300,
+  "check_interval_seconds": 180,
   "notify_on_startup": false
 }

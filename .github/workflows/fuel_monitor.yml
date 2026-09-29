@@ -2,8 +2,8 @@ name: Fuel Monitor 24-7
 
 on:
   schedule:
-    # Exécution automatique toutes les 10 minutes (24h/24, 7j/7)
-    - cron: '*/10 * * * *'
+    # Exécution automatique toutes les 5 minutes (fréquence maximale autorisée par GitHub)
+    - cron: '*/5 * * * *'
   # Permet également de lancer manuellement depuis l'interface GitHub
   workflow_dispatch:
 
