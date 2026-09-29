@@ -1,11 +1,32 @@
 {
   "location": {
-    "mode": "gps",
-    "latitude": 47.6397,
-    "longitude": 6.8638,
-    "radius_km": 20,
-    "city": "Belfort",
-    "department": "90"
+    "mode": "zones",
+    "zones": [
+      {
+        "name": "Belfort",
+        "latitude": 47.6397,
+        "longitude": 6.8638,
+        "radius_km": 12
+      },
+      {
+        "name": "Montbéliard",
+        "latitude": 47.5100,
+        "longitude": 6.7980,
+        "radius_km": 10
+      },
+      {
+        "name": "Lure (Axe N19)",
+        "latitude": 47.6833,
+        "longitude": 6.4917,
+        "radius_km": 15
+      },
+      {
+        "name": "Vesoul",
+        "latitude": 47.6239,
+        "longitude": 6.1555,
+        "radius_km": 12
+      }
+    ]
   },
   "filters": {
     "brands": [

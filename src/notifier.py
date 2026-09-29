@@ -32,9 +32,9 @@ class NtfyNotifier:
             return False
 
     def send_restock_event(self, event: RestockEvent) -> bool:
-        title = f"⛽ {event.brand} ({event.city} - {event.distance_km} km)"
+        title = f"⛽ [{event.zone_name}] {event.brand} ({event.city} - {event.distance_km} km)"
         lines = [
-            f"📍 {event.address} ({event.distance_km} km)",
+            f"📍 {event.address}, {event.postal_code} {event.city} ({event.distance_km} km)",
             f"Statut : {event.status_badge}",
             "",
             "✨ Carburants de nouveau en stock :"

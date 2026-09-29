@@ -34,6 +34,7 @@ class RestockEvent:
     latitude: float
     longitude: float
     distance_km: float
+    zone_name: str
     status: str
     status_badge: str
     fuels_restocked: List[RestockedFuel]
@@ -170,6 +171,7 @@ class FuelTracker:
                     latitude=s.latitude,
                     longitude=s.longitude,
                     distance_km=s.distance_km,
+                    zone_name=s.zone_name,
                     status=s.status,
                     status_badge=badge,
                     fuels_restocked=restocked_fuels,

@@ -35,8 +35,8 @@ def get_status_colored(status: str) -> str:
 
 def display_station(s: Station, target_fuels: list):
     status_str = get_status_colored(s.status)
-    print(f"\n⛽ [{s.id}] \033[1;36m{s.brand}\033[0m - {s.address}, {s.postal_code} {s.city}")
-    print(f"   📊 Statut : {status_str} | 📍 Distance : \033[1;37m{s.distance_km} km\033[0m")
+    print(f"\n⛽ \033[1;35m[{s.zone_name}]\033[0m [{s.id}] \033[1;36m{s.brand}\033[0m - {s.address}, {s.postal_code} {s.city}")
+    print(f"   📊 Statut : {status_str} | 📍 Distance : \033[1;37m{s.distance_km} km\033[0m (depuis {s.zone_name})")
     print(f"   🗺️  {s.google_maps_url}")
     
     # Carburants disponibles avec prix et fraîcheur
@@ -59,8 +59,12 @@ def display_station(s: Station, target_fuels: list):
 def cmd_list(config: Config):
     print("=" * 75)
     print("⛽ TABLEAU DE BORD DU SECTEUR (Modèle Gasoil Now / Essence&CO)")
-    print(f"   Centre : {config.location.city} ({config.location.latitude}, {config.location.longitude})")
-    print(f"   Rayon de recherche : {config.location.radius_km} km | Tri : par proximité GPS")
+    if config.location.mode == "zones":
+        zones_str = " | ".join([f"{z.name} ({z.radius_km} km)" for z in config.location.zones])
+        print(f"   Zones surveillées : {zones_str}")
+    else:
+        print(f"   Centre : {config.location.city} ({config.location.latitude}, {config.location.longitude})")
+        print(f"   Rayon de recherche : {config.location.radius_km} km")
     print(f"   Enseignes suivies : {', '.join(config.filters.brands)}")
     print("=" * 75)
 

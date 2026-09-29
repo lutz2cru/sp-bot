@@ -6,13 +6,26 @@ from dataclasses import dataclass, field
 from typing import List, Optional
 
 @dataclass
+class ZoneConfig:
+    name: str
+    latitude: float
+    longitude: float
+    radius_km: int
+
+@dataclass
 class LocationConfig:
-    mode: str = "gps"  # "gps", "city", ou "department"
+    mode: str = "zones"  # "zones", "gps", "city", ou "department"
     latitude: float = 47.6397
     longitude: float = 6.8638
     radius_km: int = 20
     city: str = "Belfort"
     department: str = "90"
+    zones: List[ZoneConfig] = field(default_factory=lambda: [
+        ZoneConfig(name="Belfort", latitude=47.6397, longitude=6.8638, radius_km=12),
+        ZoneConfig(name="Montbéliard", latitude=47.5100, longitude=6.7980, radius_km=10),
+        ZoneConfig(name="Lure (Axe N19)", latitude=47.6833, longitude=6.4917, radius_km=15),
+        ZoneConfig(name="Vesoul", latitude=47.6239, longitude=6.1555, radius_km=12)
+    ])
 
 @dataclass
 class FiltersConfig:
@@ -22,7 +35,7 @@ class FiltersConfig:
 @dataclass
 class NtfyConfig:
     enabled: bool = True
-    topic: str = "sp-bot-alert-total-belfort"
+    topic: str = "sp-bot-alerte-total-belfort"
     server: str = "https://ntfy.sh"
     priority: int = 4
 
@@ -65,19 +78,34 @@ def load_config(config_path: str = "config.json") -> Config:
             print(f"[!] Erreur lecture {config_path}: {e}")
 
     loc_data = data.get("location", {})
+    raw_zones = loc_data.get("zones", [])
+    zones_list = []
+    if raw_zones:
+        for z in raw_zones:
+            zones_list.append(ZoneConfig(
+                name=z.get("name", "Zone"),
+                latitude=float(z.get("latitude", 0.0)),
+                longitude=float(z.get("longitude", 0.0)),
+                radius_km=int(z.get("radius_km", 10))
+            ))
+    else:
+        # Zones par défaut : Belfort, Montbéliard, Lure (Axe N19), Vesoul
+        zones_list = [
+            ZoneConfig(name="Belfort", latitude=47.6397, longitude=6.8638, radius_km=12),
+            ZoneConfig(name="Montbéliard", latitude=47.5100, longitude=6.7980, radius_km=10),
+            ZoneConfig(name="Lure (Axe N19)", latitude=47.6833, longitude=6.4917, radius_km=15),
+            ZoneConfig(name="Vesoul", latitude=47.6239, longitude=6.1555, radius_km=12)
+        ]
+
     loc = LocationConfig(
-        mode=loc_data.get("mode", "gps"),
+        mode=loc_data.get("mode", "zones"),
         latitude=float(loc_data.get("latitude", 47.6397)),
         longitude=float(loc_data.get("longitude", 6.8638)),
         radius_km=int(loc_data.get("radius_km", 20)),
         city=loc_data.get("city", "Belfort"),
-        department=str(loc_data.get("department", "90"))
+        department=str(loc_data.get("department", "90")),
+        zones=zones_list
     )
-
-    if loc.mode == "city" and loc.city:
-        geo = geocode_city_gouv(loc.city)
-        if geo:
-            loc.latitude, loc.longitude, _ = geo
 
     filt_data = data.get("filters", {})
     filters = FiltersConfig(
@@ -86,7 +114,7 @@ def load_config(config_path: str = "config.json") -> Config:
     )
 
     ntfy_data = data.get("ntfy", {})
-    ntfy_topic = os.environ.get("NTFY_TOPIC") or ntfy_data.get("topic", "sp-bot-alert-total-belfort")
+    ntfy_topic = os.environ.get("NTFY_TOPIC") or ntfy_data.get("topic", "sp-bot-alerte-total-belfort")
     ntfy = NtfyConfig(
         enabled=True,
         topic=ntfy_topic,
@@ -110,7 +138,16 @@ def save_config(config: Config, config_path: str = "config.json") -> None:
             "longitude": config.location.longitude,
             "radius_km": config.location.radius_km,
             "city": config.location.city,
-            "department": config.location.department
+            "department": config.location.department,
+            "zones": [
+                {
+                    "name": z.name,
+                    "latitude": z.latitude,
+                    "longitude": z.longitude,
+                    "radius_km": z.radius_km
+                }
+                for z in config.location.zones
+            ]
         },
         "filters": {
             "brands": config.filters.brands,

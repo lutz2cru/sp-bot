@@ -8,7 +8,7 @@ from datetime import datetime
 from dataclasses import dataclass
 from typing import List, Dict, Any, Optional
 
-from src.config import Config
+from src.config import Config, ZoneConfig
 
 ODS_API_BASE = "https://data.economie.gouv.fr/api/explore/v2.1/catalog/datasets/prix-des-carburants-en-france-flux-instantane-v2/records"
 FIELDS_SELECT = "id,adresse,ville,cp,geom,prix,carburants_disponibles,carburants_rupture_temporaire,carburants_rupture_definitive"
@@ -51,6 +51,7 @@ class Station:
     latitude: float
     longitude: float
     distance_km: float
+    zone_name: str
     status: str  # "DISPONIBLE", "RUPTURE_PARTIELLE", "RUPTURE_TOTALE"
     disponibles: List[str]
     rupture_temporaire: List[str]
@@ -60,7 +61,7 @@ class Station:
     waze_url: str
 
 class FuelFetcher:
-    """Récupérateur haute performance et basse consommation de données carburant."""
+    """Récupérateur haute performance et multi-zones pour Vesoul, Belfort, Lure, Montbéliard."""
     def __init__(self, data_dir: str = "data"):
         base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
         self.data_dir = os.path.join(base_dir, data_dir) if not os.path.isabs(data_dir) else data_dir
@@ -68,7 +69,7 @@ class FuelFetcher:
         self._brands_cache: Optional[Dict[int, str]] = None
 
     def get_brands_map(self) -> Dict[int, str]:
-        """Charge le dictionnaire pré-embarqué des 2327 stations Total en France (55 Ko, chargement instantané)."""
+        """Charge le référentiel des 2327 stations Total en France (55 Ko)."""
         if self._brands_cache is not None:
             return self._brands_cache
 
@@ -83,118 +84,119 @@ class FuelFetcher:
         self._brands_cache = {}
         return self._brands_cache
 
-    def fetch_stations(self, config: Config) -> List[Station]:
-        """Interroge l'API officielle avec un payload minimal (~3 Ko) et traite les statuts."""
-        brands_map = self.get_brands_map()
-        loc = config.location
-
-        if loc.mode == "department":
-            where_clause = f'code_departement = "{loc.department}"'
-        else:
-            where_clause = f"distance(geom, geom'POINT({loc.longitude} {loc.latitude})', {loc.radius_km}km)"
-
-        # Requête optimisée avec select=... (ignore horaires, services, etc.)
+    def _query_ods(self, where_clause: str) -> List[dict]:
         params = urllib.parse.urlencode({
             "where": where_clause,
             "select": FIELDS_SELECT,
             "limit": 100
         })
         url = f"{ODS_API_BASE}?{params}"
-
         try:
-            req = urllib.request.Request(
-                url,
-                headers={"User-Agent": "SP-Bot/1.0", "Accept-Encoding": "gzip"}
-            )
+            req = urllib.request.Request(url, headers={"User-Agent": "SP-Bot/1.0", "Accept-Encoding": "gzip"})
             with urllib.request.urlopen(req, timeout=10) as resp:
                 raw = resp.read()
                 if resp.info().get("Content-Encoding") == "gzip" or raw[:2] == b"\x1f\x8b":
                     raw = gzip.decompress(raw)
-                data = json.loads(raw.decode("utf-8"))
+                return json.loads(raw.decode("utf-8")).get("results", [])
         except Exception as e:
-            print(f"[!] Erreur requête API: {e}")
+            print(f"[!] Erreur API ODS: {e}")
             return []
 
-        stations = []
+    def fetch_stations(self, config: Config) -> List[Station]:
+        brands_map = self.get_brands_map()
+        loc = config.location
         target_brands = [b.lower() for b in config.filters.brands]
         all_brands = "*" in target_brands or not target_brands
 
-        for rec in data.get("results", []):
-            sid = int(rec.get("id", 0))
-            brand = brands_map.get(sid)
+        # Construction des clauses de recherche selon le mode
+        queries: List[tuple[str, str, float, float]] = []  # (where_clause, zone_name, center_lat, center_lon)
 
-            # Filtrage des enseignes
-            if not all_brands:
-                if not brand or not any(tb in brand.lower() for tb in target_brands):
+        if loc.mode == "zones" and loc.zones:
+            for z in loc.zones:
+                where = f"distance(geom, geom'POINT({z.longitude} {z.latitude})', {z.radius_km}km)"
+                queries.append((where, z.name, z.latitude, z.longitude))
+        elif loc.mode == "department":
+            queries.append((f'code_departement = "{loc.department}"', f"Dpt {loc.department}", loc.latitude, loc.longitude))
+        else:
+            where = f"distance(geom, geom'POINT({loc.longitude} {loc.latitude})', {loc.radius_km}km)"
+            queries.append((where, loc.city or "Secteur", loc.latitude, loc.longitude))
+
+        stations_by_id: Dict[int, Station] = {}
+
+        for where_clause, zone_name, c_lat, c_lon in queries:
+            results = self._query_ods(where_clause)
+            for rec in results:
+                sid = int(rec.get("id", 0))
+                brand = brands_map.get(sid)
+
+                if not all_brands:
+                    if not brand or not any(tb in brand.lower() for tb in target_brands):
+                        continue
+                brand_name = brand or "Station"
+
+                geom = rec.get("geom") or {}
+                lat = geom.get("lat") or 0.0
+                lon = geom.get("lon") or 0.0
+                dist_km = haversine_distance(c_lat, c_lon, lat, lon)
+
+                # Si déjà vue dans une autre zone, ne garder que si distance plus courte
+                if sid in stations_by_id and stations_by_id[sid].distance_km <= dist_km:
                     continue
-            brand_name = brand or "Station"
 
-            # Coordonnées géographiques
-            geom = rec.get("geom") or {}
-            lat = geom.get("lat") or 0.0
-            lon = geom.get("lon") or 0.0
-            dist_km = haversine_distance(loc.latitude, loc.longitude, lat, lon)
+                dispos = rec.get("carburants_disponibles") or []
+                if isinstance(dispos, str):
+                    dispos = [x.strip() for x in dispos.split(";") if x.strip()]
 
-            # Traitement carburants
-            dispos = rec.get("carburants_disponibles") or []
-            if isinstance(dispos, str):
-                dispos = [x.strip() for x in dispos.split(";") if x.strip()]
+                rupt_temp = rec.get("carburants_rupture_temporaire") or []
+                if isinstance(rupt_temp, str):
+                    rupt_temp = [x.strip() for x in rupt_temp.split(";") if x.strip()]
 
-            rupt_temp = rec.get("carburants_rupture_temporaire") or []
-            if isinstance(rupt_temp, str):
-                rupt_temp = [x.strip() for x in rupt_temp.split(";") if x.strip()]
+                rupt_def = rec.get("carburants_rupture_definitive") or []
+                if isinstance(rupt_def, str):
+                    rupt_def = [x.strip() for x in rupt_def.split(";") if x.strip()]
 
-            rupt_def = rec.get("carburants_rupture_definitive") or []
-            if isinstance(rupt_def, str):
-                rupt_def = [x.strip() for x in rupt_def.split(";") if x.strip()]
+                prices_dict = {}
+                raw_prix = rec.get("prix")
+                if isinstance(raw_prix, str):
+                    try:
+                        raw_prix = json.loads(raw_prix)
+                    except Exception:
+                        raw_prix = []
+                if isinstance(raw_prix, list):
+                    for p in raw_prix:
+                        if isinstance(p, dict):
+                            p_nom, p_val, p_maj = p.get("@nom"), p.get("@valeur"), p.get("@maj")
+                            if p_nom and p_val:
+                                try:
+                                    prices_dict[p_nom] = {
+                                        "valeur": float(p_val),
+                                        "maj": p_maj or "",
+                                        "relative_time": format_relative_time(p_maj or "")
+                                    }
+                                except ValueError:
+                                    pass
 
-            # Traitement des prix
-            prices_dict = {}
-            raw_prix = rec.get("prix")
-            if isinstance(raw_prix, str):
-                try:
-                    raw_prix = json.loads(raw_prix)
-                except Exception:
-                    raw_prix = []
-            if isinstance(raw_prix, list):
-                for p in raw_prix:
-                    if isinstance(p, dict):
-                        p_nom, p_val, p_maj = p.get("@nom"), p.get("@valeur"), p.get("@maj")
-                        if p_nom and p_val:
-                            try:
-                                prices_dict[p_nom] = {
-                                    "valeur": float(p_val),
-                                    "maj": p_maj or "",
-                                    "relative_time": format_relative_time(p_maj or "")
-                                }
-                            except ValueError:
-                                pass
+                status = "RUPTURE_TOTALE" if not dispos else ("RUPTURE_PARTIELLE" if rupt_temp else "DISPONIBLE")
 
-            # Statuts Gasoil Now / Essence&CO
-            if not dispos:
-                status = "RUPTURE_TOTALE"
-            elif rupt_temp:
-                status = "RUPTURE_PARTIELLE"
-            else:
-                status = "DISPONIBLE"
+                stations_by_id[sid] = Station(
+                    id=sid,
+                    brand=brand_name,
+                    address=rec.get("adresse", ""),
+                    city=rec.get("ville", ""),
+                    postal_code=rec.get("cp", ""),
+                    latitude=lat,
+                    longitude=lon,
+                    distance_km=dist_km,
+                    zone_name=zone_name,
+                    status=status,
+                    disponibles=dispos,
+                    rupture_temporaire=rupt_temp,
+                    rupture_definitive=rupt_def,
+                    prices=prices_dict,
+                    google_maps_url=f"https://www.google.com/maps/search/?api=1&query={lat},{lon}",
+                    waze_url=f"https://waze.com/ul?ll={lat},{lon}&navigate=yes"
+                )
 
-            stations.append(Station(
-                id=sid,
-                brand=brand_name,
-                address=rec.get("adresse", ""),
-                city=rec.get("ville", ""),
-                postal_code=rec.get("cp", ""),
-                latitude=lat,
-                longitude=lon,
-                distance_km=dist_km,
-                status=status,
-                disponibles=dispos,
-                rupture_temporaire=rupt_temp,
-                rupture_definitive=rupt_def,
-                prices=prices_dict,
-                google_maps_url=f"https://www.google.com/maps/search/?api=1&query={lat},{lon}",
-                waze_url=f"https://waze.com/ul?ll={lat},{lon}&navigate=yes"
-            ))
-
-        stations.sort(key=lambda s: s.distance_km)
-        return stations
+        station_list = list(stations_by_id.values())
+        station_list.sort(key=lambda s: (s.zone_name, s.distance_km))
+        return station_list
