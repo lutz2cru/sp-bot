@@ -45,6 +45,6 @@
     "priority": 4
   },
   "check_interval_seconds": 180,
-  "notify_mode": "periodic_list",
+  "notify_mode": "events_only",
   "notify_on_startup": false
 }
