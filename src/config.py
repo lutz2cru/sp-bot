@@ -30,7 +30,7 @@ class LocationConfig:
 @dataclass
 class FiltersConfig:
     brands: List[str] = field(default_factory=lambda: ["Total", "Total Access", "TotalEnergies"])
-    fuels: List[str] = field(default_factory=lambda: ["E10", "SP95"])
+    fuels: List[str] = field(default_factory=lambda: ["E10", "SP95", "SP98"])
 
 @dataclass
 class NtfyConfig:
