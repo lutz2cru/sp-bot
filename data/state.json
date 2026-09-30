@@ -1,6 +1,6 @@
 {
   "initialized": true,
-  "last_check": "2026-09-30T14:40:44.666431",
+  "last_check": "2026-09-30T14:42:28.687257",
   "stations": {
     "90000002": {
       "brand": "TotalEnergies",
@@ -16,7 +16,7 @@
       ],
       "rupture_definitive": [],
       "prices": {},
-      "last_seen": "2026-09-30T14:40:44.666281"
+      "last_seen": "2026-09-30T14:42:28.687084"
     },
     "90000013": {
       "brand": "TotalEnergies",
@@ -73,7 +73,7 @@
         "GPLc"
       ],
       "prices": {},
-      "last_seen": "2026-09-30T14:40:44.666308"
+      "last_seen": "2026-09-30T14:42:28.687114"
     },
     "90000015": {
       "brand": "Total Access",
@@ -94,43 +94,23 @@
         "GPLc"
       ],
       "prices": {},
-      "last_seen": "2026-09-30T14:40:44.666321"
+      "last_seen": "2026-09-30T14:42:28.687131"
     },
     "90150001": {
       "brand": "Total",
       "city": "Menoncourt",
       "address": "Rue de la baume, RD83",
-      "status": "DISPONIBLE",
+      "status": "RUPTURE_TOTALE",
       "distance_km": 8.7,
-      "disponibles": [
+      "disponibles": [],
+      "rupture_temporaire": [
         "Gazole",
         "E10",
         "SP98"
       ],
-      "rupture_temporaire": [],
-      "rupture_definitive": [
-        "SP95",
-        "E85",
-        "GPLc"
-      ],
-      "prices": {
-        "Gazole": {
-          "valeur": 2.25,
-          "maj": "2026-09-30 16:13:35",
-          "relative_time": "à l'instant"
-        },
-        "E10": {
-          "valeur": 1.99,
-          "maj": "2026-09-30 16:13:35",
-          "relative_time": "à l'instant"
-        },
-        "SP98": {
-          "valeur": 1.99,
-          "maj": "2026-09-30 16:13:35",
-          "relative_time": "à l'instant"
-        }
-      },
-      "last_seen": "2026-09-30T14:40:44.666333"
+      "rupture_definitive": [],
+      "prices": {},
+      "last_seen": "2026-09-30T14:42:28.687143"
     },
     "90200003": {
       "brand": "Total",
@@ -146,7 +126,7 @@
       ],
       "rupture_definitive": [],
       "prices": {},
-      "last_seen": "2026-09-30T14:40:44.666379"
+      "last_seen": "2026-09-30T14:42:28.687179"
     },
     "70200006": {
       "brand": "Total",
@@ -182,7 +162,7 @@
           "relative_time": "il y a 4h"
         }
       },
-      "last_seen": "2026-09-30T14:40:44.666387"
+      "last_seen": "2026-09-30T14:42:28.687191"
     },
     "25200007": {
       "brand": "Total Access",
@@ -199,7 +179,7 @@
       ],
       "rupture_definitive": [],
       "prices": {},
-      "last_seen": "2026-09-30T14:40:44.666402"
+      "last_seen": "2026-09-30T14:42:28.687214"
     },
     "25420002": {
       "brand": "Total",
@@ -215,7 +195,7 @@
       ],
       "rupture_definitive": [],
       "prices": {},
-      "last_seen": "2026-09-30T14:40:44.666407"
+      "last_seen": "2026-09-30T14:42:28.687223"
     },
     "25700003": {
       "brand": "Total",
@@ -226,12 +206,11 @@
       "disponibles": [],
       "rupture_temporaire": [
         "Gazole",
-        "E10",
-        "SP98"
+        "E10"
       ],
       "rupture_definitive": [],
       "prices": {},
-      "last_seen": "2026-09-30T14:40:44.666413"
+      "last_seen": "2026-09-30T14:42:28.687231"
     },
     "25750002": {
       "brand": "TotalEnergies",
@@ -247,7 +226,7 @@
       ],
       "rupture_definitive": [],
       "prices": {},
-      "last_seen": "2026-09-30T14:40:44.666417"
+      "last_seen": "2026-09-30T14:42:28.687237"
     },
     "70004001": {
       "brand": "TotalEnergies",
@@ -264,7 +243,7 @@
       ],
       "rupture_definitive": [],
       "prices": {},
-      "last_seen": "2026-09-30T14:40:44.666423"
+      "last_seen": "2026-09-30T14:42:28.687244"
     },
     "70000005": {
       "brand": "TotalEnergies",
@@ -280,7 +259,7 @@
       ],
       "rupture_definitive": [],
       "prices": {},
-      "last_seen": "2026-09-30T14:40:44.666427"
+      "last_seen": "2026-09-30T14:42:28.687252"
     }
   }
 }
