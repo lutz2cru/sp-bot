@@ -109,6 +109,17 @@ class FuelTracker:
             sid_str = str(s.id)
             prev = old_stations.get(sid_str)
 
+            # Protection Anti-Cache Obsolète (Désynchronisation entre nœuds API Opendatasoft)
+            # Si un nœud de cache renvoie un horodatage antérieur à ce qu'on a déjà validé,
+            # on ignore ce snapshot périmé pour éviter les fausses ruptures/réapprovisionnements (flapping).
+            if prev:
+                prev_prices = prev.get("prices", {})
+                prev_latest_maj = max((p.get("maj", "") for p in prev_prices.values() if p.get("maj")), default="")
+                curr_latest_maj = max((p.get("maj", "") for p in s.prices.values() if p.get("maj")), default="")
+                if prev_latest_maj and curr_latest_maj and curr_latest_maj < prev_latest_maj:
+                    new_stations_state[sid_str] = prev
+                    continue
+
             # Enregistrement de l'état actuel
             new_stations_state[sid_str] = {
                 "brand": s.brand,

@@ -118,10 +118,34 @@ def test_simulation():
     print(f"Étape 4 (5 min plus tard, aucun changement) : {len(events_4)} événement (attendu: 0)")
     assert len(events_4) == 0, "Étape 4 ne doit générer aucun événement si rien n'a changé."
 
+    # Étape 5 : Réapprovisionnement puis nœud API obsolète (test anti-flapping / stale cache)
+    tracker.process_stations([station_restocked], config)  # re-dispo à 11:30
+    stale_station = Station(
+        id=90000015,
+        brand="Total Access",
+        address="56, AVENUE DU GENERAL LECLERC",
+        city="Belfort",
+        postal_code="90000",
+        latitude=47.636,
+        longitude=6.838,
+        distance_km=2.0,
+        zone_name="Belfort",
+        status="RUPTURE_PARTIELLE",
+        disponibles=["SP98"],
+        rupture_temporaire=["Gazole", "SP95", "E10"],
+        rupture_definitive=["E85", "GPLc"],
+        prices={"SP98": {"valeur": 2.289, "maj": "2026-09-29 10:00:00", "relative_time": "il y a 1h"}},
+        google_maps_url="https://maps.google.com/?q=47.636,6.838",
+        waze_url="https://waze.com/ul?ll=47.636,6.838"
+    )
+    events_stale = tracker.process_stations([stale_station], config)
+    print(f"Étape 5 (Nœud API obsolète renvoyant 10:00 au lieu de 11:30) : {len(events_stale)} événement (attendu: 0)")
+    assert len(events_stale) == 0, "L'horodatage obsolète doit être rejeté sans déclencher de fausse rupture (anti-flapping)."
+
     # Nettoyage dossier test
     import shutil
     shutil.rmtree("data_test", ignore_errors=True)
-    print("\n[+] TOUS LES TESTS DE SIMULATION (RÉAPPROVISIONNEMENT + RUPTURE + SILENCE) ONT RÉUSSI AVEC SUCCÈS ! 🎉")
+    print("\n[+] TOUS LES TESTS DE SIMULATION (RÉAPPROVISIONNEMENT + RUPTURE + SILENCE + ANTI-FLAPPING) ONT RÉUSSI AVEC SUCCÈS ! 🎉")
 
 if __name__ == "__main__":
     test_simulation()
