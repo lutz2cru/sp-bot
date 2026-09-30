@@ -36,20 +36,17 @@ class NtfyNotifier:
         """Envoie une notification push instantanée pour un réapprovisionnement (RESTOCK) ou une rupture (SHORTAGE)."""
         if getattr(event, "event_type", "RESTOCK") == "SHORTAGE":
             fuels_str = " / ".join(event.fuels_affected)
-            title = f"⚠️ [{event.zone_name}] RUPTURE {fuels_str} : {event.brand} ({event.city})"
+            title = f"🔴 RUPTURE {fuels_str} : {event.brand} ({event.city})"
             lines = [
-                f"📍 {event.address}, {event.postal_code} {event.city} ({event.distance_km} km)",
-                f"Statut : {event.status_badge}",
-                "",
-                "🔴 Carburant épuisé / Rupture de stock :",
-                f"  • {fuels_str} n'est plus disponible."
+                f"⛽ {event.brand} - {event.address}, {event.city} ({event.distance_km} km)",
+                f"❌ {fuels_str} n'est plus disponible (rupture de stock)."
             ]
             if event.alternatives:
-                lines.append(f"\n🔄 Alternatives encore en stock : {', '.join(event.alternatives)}")
+                lines.append(f"🔄 Alternatives encore en stock : {', '.join(event.alternatives)}")
             elif event.all_available:
-                lines.append(f"\n🔄 Autres carburants restants : {', '.join(event.all_available)}")
+                lines.append(f"🔄 Autres carburants en stock : {', '.join(event.all_available)}")
             else:
-                lines.append("\n⚠️ La station est désormais en rupture totale !")
+                lines.append("⚠️ Station désormais en rupture totale !")
 
             payload = {
                 "topic": self.topic,
@@ -57,7 +54,6 @@ class NtfyNotifier:
                 "message": "\n".join(lines).strip(),
                 "priority": 3,
                 "tags": ["warning", "fuelpump", "no_entry"],
-                "click": event.google_maps_url,
                 "actions": [
                     {"action": "view", "label": "Google Maps", "url": event.google_maps_url}
                 ]
@@ -65,29 +61,30 @@ class NtfyNotifier:
             return self._post(payload)
 
         # Cas RESTOCK (de nouveau disponible)
-        fuels_str = " / ".join(f.fuel for f in event.fuels_restocked)
-        title = f"⛽ [{event.zone_name}] {fuels_str} DISPONIBLE : {event.brand} ({event.city})"
+        fuels_parts = []
+        for f in event.fuels_restocked:
+            p_str = f" ({f.price:.3f} €/L)" if f.price else ""
+            fuels_parts.append(f"{f.fuel}{p_str}")
+        fuels_summary = ", ".join(fuels_parts)
+
+        title = f"🟢 DISPO : {fuels_summary} à {event.city}"
         lines = [
-            f"📍 {event.address}, {event.postal_code} {event.city} ({event.distance_km} km)",
-            f"Statut : {event.status_badge}",
-            "",
-            "✨ Carburants de nouveau en stock :"
+            f"⛽ {event.brand} - {event.address}, {event.city} ({event.distance_km} km)",
         ]
         for f in event.fuels_restocked:
-            p_str = f"{f.price:.3f} €/L" if f.price else "Prix non précisé"
+            p_str = f"{f.price:.3f} €/L" if f.price else "Prix dispo"
             rel_str = f"({f.relative_time})" if f.relative_time else ""
-            lines.append(f"  • {f.fuel} : {p_str} {rel_str}".strip())
+            lines.append(f"✨ {f.fuel} : {p_str} {rel_str}".strip())
 
         if event.alternatives:
-            lines.append(f"\n🔄 Alternatives disponibles : {', '.join(event.alternatives)}")
+            lines.append(f"🔄 Alternatives : {', '.join(event.alternatives)}")
 
         payload = {
             "topic": self.topic,
             "title": title,
             "message": "\n".join(lines).strip(),
             "priority": self.config.priority,
-            "tags": ["fuelpump", "white_check_mark", "round_pushpin"],
-            "click": event.google_maps_url,
+            "tags": ["fuelpump", "white_check_mark"],
             "actions": [
                 {"action": "view", "label": "Google Maps", "url": event.google_maps_url},
                 {"action": "view", "label": "Waze", "url": event.waze_url}
@@ -108,27 +105,25 @@ class NtfyNotifier:
                 available_stations.append((s, matched_fuels))
 
         if available_stations:
-            fuel_label = " / ".join(target_fuels)
-            title = f"⛽ Total {fuel_label} : {len(available_stations)} station(s) en stock"
-            lines = [f"🟢 STATIONS AVEC {fuel_label.upper()} EN STOCK :\n"]
+            cities = list(dict.fromkeys(s.city for s, _ in available_stations))
+            cities_str = ", ".join(cities)
+            title = f"⛽ Total : {len(available_stations)} station(s) en stock ({cities_str})"
+            lines = []
 
             for s, fuels in available_stations:
                 fuel_strs = []
                 for f in fuels:
                     p = s.prices.get(f, {})
-                    val_str = f"{p.get('valeur'):.3f} €/L" if p.get('valeur') else "Prix dispo"
-                    time_str = f"({p.get('relative_time')})" if p.get('relative_time') else ""
-                    fuel_strs.append(f"{f}: {val_str} {time_str}".strip())
+                    val_str = f"{p.get('valeur'):.3f} €" if p.get('valeur') else "Prix dispo"
+                    fuel_strs.append(f"{f} ({val_str})")
 
-                lines.append(f"• [{s.zone_name}] {s.brand} ({s.distance_km} km)")
-                lines.append(f"  📍 {s.address}, {s.city}")
-                lines.append(f"  👉 {' | '.join(fuel_strs)}\n")
+                lines.append(f"• {s.city} : {' / '.join(fuel_strs)} | {s.brand} ({s.distance_km} km)")
+                lines.append(f"  📍 {s.address}")
 
             rupture_count = len(stations) - len(available_stations)
             if rupture_count > 0:
-                lines.append(f"🔴 {rupture_count} autre(s) station(s) Total en rupture dans le secteur.")
+                lines.append(f"🔴 {rupture_count} autre(s) station(s) en rupture.")
 
-            # Liens d'action vers les stations disponibles (max 3 actions autorisées par Ntfy)
             actions = []
             first_station = available_stations[0][0]
             actions.append({"action": "view", "label": f"Maps {first_station.city}", "url": first_station.google_maps_url})
@@ -137,16 +132,14 @@ class NtfyNotifier:
                 second_station = available_stations[1][0]
                 actions.append({"action": "view", "label": f"Maps {second_station.city}", "url": second_station.google_maps_url})
 
-            click_url = first_station.google_maps_url
             tags = ["fuelpump", "white_check_mark"]
         else:
             fuel_label = " / ".join(target_fuels)
             title = f"⚠️ Pénurie : 0 station Total avec {fuel_label}"
             lines = [
-                f"🔴 Aucune des {len(stations)} stations Total surveillées (Belfort, Montbéliard, Lure, Vesoul) n'a de {fuel_label} en stock actuellement."
+                f"🔴 Aucune des {len(stations)} stations surveillées n'a de {fuel_label} en stock."
             ]
             actions = []
-            click_url = "https://maps.google.com"
             tags = ["fuelpump", "warning"]
 
         payload = {
@@ -155,7 +148,6 @@ class NtfyNotifier:
             "message": "\n".join(lines).strip(),
             "priority": self.config.priority,
             "tags": tags,
-            "click": click_url,
         }
         if actions:
             payload["actions"] = actions[:3]
