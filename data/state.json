@@ -1,6 +1,6 @@
 {
   "initialized": true,
-  "last_check": "2026-09-30T08:08:30.771198",
+  "last_check": "2026-09-30T08:10:49.917983",
   "stations": {
     "90000002": {
       "brand": "TotalEnergies",
@@ -16,7 +16,7 @@
       ],
       "rupture_definitive": [],
       "prices": {},
-      "last_seen": "2026-09-30T08:08:30.771117"
+      "last_seen": "2026-09-30T08:10:49.917878"
     },
     "90000013": {
       "brand": "TotalEnergies",
@@ -52,7 +52,7 @@
           "relative_time": "il y a 8h"
         }
       },
-      "last_seen": "2026-09-30T08:08:30.771135"
+      "last_seen": "2026-09-30T08:10:49.917897"
     },
     "90000014": {
       "brand": "Total Access",
@@ -73,7 +73,7 @@
         "GPLc"
       ],
       "prices": {},
-      "last_seen": "2026-09-30T08:08:30.771148"
+      "last_seen": "2026-09-30T08:10:49.917918"
     },
     "90000015": {
       "brand": "Total Access",
@@ -94,7 +94,7 @@
         "GPLc"
       ],
       "prices": {},
-      "last_seen": "2026-09-30T08:08:30.771153"
+      "last_seen": "2026-09-30T08:10:49.917927"
     },
     "90150001": {
       "brand": "Total",
@@ -110,7 +110,7 @@
       ],
       "rupture_definitive": [],
       "prices": {},
-      "last_seen": "2026-09-30T08:08:30.771158"
+      "last_seen": "2026-09-30T08:10:49.917935"
     },
     "90200003": {
       "brand": "Total",
@@ -126,7 +126,7 @@
       ],
       "rupture_definitive": [],
       "prices": {},
-      "last_seen": "2026-09-30T08:08:30.771161"
+      "last_seen": "2026-09-30T08:10:49.917942"
     },
     "70200006": {
       "brand": "Total",
@@ -149,15 +149,15 @@
         "Gazole": {
           "valeur": 2.25,
           "maj": "2026-09-30 07:43:57",
-          "relative_time": "il y a 24 min"
+          "relative_time": "il y a 26 min"
         },
         "SP98": {
           "valeur": 1.99,
           "maj": "2026-09-30 07:43:57",
-          "relative_time": "il y a 24 min"
+          "relative_time": "il y a 26 min"
         }
       },
-      "last_seen": "2026-09-30T08:08:30.771165"
+      "last_seen": "2026-09-30T08:10:49.917948"
     },
     "25200007": {
       "brand": "Total Access",
@@ -174,7 +174,7 @@
       ],
       "rupture_definitive": [],
       "prices": {},
-      "last_seen": "2026-09-30T08:08:30.771174"
+      "last_seen": "2026-09-30T08:10:49.917960"
     },
     "25420002": {
       "brand": "Total",
@@ -190,7 +190,7 @@
       ],
       "rupture_definitive": [],
       "prices": {},
-      "last_seen": "2026-09-30T08:08:30.771177"
+      "last_seen": "2026-09-30T08:10:49.917963"
     },
     "25700003": {
       "brand": "Total",
@@ -211,7 +211,7 @@
         "GPLc"
       ],
       "prices": {},
-      "last_seen": "2026-09-30T08:08:30.771181"
+      "last_seen": "2026-09-30T08:10:49.917967"
     },
     "25750002": {
       "brand": "TotalEnergies",
@@ -227,7 +227,7 @@
       ],
       "rupture_definitive": [],
       "prices": {},
-      "last_seen": "2026-09-30T08:08:30.771186"
+      "last_seen": "2026-09-30T08:10:49.917972"
     },
     "70004001": {
       "brand": "TotalEnergies",
@@ -244,7 +244,7 @@
       ],
       "rupture_definitive": [],
       "prices": {},
-      "last_seen": "2026-09-30T08:08:30.771190"
+      "last_seen": "2026-09-30T08:10:49.917975"
     },
     "70000005": {
       "brand": "TotalEnergies",
@@ -265,7 +265,7 @@
         "GPLc"
       ],
       "prices": {},
-      "last_seen": "2026-09-30T08:08:30.771193"
+      "last_seen": "2026-09-30T08:10:49.917978"
     }
   }
 }
