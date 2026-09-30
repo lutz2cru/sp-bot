@@ -1,6 +1,6 @@
 {
   "initialized": true,
-  "last_check": "2026-09-30T14:50:49.288709",
+  "last_check": "2026-09-30T14:52:33.127225",
   "stations": {
     "90000002": {
       "brand": "TotalEnergies",
@@ -16,7 +16,34 @@
       ],
       "rupture_definitive": [],
       "prices": {},
-      "last_seen": "2026-09-30T14:50:49.288591"
+      "ruptures_detail": {
+        "E85": {
+          "debut": "2017-09-27 11:58:48",
+          "type": "definitive"
+        },
+        "GPLc": {
+          "debut": "2017-09-27 11:58:48",
+          "type": "definitive"
+        },
+        "SP95": {
+          "debut": "2022-10-24 09:20:01",
+          "type": "definitive"
+        },
+        "E10": {
+          "debut": "2026-09-22 08:48:31",
+          "type": "temporaire"
+        },
+        "SP98": {
+          "debut": "2026-09-24 14:55:13",
+          "type": "temporaire"
+        },
+        "Gazole": {
+          "debut": "2026-09-28 08:57:17",
+          "type": "temporaire"
+        }
+      },
+      "latest_update": "2026-09-28 08:57:17",
+      "last_seen": "2026-09-30T14:52:33.127093"
     },
     "90000013": {
       "brand": "TotalEnergies",
@@ -25,22 +52,17 @@
       "status": "RUPTURE_PARTIELLE",
       "distance_km": 1.0,
       "disponibles": [
-        "Gazole",
         "E85",
         "GPLc"
       ],
       "rupture_temporaire": [
+        "Gazole",
         "SP95",
         "E10",
         "SP98"
       ],
       "rupture_definitive": [],
       "prices": {
-        "Gazole": {
-          "valeur": 2.25,
-          "maj": "2026-09-30 06:27:15",
-          "relative_time": "il y a 7h"
-        },
         "E85": {
           "valeur": 0.902,
           "maj": "2026-09-30 00:01:00",
@@ -52,7 +74,26 @@
           "relative_time": "il y a 14h"
         }
       },
-      "last_seen": "2026-09-30T14:22:29.757225"
+      "ruptures_detail": {
+        "SP95": {
+          "debut": "2026-09-04 11:36:51",
+          "type": "temporaire"
+        },
+        "SP98": {
+          "debut": "2026-09-28 10:46:47",
+          "type": "temporaire"
+        },
+        "E10": {
+          "debut": "2026-09-29 09:17:47",
+          "type": "temporaire"
+        },
+        "Gazole": {
+          "debut": "2026-09-30 16:01:01",
+          "type": "temporaire"
+        }
+      },
+      "latest_update": "2026-09-30 16:01:01",
+      "last_seen": "2026-09-30T14:52:33.127118"
     },
     "90000014": {
       "brand": "Total Access",
@@ -73,7 +114,30 @@
         "GPLc"
       ],
       "prices": {},
-      "last_seen": "2026-09-30T14:50:49.288620"
+      "ruptures_detail": {
+        "SP95": {
+          "debut": "2018-10-09 10:03:38",
+          "type": "definitive"
+        },
+        "GPLc": {
+          "debut": "2018-10-09 10:03:39",
+          "type": "definitive"
+        },
+        "Gazole": {
+          "debut": "2026-09-28 16:33:46",
+          "type": "temporaire"
+        },
+        "SP98": {
+          "debut": "2026-09-29 07:06:07",
+          "type": "temporaire"
+        },
+        "E10": {
+          "debut": "2026-09-29 08:16:26",
+          "type": "temporaire"
+        }
+      },
+      "latest_update": "2026-09-29 08:16:26",
+      "last_seen": "2026-09-30T14:52:33.127137"
     },
     "90000015": {
       "brand": "Total Access",
@@ -94,7 +158,30 @@
         "GPLc"
       ],
       "prices": {},
-      "last_seen": "2026-09-30T14:50:49.288635"
+      "ruptures_detail": {
+        "E85": {
+          "debut": "2018-01-25 08:40:26",
+          "type": "definitive"
+        },
+        "GPLc": {
+          "debut": "2024-05-02 11:35:26",
+          "type": "definitive"
+        },
+        "SP95": {
+          "debut": "2026-05-28 16:53:23",
+          "type": "temporaire"
+        },
+        "SP98": {
+          "debut": "2026-09-29 12:32:58",
+          "type": "temporaire"
+        },
+        "Gazole": {
+          "debut": "2026-09-30 15:26:14",
+          "type": "temporaire"
+        }
+      },
+      "latest_update": "2026-09-30 15:26:14",
+      "last_seen": "2026-09-30T14:52:33.127147"
     },
     "90150001": {
       "brand": "Total",
@@ -130,7 +217,22 @@
           "relative_time": "à l'instant"
         }
       },
-      "last_seen": "2026-09-30T14:50:49.288650"
+      "ruptures_detail": {
+        "SP95": {
+          "debut": "2017-09-20 12:54:12",
+          "type": "definitive"
+        },
+        "E85": {
+          "debut": "2017-09-20 12:54:13",
+          "type": "definitive"
+        },
+        "GPLc": {
+          "debut": "2017-09-20 12:54:14",
+          "type": "definitive"
+        }
+      },
+      "latest_update": "2026-09-30 16:13:35",
+      "last_seen": "2026-09-30T14:52:33.127159"
     },
     "90200003": {
       "brand": "Total",
@@ -146,7 +248,34 @@
       ],
       "rupture_definitive": [],
       "prices": {},
-      "last_seen": "2026-09-30T14:50:49.288670"
+      "ruptures_detail": {
+        "SP95": {
+          "debut": "2024-09-14 10:55:06",
+          "type": "definitive"
+        },
+        "E85": {
+          "debut": "2026-08-27 08:54:33",
+          "type": "definitive"
+        },
+        "GPLc": {
+          "debut": "2026-08-27 08:54:33",
+          "type": "definitive"
+        },
+        "E10": {
+          "debut": "2026-09-16 19:10:26",
+          "type": "temporaire"
+        },
+        "SP98": {
+          "debut": "2026-09-16 19:10:26",
+          "type": "temporaire"
+        },
+        "Gazole": {
+          "debut": "2026-09-25 13:52:09",
+          "type": "temporaire"
+        }
+      },
+      "latest_update": "2026-09-25 13:52:09",
+      "last_seen": "2026-09-30T14:52:33.127173"
     },
     "70200006": {
       "brand": "Total",
@@ -182,7 +311,22 @@
           "relative_time": "il y a 4h"
         }
       },
-      "last_seen": "2026-09-30T14:50:49.288677"
+      "ruptures_detail": {
+        "E85": {
+          "debut": "2026-03-30 08:24:38",
+          "type": "temporaire"
+        },
+        "GPLc": {
+          "debut": "2026-03-30 08:24:38",
+          "type": "temporaire"
+        },
+        "SP95": {
+          "debut": "2026-09-30 07:43:35",
+          "type": "temporaire"
+        }
+      },
+      "latest_update": "2026-09-30 10:00:35",
+      "last_seen": "2026-09-30T14:52:33.127181"
     },
     "25200007": {
       "brand": "Total Access",
@@ -199,7 +343,34 @@
       ],
       "rupture_definitive": [],
       "prices": {},
-      "last_seen": "2026-09-30T14:50:49.288686"
+      "ruptures_detail": {
+        "SP95": {
+          "debut": "2025-12-04 19:59:39",
+          "type": "definitive"
+        },
+        "GPLc": {
+          "debut": "2025-12-04 19:59:39",
+          "type": "definitive"
+        },
+        "Gazole": {
+          "debut": "2026-04-02 18:16:30",
+          "type": "temporaire"
+        },
+        "SP98": {
+          "debut": "2026-04-02 18:16:30",
+          "type": "temporaire"
+        },
+        "E10": {
+          "debut": "2026-04-02 20:43:56",
+          "type": "temporaire"
+        },
+        "E85": {
+          "debut": "2026-04-05 19:23:22",
+          "type": "temporaire"
+        }
+      },
+      "latest_update": "2026-04-05 19:23:22",
+      "last_seen": "2026-09-30T14:52:33.127193"
     },
     "25420002": {
       "brand": "Total",
@@ -215,7 +386,34 @@
       ],
       "rupture_definitive": [],
       "prices": {},
-      "last_seen": "2026-09-30T14:50:49.288691"
+      "ruptures_detail": {
+        "SP95": {
+          "debut": "2017-09-02 07:53:49",
+          "type": "definitive"
+        },
+        "E85": {
+          "debut": "2017-09-02 07:53:49",
+          "type": "definitive"
+        },
+        "GPLc": {
+          "debut": "2017-09-02 07:53:49",
+          "type": "definitive"
+        },
+        "E10": {
+          "debut": "2026-09-26 08:13:24",
+          "type": "temporaire"
+        },
+        "Gazole": {
+          "debut": "2026-09-28 12:54:55",
+          "type": "temporaire"
+        },
+        "SP98": {
+          "debut": "2026-09-28 12:54:55",
+          "type": "temporaire"
+        }
+      },
+      "latest_update": "2026-09-28 12:54:55",
+      "last_seen": "2026-09-30T14:52:33.127200"
     },
     "25700003": {
       "brand": "Total",
@@ -230,7 +428,30 @@
       ],
       "rupture_definitive": [],
       "prices": {},
-      "last_seen": "2026-09-30T14:50:49.288694"
+      "ruptures_detail": {
+        "SP95": {
+          "debut": "2022-08-12 08:14:09",
+          "type": "definitive"
+        },
+        "E85": {
+          "debut": "2022-08-12 08:14:09",
+          "type": "definitive"
+        },
+        "GPLc": {
+          "debut": "2022-08-12 08:14:09",
+          "type": "definitive"
+        },
+        "E10": {
+          "debut": "2026-09-29 17:09:39",
+          "type": "temporaire"
+        },
+        "Gazole": {
+          "debut": "2026-09-30 13:11:58",
+          "type": "temporaire"
+        }
+      },
+      "latest_update": "2026-09-30 13:11:58",
+      "last_seen": "2026-09-30T14:52:33.127206"
     },
     "25750002": {
       "brand": "TotalEnergies",
@@ -246,7 +467,34 @@
       ],
       "rupture_definitive": [],
       "prices": {},
-      "last_seen": "2026-09-30T14:50:49.288698"
+      "ruptures_detail": {
+        "E10": {
+          "debut": "2023-11-29 07:58:15",
+          "type": "definitive"
+        },
+        "E85": {
+          "debut": "2023-10-11 10:13:25",
+          "type": "definitive"
+        },
+        "GPLc": {
+          "debut": "2023-10-11 10:13:25",
+          "type": "definitive"
+        },
+        "Gazole": {
+          "debut": "2026-09-25 08:47:43",
+          "type": "temporaire"
+        },
+        "SP95": {
+          "debut": "2026-09-25 08:47:43",
+          "type": "temporaire"
+        },
+        "SP98": {
+          "debut": "2026-09-25 08:47:43",
+          "type": "temporaire"
+        }
+      },
+      "latest_update": "2026-09-25 08:47:43",
+      "last_seen": "2026-09-30T14:52:33.127212"
     },
     "70004001": {
       "brand": "TotalEnergies",
@@ -263,7 +511,34 @@
       ],
       "rupture_definitive": [],
       "prices": {},
-      "last_seen": "2026-09-30T14:50:49.288703"
+      "ruptures_detail": {
+        "GPLc": {
+          "debut": "2017-08-31 15:36:11",
+          "type": "definitive"
+        },
+        "SP95": {
+          "debut": "2023-06-29 18:58:23",
+          "type": "definitive"
+        },
+        "E10": {
+          "debut": "2026-09-23 16:09:26",
+          "type": "temporaire"
+        },
+        "SP98": {
+          "debut": "2026-09-23 16:09:26",
+          "type": "temporaire"
+        },
+        "Gazole": {
+          "debut": "2026-09-27 16:39:15",
+          "type": "temporaire"
+        },
+        "E85": {
+          "debut": "2026-09-30 09:26:41",
+          "type": "temporaire"
+        }
+      },
+      "latest_update": "2026-09-30 09:26:41",
+      "last_seen": "2026-09-30T14:52:33.127218"
     },
     "70000005": {
       "brand": "TotalEnergies",
@@ -279,7 +554,34 @@
       ],
       "rupture_definitive": [],
       "prices": {},
-      "last_seen": "2026-09-30T14:50:49.288706"
+      "ruptures_detail": {
+        "E85": {
+          "debut": "2017-08-31 15:34:48",
+          "type": "definitive"
+        },
+        "GPLc": {
+          "debut": "2021-06-02 18:13:58",
+          "type": "definitive"
+        },
+        "SP95": {
+          "debut": "2023-06-29 18:57:36",
+          "type": "definitive"
+        },
+        "SP98": {
+          "debut": "2026-09-29 18:53:10",
+          "type": "temporaire"
+        },
+        "E10": {
+          "debut": "2026-09-30 09:00:11",
+          "type": "temporaire"
+        },
+        "Gazole": {
+          "debut": "2026-09-30 11:05:04",
+          "type": "temporaire"
+        }
+      },
+      "latest_update": "2026-09-30 11:05:04",
+      "last_seen": "2026-09-30T14:52:33.127222"
     }
   }
 }
