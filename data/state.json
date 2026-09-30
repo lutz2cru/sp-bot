@@ -1,6 +1,6 @@
 {
   "initialized": true,
-  "last_check": "2026-09-30T07:42:29.067818",
+  "last_check": "2026-09-30T07:44:25.418003",
   "stations": {
     "90000002": {
       "brand": "TotalEnergies",
@@ -16,7 +16,7 @@
       ],
       "rupture_definitive": [],
       "prices": {},
-      "last_seen": "2026-09-30T07:42:29.067764"
+      "last_seen": "2026-09-30T07:44:25.417913"
     },
     "90000013": {
       "brand": "TotalEnergies",
@@ -52,7 +52,7 @@
           "relative_time": "il y a 7h"
         }
       },
-      "last_seen": "2026-09-30T07:42:29.067781"
+      "last_seen": "2026-09-30T07:44:25.417931"
     },
     "90000014": {
       "brand": "Total Access",
@@ -73,7 +73,7 @@
         "GPLc"
       ],
       "prices": {},
-      "last_seen": "2026-09-30T07:42:29.067790"
+      "last_seen": "2026-09-30T07:44:25.417946"
     },
     "90000015": {
       "brand": "Total Access",
@@ -94,7 +94,7 @@
         "GPLc"
       ],
       "prices": {},
-      "last_seen": "2026-09-30T07:42:29.067794"
+      "last_seen": "2026-09-30T07:44:25.417952"
     },
     "90150001": {
       "brand": "Total",
@@ -110,7 +110,7 @@
       ],
       "rupture_definitive": [],
       "prices": {},
-      "last_seen": "2026-09-30T07:42:29.067796"
+      "last_seen": "2026-09-30T07:44:25.417957"
     },
     "90200003": {
       "brand": "Total",
@@ -126,7 +126,7 @@
       ],
       "rupture_definitive": [],
       "prices": {},
-      "last_seen": "2026-09-30T07:42:29.067798"
+      "last_seen": "2026-09-30T07:44:25.417961"
     },
     "70200006": {
       "brand": "Total",
@@ -157,7 +157,7 @@
           "relative_time": "à l'instant"
         }
       },
-      "last_seen": "2026-09-30T07:42:29.067800"
+      "last_seen": "2026-09-30T07:44:25.417964"
     },
     "25200007": {
       "brand": "Total Access",
@@ -174,7 +174,7 @@
       ],
       "rupture_definitive": [],
       "prices": {},
-      "last_seen": "2026-09-30T07:42:29.067805"
+      "last_seen": "2026-09-30T07:44:25.417974"
     },
     "25420002": {
       "brand": "Total",
@@ -190,7 +190,7 @@
       ],
       "rupture_definitive": [],
       "prices": {},
-      "last_seen": "2026-09-30T07:42:29.067807"
+      "last_seen": "2026-09-30T07:44:25.417978"
     },
     "25700003": {
       "brand": "Total",
@@ -211,7 +211,7 @@
         "GPLc"
       ],
       "prices": {},
-      "last_seen": "2026-09-30T07:42:29.067809"
+      "last_seen": "2026-09-30T07:44:25.417982"
     },
     "25750002": {
       "brand": "TotalEnergies",
@@ -227,7 +227,7 @@
       ],
       "rupture_definitive": [],
       "prices": {},
-      "last_seen": "2026-09-30T07:42:29.067811"
+      "last_seen": "2026-09-30T07:44:25.417988"
     },
     "70004001": {
       "brand": "TotalEnergies",
@@ -248,7 +248,7 @@
         "GPLc"
       ],
       "prices": {},
-      "last_seen": "2026-09-30T07:42:29.067813"
+      "last_seen": "2026-09-30T07:44:25.417992"
     },
     "70000005": {
       "brand": "TotalEnergies",
@@ -269,7 +269,7 @@
         "GPLc"
       ],
       "prices": {},
-      "last_seen": "2026-09-30T07:42:29.067816"
+      "last_seen": "2026-09-30T07:44:25.417997"
     }
   }
 }
