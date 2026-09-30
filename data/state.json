@@ -1,6 +1,6 @@
 {
   "initialized": true,
-  "last_check": "2026-09-30T05:50:42.942019",
+  "last_check": "2026-09-30T05:55:33.770079",
   "stations": {
     "90000002": {
       "brand": "TotalEnergies",
@@ -16,7 +16,7 @@
       ],
       "rupture_definitive": [],
       "prices": {},
-      "last_seen": "2026-09-30T05:50:42.941927"
+      "last_seen": "2026-09-30T05:55:33.769980"
     },
     "90000013": {
       "brand": "TotalEnergies",
@@ -52,7 +52,7 @@
           "relative_time": "il y a 5h"
         }
       },
-      "last_seen": "2026-09-30T05:50:42.941942"
+      "last_seen": "2026-09-30T05:55:33.769996"
     },
     "90000014": {
       "brand": "Total Access",
@@ -73,7 +73,7 @@
         "GPLc"
       ],
       "prices": {},
-      "last_seen": "2026-09-30T05:50:42.941958"
+      "last_seen": "2026-09-30T05:55:33.770011"
     },
     "90000015": {
       "brand": "Total Access",
@@ -94,7 +94,7 @@
         "GPLc"
       ],
       "prices": {},
-      "last_seen": "2026-09-30T05:50:42.941965"
+      "last_seen": "2026-09-30T05:55:33.770020"
     },
     "90150001": {
       "brand": "Total",
@@ -110,7 +110,7 @@
       ],
       "rupture_definitive": [],
       "prices": {},
-      "last_seen": "2026-09-30T05:50:42.941972"
+      "last_seen": "2026-09-30T05:55:33.770027"
     },
     "90200003": {
       "brand": "Total",
@@ -126,7 +126,7 @@
       ],
       "rupture_definitive": [],
       "prices": {},
-      "last_seen": "2026-09-30T05:50:42.941976"
+      "last_seen": "2026-09-30T05:55:33.770032"
     },
     "70200006": {
       "brand": "Total",
@@ -145,7 +145,7 @@
       ],
       "rupture_definitive": [],
       "prices": {},
-      "last_seen": "2026-09-30T05:50:42.941980"
+      "last_seen": "2026-09-30T05:55:33.770036"
     },
     "25200007": {
       "brand": "Total Access",
@@ -162,7 +162,7 @@
       ],
       "rupture_definitive": [],
       "prices": {},
-      "last_seen": "2026-09-30T05:50:42.941985"
+      "last_seen": "2026-09-30T05:55:33.770041"
     },
     "25420002": {
       "brand": "Total",
@@ -178,23 +178,28 @@
       ],
       "rupture_definitive": [],
       "prices": {},
-      "last_seen": "2026-09-30T05:50:42.941989"
+      "last_seen": "2026-09-30T05:55:33.770046"
     },
     "25700003": {
       "brand": "Total",
       "city": "Valentigney",
       "address": "1 ROUTE DE BELCHAMP",
-      "status": "RUPTURE_TOTALE",
+      "status": "RUPTURE_PARTIELLE",
       "distance_km": 4.0,
-      "disponibles": [],
+      "disponibles": [
+        "Gazole"
+      ],
       "rupture_temporaire": [
-        "Gazole",
         "E10",
         "SP98"
       ],
-      "rupture_definitive": [],
+      "rupture_definitive": [
+        "SP95",
+        "E85",
+        "GPLc"
+      ],
       "prices": {},
-      "last_seen": "2026-09-30T05:50:42.941994"
+      "last_seen": "2026-09-30T05:55:33.770050"
     },
     "25750002": {
       "brand": "TotalEnergies",
@@ -210,7 +215,7 @@
       ],
       "rupture_definitive": [],
       "prices": {},
-      "last_seen": "2026-09-30T05:50:42.941999"
+      "last_seen": "2026-09-30T05:55:33.770056"
     },
     "70004001": {
       "brand": "TotalEnergies",
@@ -231,7 +236,7 @@
         "GPLc"
       ],
       "prices": {},
-      "last_seen": "2026-09-30T05:50:42.942004"
+      "last_seen": "2026-09-30T05:55:33.770061"
     },
     "70000005": {
       "brand": "TotalEnergies",
@@ -263,7 +268,7 @@
           "relative_time": "à l'instant"
         }
       },
-      "last_seen": "2026-09-30T05:50:42.942010"
+      "last_seen": "2026-09-30T05:55:33.770068"
     }
   }
 }
