@@ -142,10 +142,37 @@ def test_simulation():
     print(f"Étape 5 (Nœud API obsolète renvoyant 10:00 au lieu de 11:30) : {len(events_stale)} événement (attendu: 0)")
     assert len(events_stale) == 0, "L'horodatage obsolète doit être rejeté sans déclencher de fausse rupture (anti-flapping)."
 
+    # Étape 6 : Cas Menoncourt (station restockée à 11:30, puis nœud API obsolète renvoyant rupture totale SANS prix)
+    stale_total_rupture_station = Station(
+        id=90000015,
+        brand="Total Access",
+        address="56, AVENUE DU GENERAL LECLERC",
+        city="Belfort",
+        postal_code="90000",
+        latitude=47.636,
+        longitude=6.838,
+        distance_km=2.0,
+        zone_name="Belfort",
+        status="RUPTURE_TOTALE",
+        disponibles=[],
+        rupture_temporaire=["Gazole", "SP95", "E10", "SP98"],
+        rupture_definitive=[],
+        prices={},
+        google_maps_url="https://maps.google.com/?q=47.636,6.838",
+        waze_url="https://waze.com/ul?ll=47.636,6.838",
+        ruptures_detail={
+            "E10": {"debut": "2026-09-29 08:00:00", "type": "temporaire"},
+            "SP98": {"debut": "2026-09-29 08:00:00", "type": "temporaire"}
+        }
+    )
+    events_stale_total = tracker.process_stations([stale_total_rupture_station], config)
+    print(f"Étape 6 (Cas Menoncourt : rupture totale sur nœud sans prix avec rupture antérieure) : {len(events_stale_total)} événement (attendu: 0)")
+    assert len(events_stale_total) == 0, "Le snapshot de rupture totale avec horodatage antérieur doit être rejeté sans déclencher de fausse rupture."
+
     # Nettoyage dossier test
     import shutil
     shutil.rmtree("data_test", ignore_errors=True)
-    print("\n[+] TOUS LES TESTS DE SIMULATION (RÉAPPROVISIONNEMENT + RUPTURE + SILENCE + ANTI-FLAPPING) ONT RÉUSSI AVEC SUCCÈS ! 🎉")
+    print("\n[+] TOUS LES TESTS DE SIMULATION (RÉAPPROVISIONNEMENT + RUPTURE + SILENCE + ANTI-FLAPPING COMPLET) ONT RÉUSSI AVEC SUCCÈS ! 🎉")
 
 if __name__ == "__main__":
     test_simulation()

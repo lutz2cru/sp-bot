@@ -17,6 +17,24 @@ FUEL_ALTERNATIVES = {
     "gplc": ["GPLc"]
 }
 
+def extract_station_timestamps(prices: Dict[str, Any], ruptures: Dict[str, Any]) -> List[str]:
+    """
+    Extrait l'ensemble des horodatages valides d'une station :
+    - maj des prix de carburants
+    - debut des ruptures temporaires récentes
+    """
+    ts = []
+    if prices:
+        for p in prices.values():
+            if isinstance(p, dict) and p.get("maj"):
+                ts.append(p["maj"])
+    if ruptures:
+        for r in ruptures.values():
+            if isinstance(r, dict) and r.get("debut"):
+                if r.get("type") == "temporaire":
+                    ts.append(r["debut"])
+    return ts
+
 def normalize_fuel(name: str) -> str:
     """Normalise les noms de carburants (ex: 'SP95-E10', 'E10', 'Diesel' -> 'e10', 'gazole')."""
     n = name.strip().lower().replace("-", "").replace(" ", "")
@@ -109,16 +127,32 @@ class FuelTracker:
             sid_str = str(s.id)
             prev = old_stations.get(sid_str)
 
+            s_ruptures = getattr(s, "ruptures_detail", {})
+            curr_timestamps = extract_station_timestamps(s.prices, s_ruptures)
+            curr_latest_ts = max(curr_timestamps, default="")
+
             # Protection Anti-Cache Obsolète (Désynchronisation entre nœuds API Opendatasoft)
-            # Si un nœud de cache renvoie un horodatage antérieur à ce qu'on a déjà validé,
-            # on ignore ce snapshot périmé pour éviter les fausses ruptures/réapprovisionnements (flapping).
+            # Rejette les instantanés périmés pour éviter les faux signaux (flapping)
             if prev:
                 prev_prices = prev.get("prices", {})
-                prev_latest_maj = max((p.get("maj", "") for p in prev_prices.values() if p.get("maj")), default="")
-                curr_latest_maj = max((p.get("maj", "") for p in s.prices.values() if p.get("maj")), default="")
-                if prev_latest_maj and curr_latest_maj and curr_latest_maj < prev_latest_maj:
-                    new_stations_state[sid_str] = prev
-                    continue
+                prev_ruptures = prev.get("ruptures_detail", {})
+                prev_timestamps = extract_station_timestamps(prev_prices, prev_ruptures)
+                prev_latest_ts = prev.get("latest_update") or max(prev_timestamps, default="")
+
+                prev_had_dispos = len(prev.get("disponibles", [])) > 0
+                curr_has_dispos = len(s.disponibles) > 0
+
+                if prev_latest_ts:
+                    # Cas 1 : Le nœud renvoie des données avec un horodatage antérieur à ce qu'on a déjà validé
+                    if curr_latest_ts and curr_latest_ts < prev_latest_ts:
+                        new_stations_state[sid_str] = prev
+                        continue
+                    # Cas 2 : La station avait du carburant disponible avec un horodatage récent validé,
+                    # mais le nouveau snapshot renvoie 0 carburant/prix et AUCUN horodatage récent
+                    # (ex: nœud obsolète servant l'état de rupture d'avant livraison sans prix)
+                    if prev_had_dispos and not curr_has_dispos and not curr_latest_ts:
+                        new_stations_state[sid_str] = prev
+                        continue
 
             # Enregistrement de l'état actuel
             new_stations_state[sid_str] = {
@@ -131,6 +165,8 @@ class FuelTracker:
                 "rupture_temporaire": s.rupture_temporaire,
                 "rupture_definitive": s.rupture_definitive,
                 "prices": s.prices,
+                "ruptures_detail": s_ruptures,
+                "latest_update": curr_latest_ts or (prev.get("latest_update", "") if prev else ""),
                 "last_seen": datetime.now().isoformat()
             }
 
@@ -177,6 +213,21 @@ class FuelTracker:
                     # Cas 2 : Rupture (était dispo -> n'est plus dispo)
                     elif was_avail and not is_avail:
                         for fuel_name in prev_matching:
+                            # Vérification Anti-Fausse Rupture par carburant :
+                            # Le carburant ne peut être déclaré en rupture que si sa déclaration
+                            # de rupture est postérieure ou égale à sa dernière livraison connue.
+                            prev_fuel_maj = prev_prices.get(fuel_name, {}).get("maj", "")
+                            rupt_info = s_ruptures.get(fuel_name, {})
+                            rupt_debut = rupt_info.get("debut", "")
+
+                            # Si la rupture a un horodatage antérieur à la livraison, c'est un nœud périmé
+                            if prev_fuel_maj and rupt_debut and rupt_debut < prev_fuel_maj:
+                                continue
+                            # Si le carburant était disponible récemment mais qu'aucune rupture n'est horodatée
+                            # et que le nœud n'a aucun horodatage valide récent, on ignore
+                            if prev_fuel_maj and not rupt_debut and not curr_latest_ts:
+                                continue
+
                             if fuel_name not in shortage_fuels:
                                 shortage_fuels.append(fuel_name)
 

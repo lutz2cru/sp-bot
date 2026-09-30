@@ -5,13 +5,13 @@ import math
 import urllib.request
 import urllib.parse
 from datetime import datetime
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import List, Dict, Any, Optional
 
 from src.config import Config, ZoneConfig
 
 ODS_API_BASE = "https://data.economie.gouv.fr/api/explore/v2.1/catalog/datasets/prix-des-carburants-en-france-flux-instantane-v2/records"
-FIELDS_SELECT = "id,adresse,ville,cp,geom,prix,carburants_disponibles,carburants_rupture_temporaire,carburants_rupture_definitive"
+FIELDS_SELECT = "id,adresse,ville,cp,geom,prix,rupture,carburants_disponibles,carburants_rupture_temporaire,carburants_rupture_definitive"
 
 def haversine_distance(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
     """Distance géodésique rapide en km entre deux points GPS (modèle Gasoil Now)."""
@@ -59,6 +59,7 @@ class Station:
     prices: Dict[str, Dict[str, Any]]
     google_maps_url: str
     waze_url: str
+    ruptures_detail: Dict[str, Dict[str, Any]] = field(default_factory=dict)
 
 class FuelFetcher:
     """Récupérateur haute performance et multi-zones pour Vesoul, Belfort, Lure, Montbéliard."""
@@ -155,6 +156,27 @@ class FuelFetcher:
                 if isinstance(rupt_def, str):
                     rupt_def = [x.strip() for x in rupt_def.split(";") if x.strip()]
 
+                ruptures_dict: Dict[str, Dict[str, Any]] = {}
+                raw_rupture = rec.get("rupture")
+                if isinstance(raw_rupture, str):
+                    try:
+                        raw_rupture = json.loads(raw_rupture)
+                    except Exception:
+                        raw_rupture = []
+                if isinstance(raw_rupture, dict):
+                    raw_rupture = [raw_rupture]
+                if isinstance(raw_rupture, list):
+                    for r_item in raw_rupture:
+                        if isinstance(r_item, dict):
+                            r_nom = r_item.get("@nom")
+                            r_debut = r_item.get("@debut") or ""
+                            r_type = r_item.get("@type") or ""
+                            if r_nom:
+                                ruptures_dict[r_nom] = {
+                                    "debut": r_debut,
+                                    "type": r_type
+                                }
+
                 prices_dict = {}
                 raw_prix = rec.get("prix")
                 if isinstance(raw_prix, str):
@@ -194,7 +216,8 @@ class FuelFetcher:
                     rupture_definitive=rupt_def,
                     prices=prices_dict,
                     google_maps_url=f"https://www.google.com/maps/search/?api=1&query={lat},{lon}",
-                    waze_url=f"https://waze.com/ul?ll={lat},{lon}&navigate=yes"
+                    waze_url=f"https://waze.com/ul?ll={lat},{lon}&navigate=yes",
+                    ruptures_detail=ruptures_dict
                 )
 
         station_list = list(stations_by_id.values())
