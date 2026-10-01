@@ -1,6 +1,6 @@
 {
   "initialized": true,
-  "last_check": "2026-10-01T05:54:26.784021",
+  "last_check": "2026-10-01T05:56:26.914552",
   "stations": {
     "90000002": {
       "brand": "TotalEnergies",
@@ -43,7 +43,7 @@
         }
       },
       "latest_update": "2026-09-28 08:57:17",
-      "last_seen": "2026-10-01T05:54:26.783915"
+      "last_seen": "2026-10-01T05:56:26.914416"
     },
     "90000013": {
       "brand": "TotalEnergies",
@@ -93,7 +93,7 @@
         }
       },
       "latest_update": "2026-10-01 00:01:00",
-      "last_seen": "2026-10-01T05:54:26.783939"
+      "last_seen": "2026-10-01T05:56:26.914444"
     },
     "90000014": {
       "brand": "Total Access",
@@ -144,22 +144,26 @@
         }
       },
       "latest_update": "2026-10-01 00:01:00",
-      "last_seen": "2026-10-01T05:54:26.783954"
+      "last_seen": "2026-10-01T05:56:26.914464"
     },
     "90000015": {
       "brand": "Total Access",
       "city": "Belfort",
       "address": "56, AVENUE DU GENERAL LECLERC",
-      "status": "RUPTURE_TOTALE",
+      "status": "RUPTURE_PARTIELLE",
       "distance_km": 2.0,
-      "disponibles": [],
+      "disponibles": [
+        "Gazole"
+      ],
       "rupture_temporaire": [
-        "Gazole",
         "SP95",
         "E10",
         "SP98"
       ],
-      "rupture_definitive": [],
+      "rupture_definitive": [
+        "E85",
+        "GPLc"
+      ],
       "prices": {},
       "ruptures_detail": {
         "E85": {
@@ -178,17 +182,13 @@
           "debut": "2026-09-29 12:32:58",
           "type": "temporaire"
         },
-        "Gazole": {
-          "debut": "2026-09-30 15:26:14",
-          "type": "temporaire"
-        },
         "E10": {
           "debut": "2026-09-30 17:37:59",
           "type": "temporaire"
         }
       },
       "latest_update": "2026-09-30 17:37:59",
-      "last_seen": "2026-10-01T05:54:26.783965"
+      "last_seen": "2026-10-01T05:56:26.914477"
     },
     "90150001": {
       "brand": "Total",
@@ -221,7 +221,7 @@
         }
       },
       "latest_update": "2026-09-30 19:16:39",
-      "last_seen": "2026-10-01T05:54:26.783972"
+      "last_seen": "2026-10-01T05:56:26.914487"
     },
     "90200003": {
       "brand": "Total",
@@ -264,7 +264,7 @@
         }
       },
       "latest_update": "2026-09-25 13:52:09",
-      "last_seen": "2026-10-01T05:54:26.783977"
+      "last_seen": "2026-10-01T05:56:26.914495"
     },
     "70200006": {
       "brand": "Total",
@@ -310,7 +310,7 @@
         }
       },
       "latest_update": "2026-09-30 18:01:19",
-      "last_seen": "2026-10-01T05:54:26.783984"
+      "last_seen": "2026-10-01T05:56:26.914503"
     },
     "25200007": {
       "brand": "Total Access",
@@ -354,7 +354,7 @@
         }
       },
       "latest_update": "2026-04-05 19:23:22",
-      "last_seen": "2026-10-01T05:54:26.783990"
+      "last_seen": "2026-10-01T05:56:26.914512"
     },
     "25420002": {
       "brand": "Total",
@@ -397,7 +397,7 @@
         }
       },
       "latest_update": "2026-09-28 12:54:55",
-      "last_seen": "2026-10-01T05:54:26.783997"
+      "last_seen": "2026-10-01T05:56:26.914520"
     },
     "25700003": {
       "brand": "Total",
@@ -440,7 +440,7 @@
         }
       },
       "latest_update": "2026-09-30 17:40:14",
-      "last_seen": "2026-10-01T05:54:26.784004"
+      "last_seen": "2026-10-01T05:56:26.914529"
     },
     "25750002": {
       "brand": "TotalEnergies",
@@ -483,7 +483,7 @@
         }
       },
       "latest_update": "2026-09-25 08:47:43",
-      "last_seen": "2026-10-01T05:54:26.784009"
+      "last_seen": "2026-10-01T05:56:26.914536"
     },
     "70004001": {
       "brand": "TotalEnergies",
@@ -527,7 +527,7 @@
         }
       },
       "latest_update": "2026-09-30 09:26:41",
-      "last_seen": "2026-10-01T05:54:26.784014"
+      "last_seen": "2026-10-01T05:56:26.914543"
     },
     "70000005": {
       "brand": "TotalEnergies",
@@ -570,7 +570,7 @@
         }
       },
       "latest_update": "2026-09-30 11:05:04",
-      "last_seen": "2026-10-01T05:54:26.784019"
+      "last_seen": "2026-10-01T05:56:26.914549"
     }
   }
 }
