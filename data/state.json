@@ -1,6 +1,6 @@
 {
   "initialized": true,
-  "last_check": "2026-10-01T06:20:47.260900",
+  "last_check": "2026-10-01T06:22:26.957320",
   "stations": {
     "90000002": {
       "brand": "TotalEnergies",
@@ -43,7 +43,7 @@
         }
       },
       "latest_update": "2026-09-28 08:57:17",
-      "last_seen": "2026-10-01T06:20:47.260775"
+      "last_seen": "2026-10-01T06:22:26.957083"
     },
     "90000013": {
       "brand": "TotalEnergies",
@@ -93,7 +93,7 @@
         }
       },
       "latest_update": "2026-10-01 00:01:00",
-      "last_seen": "2026-10-01T06:20:47.260801"
+      "last_seen": "2026-10-01T06:22:26.957114"
     },
     "90000014": {
       "brand": "Total Access",
@@ -144,7 +144,7 @@
         }
       },
       "latest_update": "2026-10-01 00:01:00",
-      "last_seen": "2026-10-01T06:20:47.260820"
+      "last_seen": "2026-10-01T06:22:26.957143"
     },
     "90000015": {
       "brand": "Total Access",
@@ -188,7 +188,7 @@
         }
       },
       "latest_update": "2026-09-30 17:37:59",
-      "last_seen": "2026-10-01T06:20:47.260833"
+      "last_seen": "2026-10-01T06:22:26.957163"
     },
     "90150001": {
       "brand": "Total",
@@ -221,7 +221,7 @@
         }
       },
       "latest_update": "2026-09-30 19:16:39",
-      "last_seen": "2026-10-01T06:20:47.260843"
+      "last_seen": "2026-10-01T06:22:26.957178"
     },
     "90200003": {
       "brand": "Total",
@@ -264,25 +264,42 @@
         }
       },
       "latest_update": "2026-09-25 13:52:09",
-      "last_seen": "2026-10-01T06:20:47.260850"
+      "last_seen": "2026-10-01T06:22:26.957190"
     },
     "70200006": {
       "brand": "Total",
       "city": "Lure",
       "address": "16 Rue de Belfort",
-      "status": "RUPTURE_TOTALE",
+      "status": "RUPTURE_PARTIELLE",
       "distance_km": 2.4,
-      "disponibles": [],
-      "rupture_temporaire": [
+      "disponibles": [
         "Gazole",
-        "SP95",
-        "E85",
-        "GPLc",
         "E10",
         "SP98"
       ],
+      "rupture_temporaire": [
+        "SP95",
+        "E85",
+        "GPLc"
+      ],
       "rupture_definitive": [],
-      "prices": {},
+      "prices": {
+        "Gazole": {
+          "valeur": 2.25,
+          "maj": "2026-10-01 07:50:07",
+          "relative_time": "à l'instant"
+        },
+        "E10": {
+          "valeur": 1.99,
+          "maj": "2026-10-01 07:50:08",
+          "relative_time": "à l'instant"
+        },
+        "SP98": {
+          "valeur": 1.99,
+          "maj": "2026-10-01 07:50:08",
+          "relative_time": "à l'instant"
+        }
+      },
       "ruptures_detail": {
         "E85": {
           "debut": "2026-03-30 08:24:38",
@@ -295,22 +312,10 @@
         "SP95": {
           "debut": "2026-09-30 07:43:35",
           "type": "temporaire"
-        },
-        "Gazole": {
-          "debut": "2026-09-30 18:01:19",
-          "type": "temporaire"
-        },
-        "E10": {
-          "debut": "2026-09-30 18:01:19",
-          "type": "temporaire"
-        },
-        "SP98": {
-          "debut": "2026-09-30 18:01:19",
-          "type": "temporaire"
         }
       },
-      "latest_update": "2026-09-30 18:01:19",
-      "last_seen": "2026-10-01T06:12:25.059062"
+      "latest_update": "2026-10-01 07:50:08",
+      "last_seen": "2026-10-01T06:22:26.957202"
     },
     "25200007": {
       "brand": "Total Access",
@@ -354,7 +359,7 @@
         }
       },
       "latest_update": "2026-04-05 19:23:22",
-      "last_seen": "2026-10-01T06:20:47.260862"
+      "last_seen": "2026-10-01T06:22:26.957261"
     },
     "25420002": {
       "brand": "Total",
@@ -397,7 +402,7 @@
         }
       },
       "latest_update": "2026-09-28 12:54:55",
-      "last_seen": "2026-10-01T06:20:47.260869"
+      "last_seen": "2026-10-01T06:22:26.957273"
     },
     "25700003": {
       "brand": "Total",
@@ -440,7 +445,7 @@
         }
       },
       "latest_update": "2026-09-30 17:40:14",
-      "last_seen": "2026-10-01T06:20:47.260878"
+      "last_seen": "2026-10-01T06:22:26.957285"
     },
     "25750002": {
       "brand": "TotalEnergies",
@@ -483,7 +488,7 @@
         }
       },
       "latest_update": "2026-09-25 08:47:43",
-      "last_seen": "2026-10-01T06:20:47.260886"
+      "last_seen": "2026-10-01T06:22:26.957295"
     },
     "70004001": {
       "brand": "TotalEnergies",
@@ -527,7 +532,7 @@
         }
       },
       "latest_update": "2026-09-30 09:26:41",
-      "last_seen": "2026-10-01T06:20:47.260891"
+      "last_seen": "2026-10-01T06:22:26.957306"
     },
     "70000005": {
       "brand": "TotalEnergies",
@@ -570,7 +575,7 @@
         }
       },
       "latest_update": "2026-09-30 11:05:04",
-      "last_seen": "2026-10-01T06:20:47.260897"
+      "last_seen": "2026-10-01T06:22:26.957315"
     }
   }
 }
