@@ -1,6 +1,6 @@
 {
   "initialized": true,
-  "last_check": "2026-10-01T14:50:48.251731",
+  "last_check": "2026-10-01T14:52:30.778773",
   "stations": {
     "90000002": {
       "brand": "TotalEnergies",
@@ -43,7 +43,7 @@
         }
       },
       "latest_update": "2026-09-28 08:57:17",
-      "last_seen": "2026-10-01T14:50:48.251475"
+      "last_seen": "2026-10-01T14:52:30.778487"
     },
     "90000013": {
       "brand": "TotalEnergies",
@@ -94,7 +94,7 @@
         }
       },
       "latest_update": "2026-10-01 16:16:39",
-      "last_seen": "2026-10-01T14:50:48.251507"
+      "last_seen": "2026-10-01T14:52:30.778519"
     },
     "90000014": {
       "brand": "Total Access",
@@ -146,7 +146,7 @@
         }
       },
       "latest_update": "2026-10-01 15:21:23",
-      "last_seen": "2026-10-01T14:50:48.251537"
+      "last_seen": "2026-10-01T14:52:30.778550"
     },
     "90000015": {
       "brand": "Total Access",
@@ -190,7 +190,7 @@
         }
       },
       "latest_update": "2026-10-01 14:11:47",
-      "last_seen": "2026-10-01T14:50:48.251595"
+      "last_seen": "2026-10-01T14:52:30.778578"
     },
     "90150001": {
       "brand": "Total",
@@ -233,7 +233,7 @@
         }
       },
       "latest_update": "2026-10-01 11:55:23",
-      "last_seen": "2026-10-01T14:50:48.251613"
+      "last_seen": "2026-10-01T14:52:30.778592"
     },
     "90200003": {
       "brand": "Total",
@@ -276,7 +276,7 @@
         }
       },
       "latest_update": "2026-09-25 13:52:09",
-      "last_seen": "2026-10-01T14:50:48.251625"
+      "last_seen": "2026-10-01T14:52:30.778604"
     },
     "70200006": {
       "brand": "Total",
@@ -319,7 +319,7 @@
         }
       },
       "latest_update": "2026-10-01 15:16:11",
-      "last_seen": "2026-10-01T14:50:48.251637"
+      "last_seen": "2026-10-01T14:52:30.778617"
     },
     "25200007": {
       "brand": "Total Access",
@@ -363,7 +363,7 @@
         }
       },
       "latest_update": "2026-04-05 19:23:22",
-      "last_seen": "2026-10-01T14:50:48.251654"
+      "last_seen": "2026-10-01T14:52:30.778632"
     },
     "25420002": {
       "brand": "Total",
@@ -407,7 +407,7 @@
         }
       },
       "latest_update": "2026-09-28 12:54:55",
-      "last_seen": "2026-10-01T14:50:48.251665"
+      "last_seen": "2026-10-01T14:52:30.778643"
     },
     "25700003": {
       "brand": "Total",
@@ -450,20 +450,21 @@
         }
       },
       "latest_update": "2026-09-30 17:40:14",
-      "last_seen": "2026-10-01T14:50:48.251681"
+      "last_seen": "2026-10-01T14:52:30.778661"
     },
     "25750002": {
       "brand": "TotalEnergies",
       "city": "Aibre",
       "address": "29 grande rue",
-      "status": "DISPONIBLE",
+      "status": "RUPTURE_PARTIELLE",
       "distance_km": 8.8,
       "disponibles": [
         "Gazole",
-        "SP95",
+        "SP95"
+      ],
+      "rupture_temporaire": [
         "SP98"
       ],
-      "rupture_temporaire": [],
       "rupture_definitive": [
         "E85",
         "GPLc",
@@ -476,11 +477,6 @@
           "relative_time": "il y a 5h"
         },
         "SP95": {
-          "valeur": 1.99,
-          "maj": "2026-10-01 09:11:40",
-          "relative_time": "il y a 5h"
-        },
-        "SP98": {
           "valeur": 1.99,
           "maj": "2026-10-01 09:11:40",
           "relative_time": "il y a 5h"
@@ -498,10 +494,14 @@
         "GPLc": {
           "debut": "2023-10-11 10:13:25",
           "type": "definitive"
+        },
+        "SP98": {
+          "debut": "2026-10-01 16:23:25",
+          "type": "temporaire"
         }
       },
-      "latest_update": "2026-10-01 09:11:40",
-      "last_seen": "2026-10-01T14:50:48.251694"
+      "latest_update": "2026-10-01 16:23:25",
+      "last_seen": "2026-10-01T14:52:30.778674"
     },
     "70004001": {
       "brand": "TotalEnergies",
@@ -545,7 +545,7 @@
         }
       },
       "latest_update": "2026-09-30 09:26:41",
-      "last_seen": "2026-10-01T14:50:48.251715"
+      "last_seen": "2026-10-01T14:52:30.778753"
     },
     "70000005": {
       "brand": "TotalEnergies",
@@ -588,7 +588,7 @@
         }
       },
       "latest_update": "2026-09-30 11:05:04",
-      "last_seen": "2026-10-01T14:50:48.251725"
+      "last_seen": "2026-10-01T14:52:30.778770"
     }
   }
 }
