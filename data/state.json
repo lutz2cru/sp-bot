@@ -1,6 +1,6 @@
 {
   "initialized": true,
-  "last_check": "2026-10-01T10:54:26.957783",
+  "last_check": "2026-10-01T10:56:25.990112",
   "stations": {
     "90000002": {
       "brand": "TotalEnergies",
@@ -43,7 +43,7 @@
         }
       },
       "latest_update": "2026-09-28 08:57:17",
-      "last_seen": "2026-10-01T10:54:26.957663"
+      "last_seen": "2026-10-01T10:56:25.989896"
     },
     "90000013": {
       "brand": "TotalEnergies",
@@ -93,7 +93,7 @@
         }
       },
       "latest_update": "2026-10-01 00:01:00",
-      "last_seen": "2026-10-01T10:54:26.957687"
+      "last_seen": "2026-10-01T10:56:25.989949"
     },
     "90000014": {
       "brand": "Total Access",
@@ -144,22 +144,26 @@
         }
       },
       "latest_update": "2026-10-01 00:01:00",
-      "last_seen": "2026-10-01T10:54:26.957703"
+      "last_seen": "2026-10-01T10:56:25.989969"
     },
     "90000015": {
       "brand": "Total Access",
       "city": "Belfort",
       "address": "56, AVENUE DU GENERAL LECLERC",
-      "status": "RUPTURE_TOTALE",
+      "status": "RUPTURE_PARTIELLE",
       "distance_km": 2.0,
-      "disponibles": [],
+      "disponibles": [
+        "SP98"
+      ],
       "rupture_temporaire": [
         "Gazole",
         "SP95",
-        "E10",
-        "SP98"
+        "E10"
       ],
-      "rupture_definitive": [],
+      "rupture_definitive": [
+        "E85",
+        "GPLc"
+      ],
       "prices": {},
       "ruptures_detail": {
         "E85": {
@@ -174,10 +178,6 @@
           "debut": "2026-05-28 16:53:23",
           "type": "temporaire"
         },
-        "SP98": {
-          "debut": "2026-09-29 12:32:58",
-          "type": "temporaire"
-        },
         "E10": {
           "debut": "2026-09-30 17:37:59",
           "type": "temporaire"
@@ -188,7 +188,7 @@
         }
       },
       "latest_update": "2026-10-01 11:52:15",
-      "last_seen": "2026-10-01T10:54:26.957714"
+      "last_seen": "2026-10-01T10:56:25.989983"
     },
     "90150001": {
       "brand": "Total",
@@ -231,7 +231,7 @@
         }
       },
       "latest_update": "2026-10-01 11:55:23",
-      "last_seen": "2026-10-01T10:54:26.957722"
+      "last_seen": "2026-10-01T10:56:25.990019"
     },
     "90200003": {
       "brand": "Total",
@@ -274,7 +274,7 @@
         }
       },
       "latest_update": "2026-09-25 13:52:09",
-      "last_seen": "2026-10-01T10:54:26.957727"
+      "last_seen": "2026-10-01T10:56:25.990029"
     },
     "70200006": {
       "brand": "Total",
@@ -324,7 +324,7 @@
         }
       },
       "latest_update": "2026-10-01 10:03:32",
-      "last_seen": "2026-10-01T10:54:26.957735"
+      "last_seen": "2026-10-01T10:56:25.990038"
     },
     "25200007": {
       "brand": "Total Access",
@@ -368,7 +368,7 @@
         }
       },
       "latest_update": "2026-04-05 19:23:22",
-      "last_seen": "2026-10-01T10:54:26.957745"
+      "last_seen": "2026-10-01T10:56:25.990054"
     },
     "25420002": {
       "brand": "Total",
@@ -412,7 +412,7 @@
         }
       },
       "latest_update": "2026-09-28 12:54:55",
-      "last_seen": "2026-10-01T10:54:26.957751"
+      "last_seen": "2026-10-01T10:56:25.990063"
     },
     "25700003": {
       "brand": "Total",
@@ -455,7 +455,7 @@
         }
       },
       "latest_update": "2026-09-30 17:40:14",
-      "last_seen": "2026-10-01T10:54:26.957760"
+      "last_seen": "2026-10-01T10:56:25.990077"
     },
     "25750002": {
       "brand": "TotalEnergies",
@@ -506,7 +506,7 @@
         }
       },
       "latest_update": "2026-10-01 09:11:40",
-      "last_seen": "2026-10-01T10:54:26.957766"
+      "last_seen": "2026-10-01T10:56:25.990087"
     },
     "70004001": {
       "brand": "TotalEnergies",
@@ -550,7 +550,7 @@
         }
       },
       "latest_update": "2026-09-30 09:26:41",
-      "last_seen": "2026-10-01T10:54:26.957777"
+      "last_seen": "2026-10-01T10:56:25.990101"
     },
     "70000005": {
       "brand": "TotalEnergies",
@@ -593,7 +593,7 @@
         }
       },
       "latest_update": "2026-09-30 11:05:04",
-      "last_seen": "2026-10-01T10:54:26.957781"
+      "last_seen": "2026-10-01T10:56:25.990108"
     }
   }
 }
