@@ -1,6 +1,6 @@
 {
   "initialized": true,
-  "last_check": "2026-10-02T10:18:28.589744",
+  "last_check": "2026-10-02T10:20:44.803565",
   "stations": {
     "90000002": {
       "brand": "TotalEnergies",
@@ -43,7 +43,7 @@
         }
       },
       "latest_update": "2026-09-28 08:57:17",
-      "last_seen": "2026-10-02T10:18:28.589618"
+      "last_seen": "2026-10-02T10:20:44.803400"
     },
     "90000013": {
       "brand": "TotalEnergies",
@@ -93,7 +93,7 @@
         }
       },
       "latest_update": "2026-10-02 00:01:00",
-      "last_seen": "2026-10-02T10:18:28.589645"
+      "last_seen": "2026-10-02T10:20:44.803429"
     },
     "90000014": {
       "brand": "Total Access",
@@ -137,7 +137,7 @@
         }
       },
       "latest_update": "2026-10-01 17:36:49",
-      "last_seen": "2026-10-02T10:18:28.589662"
+      "last_seen": "2026-10-02T10:20:44.803450"
     },
     "90000015": {
       "brand": "Total Access",
@@ -181,7 +181,7 @@
         }
       },
       "latest_update": "2026-10-01 14:11:47",
-      "last_seen": "2026-10-02T10:18:28.589673"
+      "last_seen": "2026-10-02T10:20:44.803466"
     },
     "90150001": {
       "brand": "Total",
@@ -224,7 +224,7 @@
         }
       },
       "latest_update": "2026-10-01 11:55:23",
-      "last_seen": "2026-10-02T10:18:28.589681"
+      "last_seen": "2026-10-02T10:20:44.803477"
     },
     "90200003": {
       "brand": "Total",
@@ -267,7 +267,7 @@
         }
       },
       "latest_update": "2026-09-25 13:52:09",
-      "last_seen": "2026-10-02T10:18:28.589688"
+      "last_seen": "2026-10-02T10:20:44.803487"
     },
     "70200006": {
       "brand": "Total",
@@ -311,7 +311,7 @@
         }
       },
       "latest_update": "2026-10-02 09:25:27",
-      "last_seen": "2026-10-02T10:18:28.589694"
+      "last_seen": "2026-10-02T10:20:44.803497"
     },
     "25200007": {
       "brand": "Total Access",
@@ -355,26 +355,21 @@
         }
       },
       "latest_update": "2026-04-05 19:23:22",
-      "last_seen": "2026-10-02T10:18:28.589704"
+      "last_seen": "2026-10-02T10:20:44.803509"
     },
     "25420002": {
       "brand": "Total",
       "city": "Voujeaucourt",
       "address": "Rue de la Cray",
-      "status": "RUPTURE_PARTIELLE",
+      "status": "RUPTURE_TOTALE",
       "distance_km": 3.4,
-      "disponibles": [
-        "Gazole"
-      ],
+      "disponibles": [],
       "rupture_temporaire": [
+        "Gazole",
         "E10",
         "SP98"
       ],
-      "rupture_definitive": [
-        "SP95",
-        "E85",
-        "GPLc"
-      ],
+      "rupture_definitive": [],
       "prices": {},
       "ruptures_detail": {
         "SP95": {
@@ -396,10 +391,14 @@
         "E10": {
           "debut": "2026-10-02 05:49:22",
           "type": "temporaire"
+        },
+        "Gazole": {
+          "debut": "2026-10-02 11:57:24",
+          "type": "temporaire"
         }
       },
-      "latest_update": "2026-10-02 05:49:22",
-      "last_seen": "2026-10-02T10:18:28.589712"
+      "latest_update": "2026-10-02 11:57:24",
+      "last_seen": "2026-10-02T10:20:44.803519"
     },
     "25700003": {
       "brand": "Total",
@@ -443,7 +442,7 @@
         }
       },
       "latest_update": "2026-09-30 17:40:14",
-      "last_seen": "2026-10-02T10:18:28.589721"
+      "last_seen": "2026-10-02T10:20:44.803529"
     },
     "25750002": {
       "brand": "TotalEnergies",
@@ -487,7 +486,7 @@
         }
       },
       "latest_update": "2026-10-02 09:55:26",
-      "last_seen": "2026-10-02T10:18:28.589730"
+      "last_seen": "2026-10-02T10:20:44.803540"
     },
     "70004001": {
       "brand": "TotalEnergies",
@@ -531,7 +530,7 @@
         }
       },
       "latest_update": "2026-09-30 09:26:41",
-      "last_seen": "2026-10-02T10:18:28.589737"
+      "last_seen": "2026-10-02T10:20:44.803552"
     },
     "70000005": {
       "brand": "TotalEnergies",
@@ -574,7 +573,7 @@
         }
       },
       "latest_update": "2026-09-30 11:05:04",
-      "last_seen": "2026-10-02T10:18:28.589742"
+      "last_seen": "2026-10-02T10:20:44.803561"
     }
   }
 }
