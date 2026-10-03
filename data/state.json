@@ -1,6 +1,6 @@
 {
   "initialized": true,
-  "last_check": "2026-10-03T09:08:26.195746",
+  "last_check": "2026-10-03T09:10:46.762719",
   "stations": {
     "90000002": {
       "brand": "TotalEnergies",
@@ -43,7 +43,7 @@
         }
       },
       "latest_update": "2026-09-28 08:57:17",
-      "last_seen": "2026-10-03T09:08:26.195523"
+      "last_seen": "2026-10-03T09:10:46.762596"
     },
     "90000013": {
       "brand": "TotalEnergies",
@@ -93,7 +93,7 @@
         }
       },
       "latest_update": "2026-10-03 00:01:00",
-      "last_seen": "2026-10-03T09:08:26.195555"
+      "last_seen": "2026-10-03T09:10:46.762619"
     },
     "90000014": {
       "brand": "Total Access",
@@ -137,7 +137,7 @@
         }
       },
       "latest_update": "2026-10-02 14:32:27",
-      "last_seen": "2026-10-03T09:08:26.195580"
+      "last_seen": "2026-10-03T09:10:46.762634"
     },
     "90000015": {
       "brand": "Total Access",
@@ -181,7 +181,7 @@
         }
       },
       "latest_update": "2026-10-01 14:11:47",
-      "last_seen": "2026-10-03T09:08:26.195594"
+      "last_seen": "2026-10-03T09:10:46.762642"
     },
     "90150001": {
       "brand": "Total",
@@ -224,7 +224,7 @@
         }
       },
       "latest_update": "2026-10-01 11:55:23",
-      "last_seen": "2026-10-03T09:08:26.195607"
+      "last_seen": "2026-10-03T09:10:46.762649"
     },
     "90200003": {
       "brand": "Total",
@@ -267,7 +267,7 @@
         }
       },
       "latest_update": "2026-09-25 13:52:09",
-      "last_seen": "2026-10-03T09:08:26.195619"
+      "last_seen": "2026-10-03T09:10:46.762654"
     },
     "70200006": {
       "brand": "Total",
@@ -310,7 +310,7 @@
         }
       },
       "latest_update": "2026-10-02 15:10:44",
-      "last_seen": "2026-10-03T09:08:26.195631"
+      "last_seen": "2026-10-03T09:10:46.762660"
     },
     "25200007": {
       "brand": "Total Access",
@@ -354,7 +354,7 @@
         }
       },
       "latest_update": "2026-04-05 19:23:22",
-      "last_seen": "2026-10-03T09:08:26.195645"
+      "last_seen": "2026-10-03T09:10:46.762667"
     },
     "25420002": {
       "brand": "Total",
@@ -398,21 +398,26 @@
         }
       },
       "latest_update": "2026-10-02 11:57:24",
-      "last_seen": "2026-10-03T09:08:26.195657"
+      "last_seen": "2026-10-03T09:10:46.762673"
     },
     "25700003": {
       "brand": "Total",
       "city": "Valentigney",
       "address": "1 ROUTE DE BELCHAMP",
-      "status": "RUPTURE_TOTALE",
+      "status": "RUPTURE_PARTIELLE",
       "distance_km": 4.0,
-      "disponibles": [],
-      "rupture_temporaire": [
-        "Gazole",
-        "E10",
+      "disponibles": [
         "SP98"
       ],
-      "rupture_definitive": [],
+      "rupture_temporaire": [
+        "Gazole",
+        "E10"
+      ],
+      "rupture_definitive": [
+        "SP95",
+        "E85",
+        "GPLc"
+      ],
       "prices": {},
       "ruptures_detail": {
         "SP95": {
@@ -431,17 +436,13 @@
           "debut": "2026-09-29 17:09:39",
           "type": "temporaire"
         },
-        "SP98": {
-          "debut": "2026-09-30 17:40:14",
-          "type": "temporaire"
-        },
         "Gazole": {
           "debut": "2026-10-03 09:46:20",
           "type": "temporaire"
         }
       },
       "latest_update": "2026-10-03 09:46:20",
-      "last_seen": "2026-10-03T09:08:26.195675"
+      "last_seen": "2026-10-03T09:10:46.762682"
     },
     "25750002": {
       "brand": "TotalEnergies",
@@ -484,7 +485,7 @@
         }
       },
       "latest_update": "2026-10-02 12:49:09",
-      "last_seen": "2026-10-03T09:08:26.195720"
+      "last_seen": "2026-10-03T09:10:46.762708"
     },
     "70004001": {
       "brand": "TotalEnergies",
@@ -528,7 +529,7 @@
         }
       },
       "latest_update": "2026-09-30 09:26:41",
-      "last_seen": "2026-10-03T09:08:26.195731"
+      "last_seen": "2026-10-03T09:10:46.762713"
     },
     "70000005": {
       "brand": "TotalEnergies",
@@ -571,7 +572,7 @@
         }
       },
       "latest_update": "2026-09-30 11:05:04",
-      "last_seen": "2026-10-03T09:08:26.195742"
+      "last_seen": "2026-10-03T09:10:46.762717"
     }
   }
 }
