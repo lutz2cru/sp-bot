@@ -1,6 +1,6 @@
 {
   "initialized": true,
-  "last_check": "2026-10-03T05:22:25.987519",
+  "last_check": "2026-10-03T05:24:27.509728",
   "stations": {
     "90000002": {
       "brand": "TotalEnergies",
@@ -43,7 +43,7 @@
         }
       },
       "latest_update": "2026-09-28 08:57:17",
-      "last_seen": "2026-10-03T05:22:25.987339"
+      "last_seen": "2026-10-03T05:24:27.509580"
     },
     "90000013": {
       "brand": "TotalEnergies",
@@ -93,7 +93,7 @@
         }
       },
       "latest_update": "2026-10-03 00:01:00",
-      "last_seen": "2026-10-03T05:22:25.987369"
+      "last_seen": "2026-10-03T05:24:27.509606"
     },
     "90000014": {
       "brand": "Total Access",
@@ -137,7 +137,7 @@
         }
       },
       "latest_update": "2026-10-02 14:32:27",
-      "last_seen": "2026-10-03T05:22:25.987394"
+      "last_seen": "2026-10-03T05:24:27.509623"
     },
     "90000015": {
       "brand": "Total Access",
@@ -181,7 +181,7 @@
         }
       },
       "latest_update": "2026-10-01 14:11:47",
-      "last_seen": "2026-10-03T05:22:25.987408"
+      "last_seen": "2026-10-03T05:24:27.509632"
     },
     "90150001": {
       "brand": "Total",
@@ -224,7 +224,7 @@
         }
       },
       "latest_update": "2026-10-01 11:55:23",
-      "last_seen": "2026-10-03T05:22:25.987419"
+      "last_seen": "2026-10-03T05:24:27.509641"
     },
     "90200003": {
       "brand": "Total",
@@ -267,7 +267,7 @@
         }
       },
       "latest_update": "2026-09-25 13:52:09",
-      "last_seen": "2026-10-03T05:22:25.987429"
+      "last_seen": "2026-10-03T05:24:27.509649"
     },
     "70200006": {
       "brand": "Total",
@@ -310,7 +310,7 @@
         }
       },
       "latest_update": "2026-10-02 15:10:44",
-      "last_seen": "2026-10-03T05:22:25.987440"
+      "last_seen": "2026-10-03T05:24:27.509656"
     },
     "25200007": {
       "brand": "Total Access",
@@ -354,21 +354,26 @@
         }
       },
       "latest_update": "2026-04-05 19:23:22",
-      "last_seen": "2026-10-03T05:22:25.987452"
+      "last_seen": "2026-10-03T05:24:27.509664"
     },
     "25420002": {
       "brand": "Total",
       "city": "Voujeaucourt",
       "address": "Rue de la Cray",
-      "status": "RUPTURE_TOTALE",
+      "status": "RUPTURE_PARTIELLE",
       "distance_km": 3.4,
-      "disponibles": [],
+      "disponibles": [
+        "E10"
+      ],
       "rupture_temporaire": [
         "Gazole",
-        "E10",
         "SP98"
       ],
-      "rupture_definitive": [],
+      "rupture_definitive": [
+        "SP95",
+        "E85",
+        "GPLc"
+      ],
       "prices": {},
       "ruptures_detail": {
         "SP95": {
@@ -387,17 +392,13 @@
           "debut": "2026-09-28 12:54:55",
           "type": "temporaire"
         },
-        "E10": {
-          "debut": "2026-10-02 05:49:22",
-          "type": "temporaire"
-        },
         "Gazole": {
           "debut": "2026-10-02 11:57:24",
           "type": "temporaire"
         }
       },
       "latest_update": "2026-10-02 11:57:24",
-      "last_seen": "2026-10-03T05:22:25.987465"
+      "last_seen": "2026-10-03T05:24:27.509671"
     },
     "25700003": {
       "brand": "Total",
@@ -440,7 +441,7 @@
         }
       },
       "latest_update": "2026-10-02 19:37:05",
-      "last_seen": "2026-10-03T05:22:25.987496"
+      "last_seen": "2026-10-03T05:24:27.509704"
     },
     "25750002": {
       "brand": "TotalEnergies",
@@ -483,7 +484,7 @@
         }
       },
       "latest_update": "2026-10-02 12:49:09",
-      "last_seen": "2026-10-03T05:22:25.987504"
+      "last_seen": "2026-10-03T05:24:27.509712"
     },
     "70004001": {
       "brand": "TotalEnergies",
@@ -527,7 +528,7 @@
         }
       },
       "latest_update": "2026-09-30 09:26:41",
-      "last_seen": "2026-10-03T05:22:25.987510"
+      "last_seen": "2026-10-03T05:24:27.509719"
     },
     "70000005": {
       "brand": "TotalEnergies",
@@ -570,7 +571,7 @@
         }
       },
       "latest_update": "2026-09-30 11:05:04",
-      "last_seen": "2026-10-03T05:22:25.987516"
+      "last_seen": "2026-10-03T05:24:27.509724"
     }
   }
 }
