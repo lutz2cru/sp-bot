@@ -1,6 +1,6 @@
 {
   "initialized": true,
-  "last_check": "2026-10-05T09:52:27.712172",
+  "last_check": "2026-10-05T09:54:28.041373",
   "stations": {
     "90000002": {
       "brand": "TotalEnergies",
@@ -43,7 +43,7 @@
         }
       },
       "latest_update": "2026-09-28 08:57:17",
-      "last_seen": "2026-10-05T09:52:27.711931"
+      "last_seen": "2026-10-05T09:54:28.041257"
     },
     "90000013": {
       "brand": "TotalEnergies",
@@ -93,7 +93,7 @@
         }
       },
       "latest_update": "2026-10-05 00:01:00",
-      "last_seen": "2026-10-05T09:52:27.711968"
+      "last_seen": "2026-10-05T09:54:28.041285"
     },
     "90000014": {
       "brand": "Total Access",
@@ -137,7 +137,7 @@
         }
       },
       "latest_update": "2026-10-02 14:32:27",
-      "last_seen": "2026-10-05T09:52:27.712002"
+      "last_seen": "2026-10-05T09:54:28.041303"
     },
     "90000015": {
       "brand": "Total Access",
@@ -181,7 +181,7 @@
         }
       },
       "latest_update": "2026-10-01 14:11:47",
-      "last_seen": "2026-10-05T09:52:27.712018"
+      "last_seen": "2026-10-05T09:54:28.041312"
     },
     "90150001": {
       "brand": "Total",
@@ -224,7 +224,7 @@
         }
       },
       "latest_update": "2026-10-01 11:55:23",
-      "last_seen": "2026-10-05T09:52:27.712038"
+      "last_seen": "2026-10-05T09:54:28.041322"
     },
     "90200003": {
       "brand": "Total",
@@ -267,7 +267,7 @@
         }
       },
       "latest_update": "2026-09-25 13:52:09",
-      "last_seen": "2026-10-05T09:52:27.712052"
+      "last_seen": "2026-10-05T09:54:28.041328"
     },
     "70200006": {
       "brand": "Total",
@@ -310,7 +310,7 @@
         }
       },
       "latest_update": "2026-10-02 15:10:44",
-      "last_seen": "2026-10-05T09:52:27.712066"
+      "last_seen": "2026-10-05T09:54:28.041335"
     },
     "25200007": {
       "brand": "Total Access",
@@ -354,7 +354,7 @@
         }
       },
       "latest_update": "2026-04-05 19:23:22",
-      "last_seen": "2026-10-05T09:52:27.712082"
+      "last_seen": "2026-10-05T09:54:28.041341"
     },
     "25420002": {
       "brand": "Total",
@@ -397,26 +397,21 @@
         }
       },
       "latest_update": "2026-10-04 15:11:22",
-      "last_seen": "2026-10-05T09:52:27.712119"
+      "last_seen": "2026-10-05T09:54:28.041347"
     },
     "25700003": {
       "brand": "Total",
       "city": "Valentigney",
       "address": "1 ROUTE DE BELCHAMP",
-      "status": "RUPTURE_PARTIELLE",
+      "status": "RUPTURE_TOTALE",
       "distance_km": 4.0,
-      "disponibles": [
-        "Gazole"
-      ],
+      "disponibles": [],
       "rupture_temporaire": [
+        "Gazole",
         "E10",
         "SP98"
       ],
-      "rupture_definitive": [
-        "SP95",
-        "E85",
-        "GPLc"
-      ],
+      "rupture_definitive": [],
       "prices": {},
       "ruptures_detail": {
         "SP95": {
@@ -438,10 +433,14 @@
         "SP98": {
           "debut": "2026-10-03 15:20:51",
           "type": "temporaire"
+        },
+        "Gazole": {
+          "debut": "2026-10-05 11:26:15",
+          "type": "temporaire"
         }
       },
-      "latest_update": "2026-10-03 15:20:51",
-      "last_seen": "2026-10-05T09:52:27.712132"
+      "latest_update": "2026-10-05 11:26:15",
+      "last_seen": "2026-10-05T09:54:28.041353"
     },
     "25750002": {
       "brand": "TotalEnergies",
@@ -484,7 +483,7 @@
         }
       },
       "latest_update": "2026-10-02 12:49:09",
-      "last_seen": "2026-10-05T09:52:27.712146"
+      "last_seen": "2026-10-05T09:54:28.041360"
     },
     "70004001": {
       "brand": "TotalEnergies",
@@ -528,7 +527,7 @@
         }
       },
       "latest_update": "2026-09-30 09:26:41",
-      "last_seen": "2026-10-05T09:52:27.712157"
+      "last_seen": "2026-10-05T09:54:28.041365"
     },
     "70000005": {
       "brand": "TotalEnergies",
@@ -571,7 +570,7 @@
         }
       },
       "latest_update": "2026-09-30 11:05:04",
-      "last_seen": "2026-10-05T09:52:27.712167"
+      "last_seen": "2026-10-05T09:54:28.041370"
     }
   }
 }
