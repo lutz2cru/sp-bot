@@ -1,6 +1,6 @@
 {
   "initialized": true,
-  "last_check": "2026-10-06T13:36:30.926623",
+  "last_check": "2026-10-06T13:38:29.079908",
   "stations": {
     "90000002": {
       "brand": "TotalEnergies",
@@ -51,7 +51,7 @@
         }
       },
       "latest_update": "2026-10-06 12:10:05",
-      "last_seen": "2026-10-06T13:36:30.926492"
+      "last_seen": "2026-10-06T13:38:29.079737"
     },
     "90000013": {
       "brand": "TotalEnergies",
@@ -101,7 +101,7 @@
         }
       },
       "latest_update": "2026-10-06 00:01:00",
-      "last_seen": "2026-10-06T13:36:30.926525"
+      "last_seen": "2026-10-06T13:38:29.079771"
     },
     "90000014": {
       "brand": "Total Access",
@@ -145,26 +145,22 @@
         }
       },
       "latest_update": "2026-10-02 14:32:27",
-      "last_seen": "2026-10-06T13:36:30.926541"
+      "last_seen": "2026-10-06T13:38:29.079789"
     },
     "90000015": {
       "brand": "Total Access",
       "city": "Belfort",
       "address": "56, AVENUE DU GENERAL LECLERC",
-      "status": "RUPTURE_PARTIELLE",
+      "status": "RUPTURE_TOTALE",
       "distance_km": 2.0,
-      "disponibles": [
-        "SP98"
-      ],
+      "disponibles": [],
       "rupture_temporaire": [
         "Gazole",
         "SP95",
-        "E10"
+        "E10",
+        "SP98"
       ],
-      "rupture_definitive": [
-        "E85",
-        "GPLc"
-      ],
+      "rupture_definitive": [],
       "prices": {},
       "ruptures_detail": {
         "E85": {
@@ -186,10 +182,14 @@
         "Gazole": {
           "debut": "2026-10-06 09:24:48",
           "type": "temporaire"
+        },
+        "SP98": {
+          "debut": "2026-10-06 15:10:44",
+          "type": "temporaire"
         }
       },
-      "latest_update": "2026-10-06 09:24:48",
-      "last_seen": "2026-10-06T13:36:30.926551"
+      "latest_update": "2026-10-06 15:10:44",
+      "last_seen": "2026-10-06T13:38:29.079801"
     },
     "90150001": {
       "brand": "Total",
@@ -232,7 +232,7 @@
         }
       },
       "latest_update": "2026-10-01 11:55:23",
-      "last_seen": "2026-10-06T13:36:30.926563"
+      "last_seen": "2026-10-06T13:38:29.079833"
     },
     "90200003": {
       "brand": "Total",
@@ -275,7 +275,7 @@
         }
       },
       "latest_update": "2026-09-25 13:52:09",
-      "last_seen": "2026-10-06T13:36:30.926571"
+      "last_seen": "2026-10-06T13:38:29.079843"
     },
     "70200006": {
       "brand": "Total",
@@ -318,7 +318,7 @@
         }
       },
       "latest_update": "2026-10-02 15:10:44",
-      "last_seen": "2026-10-06T13:36:30.926579"
+      "last_seen": "2026-10-06T13:38:29.079853"
     },
     "25200007": {
       "brand": "Total Access",
@@ -362,7 +362,7 @@
         }
       },
       "latest_update": "2026-04-05 19:23:22",
-      "last_seen": "2026-10-06T13:36:30.926586"
+      "last_seen": "2026-10-06T13:38:29.079862"
     },
     "25420002": {
       "brand": "Total",
@@ -405,7 +405,7 @@
         }
       },
       "latest_update": "2026-10-04 15:11:22",
-      "last_seen": "2026-10-06T13:36:30.926595"
+      "last_seen": "2026-10-06T13:38:29.079872"
     },
     "25700003": {
       "brand": "Total",
@@ -448,7 +448,7 @@
         }
       },
       "latest_update": "2026-10-05 11:26:15",
-      "last_seen": "2026-10-06T13:36:30.926603"
+      "last_seen": "2026-10-06T13:38:29.079882"
     },
     "25750002": {
       "brand": "TotalEnergies",
@@ -491,7 +491,7 @@
         }
       },
       "latest_update": "2026-10-02 12:49:09",
-      "last_seen": "2026-10-06T13:36:30.926609"
+      "last_seen": "2026-10-06T13:38:29.079891"
     },
     "70004001": {
       "brand": "TotalEnergies",
@@ -535,7 +535,7 @@
         }
       },
       "latest_update": "2026-09-30 09:26:41",
-      "last_seen": "2026-10-06T13:36:30.926615"
+      "last_seen": "2026-10-06T13:38:29.079898"
     },
     "70000005": {
       "brand": "TotalEnergies",
@@ -578,7 +578,7 @@
         }
       },
       "latest_update": "2026-09-30 11:05:04",
-      "last_seen": "2026-10-06T13:36:30.926620"
+      "last_seen": "2026-10-06T13:38:29.079904"
     }
   }
 }
