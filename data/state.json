@@ -1,6 +1,6 @@
 {
   "initialized": true,
-  "last_check": "2026-10-06T10:36:30.426579",
+  "last_check": "2026-10-06T10:38:28.014061",
   "stations": {
     "90000002": {
       "brand": "TotalEnergies",
@@ -101,7 +101,7 @@
         }
       },
       "latest_update": "2026-10-06 00:01:00",
-      "last_seen": "2026-10-06T10:36:30.426480"
+      "last_seen": "2026-10-06T10:38:28.013944"
     },
     "90000014": {
       "brand": "Total Access",
@@ -145,26 +145,22 @@
         }
       },
       "latest_update": "2026-10-02 14:32:27",
-      "last_seen": "2026-10-06T10:36:30.426498"
+      "last_seen": "2026-10-06T10:38:28.013972"
     },
     "90000015": {
       "brand": "Total Access",
       "city": "Belfort",
       "address": "56, AVENUE DU GENERAL LECLERC",
-      "status": "RUPTURE_PARTIELLE",
+      "status": "RUPTURE_TOTALE",
       "distance_km": 2.0,
-      "disponibles": [
-        "SP98"
-      ],
+      "disponibles": [],
       "rupture_temporaire": [
         "Gazole",
         "SP95",
-        "E10"
+        "E10",
+        "SP98"
       ],
-      "rupture_definitive": [
-        "E85",
-        "GPLc"
-      ],
+      "rupture_definitive": [],
       "prices": {},
       "ruptures_detail": {
         "E85": {
@@ -183,13 +179,17 @@
           "debut": "2026-09-30 17:37:59",
           "type": "temporaire"
         },
+        "SP98": {
+          "debut": "2026-10-06 06:43:49",
+          "type": "temporaire"
+        },
         "Gazole": {
           "debut": "2026-10-06 09:24:48",
           "type": "temporaire"
         }
       },
       "latest_update": "2026-10-06 09:24:48",
-      "last_seen": "2026-10-06T10:36:30.426507"
+      "last_seen": "2026-10-06T10:38:28.013982"
     },
     "90150001": {
       "brand": "Total",
@@ -232,7 +232,7 @@
         }
       },
       "latest_update": "2026-10-01 11:55:23",
-      "last_seen": "2026-10-06T10:36:30.426526"
+      "last_seen": "2026-10-06T10:38:28.014008"
     },
     "90200003": {
       "brand": "Total",
@@ -275,7 +275,7 @@
         }
       },
       "latest_update": "2026-09-25 13:52:09",
-      "last_seen": "2026-10-06T10:36:30.426532"
+      "last_seen": "2026-10-06T10:38:28.014015"
     },
     "70200006": {
       "brand": "Total",
@@ -318,7 +318,7 @@
         }
       },
       "latest_update": "2026-10-02 15:10:44",
-      "last_seen": "2026-10-06T10:36:30.426540"
+      "last_seen": "2026-10-06T10:38:28.014022"
     },
     "25200007": {
       "brand": "Total Access",
@@ -362,7 +362,7 @@
         }
       },
       "latest_update": "2026-04-05 19:23:22",
-      "last_seen": "2026-10-06T10:36:30.426546"
+      "last_seen": "2026-10-06T10:38:28.014029"
     },
     "25420002": {
       "brand": "Total",
@@ -405,7 +405,7 @@
         }
       },
       "latest_update": "2026-10-04 15:11:22",
-      "last_seen": "2026-10-06T10:36:30.426553"
+      "last_seen": "2026-10-06T10:38:28.014036"
     },
     "25700003": {
       "brand": "Total",
@@ -448,7 +448,7 @@
         }
       },
       "latest_update": "2026-10-05 11:26:15",
-      "last_seen": "2026-10-06T10:36:30.426560"
+      "last_seen": "2026-10-06T10:38:28.014043"
     },
     "25750002": {
       "brand": "TotalEnergies",
@@ -491,7 +491,7 @@
         }
       },
       "latest_update": "2026-10-02 12:49:09",
-      "last_seen": "2026-10-06T10:36:30.426566"
+      "last_seen": "2026-10-06T10:38:28.014049"
     },
     "70004001": {
       "brand": "TotalEnergies",
@@ -535,7 +535,7 @@
         }
       },
       "latest_update": "2026-09-30 09:26:41",
-      "last_seen": "2026-10-06T10:36:30.426572"
+      "last_seen": "2026-10-06T10:38:28.014054"
     },
     "70000005": {
       "brand": "TotalEnergies",
@@ -578,7 +578,7 @@
         }
       },
       "latest_update": "2026-09-30 11:05:04",
-      "last_seen": "2026-10-06T10:36:30.426577"
+      "last_seen": "2026-10-06T10:38:28.014058"
     }
   }
 }
