@@ -1,6 +1,6 @@
 {
   "initialized": true,
-  "last_check": "2026-10-07T07:36:27.358536",
+  "last_check": "2026-10-07T07:39:03.439651",
   "stations": {
     "90000002": {
       "brand": "TotalEnergies",
@@ -51,7 +51,7 @@
         }
       },
       "latest_update": "2026-10-06 12:10:05",
-      "last_seen": "2026-10-07T07:36:27.358447"
+      "last_seen": "2026-10-07T07:39:03.439476"
     },
     "90000013": {
       "brand": "TotalEnergies",
@@ -61,12 +61,12 @@
       "distance_km": 1.0,
       "disponibles": [
         "E85",
-        "GPLc"
+        "GPLc",
+        "E10"
       ],
       "rupture_temporaire": [
         "Gazole",
         "SP95",
-        "E10",
         "SP98"
       ],
       "rupture_definitive": [],
@@ -80,6 +80,11 @@
           "valeur": 0.979,
           "maj": "2026-10-07 00:01:00",
           "relative_time": "il y a 7h"
+        },
+        "E10": {
+          "valeur": 1.99,
+          "maj": "2026-10-07 09:12:59",
+          "relative_time": "à l'instant"
         }
       },
       "ruptures_detail": {
@@ -91,17 +96,13 @@
           "debut": "2026-09-28 10:46:47",
           "type": "temporaire"
         },
-        "E10": {
-          "debut": "2026-09-29 09:17:47",
-          "type": "temporaire"
-        },
         "Gazole": {
           "debut": "2026-10-01 18:53:08",
           "type": "temporaire"
         }
       },
-      "latest_update": "2026-10-07 00:01:00",
-      "last_seen": "2026-10-07T07:36:27.358469"
+      "latest_update": "2026-10-07 09:12:59",
+      "last_seen": "2026-10-07T07:39:03.439510"
     },
     "90000014": {
       "brand": "Total Access",
@@ -145,7 +146,7 @@
         }
       },
       "latest_update": "2026-10-02 14:32:27",
-      "last_seen": "2026-10-07T07:36:27.358480"
+      "last_seen": "2026-10-07T07:39:03.439562"
     },
     "90000015": {
       "brand": "Total Access",
@@ -189,7 +190,7 @@
         }
       },
       "latest_update": "2026-10-06 15:10:44",
-      "last_seen": "2026-10-07T07:36:27.358488"
+      "last_seen": "2026-10-07T07:39:03.439576"
     },
     "90150001": {
       "brand": "Total",
@@ -232,7 +233,7 @@
         }
       },
       "latest_update": "2026-10-01 11:55:23",
-      "last_seen": "2026-10-07T07:36:27.358493"
+      "last_seen": "2026-10-07T07:39:03.439585"
     },
     "90200003": {
       "brand": "Total",
@@ -275,7 +276,7 @@
         }
       },
       "latest_update": "2026-09-25 13:52:09",
-      "last_seen": "2026-10-07T07:36:27.358497"
+      "last_seen": "2026-10-07T07:39:03.439592"
     },
     "70200006": {
       "brand": "Total",
@@ -318,7 +319,7 @@
         }
       },
       "latest_update": "2026-10-02 15:10:44",
-      "last_seen": "2026-10-07T07:36:27.358502"
+      "last_seen": "2026-10-07T07:39:03.439600"
     },
     "25200007": {
       "brand": "Total Access",
@@ -362,7 +363,7 @@
         }
       },
       "latest_update": "2026-04-05 19:23:22",
-      "last_seen": "2026-10-07T07:36:27.358508"
+      "last_seen": "2026-10-07T07:39:03.439607"
     },
     "25420002": {
       "brand": "Total",
@@ -405,7 +406,7 @@
         }
       },
       "latest_update": "2026-10-04 15:11:22",
-      "last_seen": "2026-10-07T07:36:27.358514"
+      "last_seen": "2026-10-07T07:39:03.439615"
     },
     "25700003": {
       "brand": "Total",
@@ -448,7 +449,7 @@
         }
       },
       "latest_update": "2026-10-06 18:34:53",
-      "last_seen": "2026-10-07T07:36:27.358520"
+      "last_seen": "2026-10-07T07:39:03.439622"
     },
     "25750002": {
       "brand": "TotalEnergies",
@@ -491,7 +492,7 @@
         }
       },
       "latest_update": "2026-10-02 12:49:09",
-      "last_seen": "2026-10-07T07:36:27.358524"
+      "last_seen": "2026-10-07T07:39:03.439629"
     },
     "70004001": {
       "brand": "TotalEnergies",
@@ -535,7 +536,7 @@
         }
       },
       "latest_update": "2026-09-30 09:26:41",
-      "last_seen": "2026-10-07T07:36:27.358528"
+      "last_seen": "2026-10-07T07:39:03.439636"
     },
     "70000005": {
       "brand": "TotalEnergies",
@@ -559,12 +560,12 @@
         "Gazole": {
           "valeur": 2.25,
           "maj": "2026-10-07 07:36:19",
-          "relative_time": "à l'instant"
+          "relative_time": "il y a 2 min"
         },
         "E10": {
           "valeur": 1.99,
           "maj": "2026-10-07 07:36:19",
-          "relative_time": "à l'instant"
+          "relative_time": "il y a 2 min"
         }
       },
       "ruptures_detail": {
@@ -586,7 +587,7 @@
         }
       },
       "latest_update": "2026-10-07 07:36:19",
-      "last_seen": "2026-10-07T07:36:27.358531"
+      "last_seen": "2026-10-07T07:39:03.439643"
     }
   }
 }
