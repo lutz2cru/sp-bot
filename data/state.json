@@ -1,6 +1,6 @@
 {
   "initialized": true,
-  "last_check": "2026-10-07T06:06:27.506898",
+  "last_check": "2026-10-07T06:08:26.695528",
   "stations": {
     "90000002": {
       "brand": "TotalEnergies",
@@ -51,7 +51,7 @@
         }
       },
       "latest_update": "2026-10-06 12:10:05",
-      "last_seen": "2026-10-07T06:06:27.506758"
+      "last_seen": "2026-10-07T06:08:26.695401"
     },
     "90000013": {
       "brand": "TotalEnergies",
@@ -101,7 +101,7 @@
         }
       },
       "latest_update": "2026-10-07 00:01:00",
-      "last_seen": "2026-10-07T06:06:27.506791"
+      "last_seen": "2026-10-07T06:08:26.695426"
     },
     "90000014": {
       "brand": "Total Access",
@@ -145,7 +145,7 @@
         }
       },
       "latest_update": "2026-10-02 14:32:27",
-      "last_seen": "2026-10-07T06:06:27.506807"
+      "last_seen": "2026-10-07T06:08:26.695441"
     },
     "90000015": {
       "brand": "Total Access",
@@ -189,7 +189,7 @@
         }
       },
       "latest_update": "2026-10-06 15:10:44",
-      "last_seen": "2026-10-07T06:06:27.506819"
+      "last_seen": "2026-10-07T06:08:26.695451"
     },
     "90150001": {
       "brand": "Total",
@@ -232,7 +232,7 @@
         }
       },
       "latest_update": "2026-10-01 11:55:23",
-      "last_seen": "2026-10-07T06:06:27.506828"
+      "last_seen": "2026-10-07T06:08:26.695458"
     },
     "90200003": {
       "brand": "Total",
@@ -275,7 +275,7 @@
         }
       },
       "latest_update": "2026-09-25 13:52:09",
-      "last_seen": "2026-10-07T06:06:27.506836"
+      "last_seen": "2026-10-07T06:08:26.695464"
     },
     "70200006": {
       "brand": "Total",
@@ -318,7 +318,7 @@
         }
       },
       "latest_update": "2026-10-02 15:10:44",
-      "last_seen": "2026-10-07T06:06:27.506845"
+      "last_seen": "2026-10-07T06:08:26.695470"
     },
     "25200007": {
       "brand": "Total Access",
@@ -362,7 +362,7 @@
         }
       },
       "latest_update": "2026-04-05 19:23:22",
-      "last_seen": "2026-10-07T06:06:27.506854"
+      "last_seen": "2026-10-07T06:08:26.695476"
     },
     "25420002": {
       "brand": "Total",
@@ -405,7 +405,7 @@
         }
       },
       "latest_update": "2026-10-04 15:11:22",
-      "last_seen": "2026-10-07T06:06:27.506863"
+      "last_seen": "2026-10-07T06:08:26.695483"
     },
     "25700003": {
       "brand": "Total",
@@ -448,7 +448,7 @@
         }
       },
       "latest_update": "2026-10-06 18:34:53",
-      "last_seen": "2026-10-07T06:06:27.506873"
+      "last_seen": "2026-10-07T06:08:26.695490"
     },
     "25750002": {
       "brand": "TotalEnergies",
@@ -491,7 +491,7 @@
         }
       },
       "latest_update": "2026-10-02 12:49:09",
-      "last_seen": "2026-10-07T06:06:27.506881"
+      "last_seen": "2026-10-07T06:08:26.695495"
     },
     "70004001": {
       "brand": "TotalEnergies",
@@ -535,22 +535,38 @@
         }
       },
       "latest_update": "2026-09-30 09:26:41",
-      "last_seen": "2026-10-07T06:06:27.506887"
+      "last_seen": "2026-10-07T06:08:26.695500"
     },
     "70000005": {
       "brand": "TotalEnergies",
       "city": "Vesoul",
       "address": "22 Route de Paris",
-      "status": "RUPTURE_TOTALE",
+      "status": "RUPTURE_PARTIELLE",
       "distance_km": 1.1,
-      "disponibles": [],
-      "rupture_temporaire": [
+      "disponibles": [
         "Gazole",
-        "E10",
+        "E10"
+      ],
+      "rupture_temporaire": [
         "SP98"
       ],
-      "rupture_definitive": [],
-      "prices": {},
+      "rupture_definitive": [
+        "SP95",
+        "E85",
+        "GPLc"
+      ],
+      "prices": {
+        "Gazole": {
+          "valeur": 2.25,
+          "maj": "2026-10-07 07:36:19",
+          "relative_time": "à l'instant"
+        },
+        "E10": {
+          "valeur": 1.99,
+          "maj": "2026-10-07 07:36:19",
+          "relative_time": "à l'instant"
+        }
+      },
       "ruptures_detail": {
         "E85": {
           "debut": "2017-08-31 15:34:48",
@@ -567,18 +583,10 @@
         "SP98": {
           "debut": "2026-09-29 18:53:10",
           "type": "temporaire"
-        },
-        "E10": {
-          "debut": "2026-09-30 09:00:11",
-          "type": "temporaire"
-        },
-        "Gazole": {
-          "debut": "2026-09-30 11:05:04",
-          "type": "temporaire"
         }
       },
-      "latest_update": "2026-09-30 11:05:04",
-      "last_seen": "2026-10-07T06:06:27.506894"
+      "latest_update": "2026-10-07 07:36:19",
+      "last_seen": "2026-10-07T06:08:26.695505"
     }
   }
 }
