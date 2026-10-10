@@ -1,6 +1,6 @@
 {
   "initialized": true,
-  "last_check": "2026-10-10T05:06:22.341670",
+  "last_check": "2026-10-10T05:08:20.713667",
   "stations": {
     "90000002": {
       "brand": "TotalEnergies",
@@ -51,7 +51,7 @@
         }
       },
       "latest_update": "2026-10-09 14:52:22",
-      "last_seen": "2026-10-10T05:06:22.341513"
+      "last_seen": "2026-10-10T05:08:20.713526"
     },
     "90000013": {
       "brand": "TotalEnergies",
@@ -101,7 +101,7 @@
         }
       },
       "latest_update": "2026-10-10 00:01:00",
-      "last_seen": "2026-10-10T05:06:22.341545"
+      "last_seen": "2026-10-10T05:08:20.713557"
     },
     "90000014": {
       "brand": "Total Access",
@@ -145,7 +145,7 @@
         }
       },
       "latest_update": "2026-10-07 19:02:49",
-      "last_seen": "2026-10-10T05:06:22.341581"
+      "last_seen": "2026-10-10T05:08:20.713571"
     },
     "90000015": {
       "brand": "Total Access",
@@ -189,7 +189,7 @@
         }
       },
       "latest_update": "2026-10-08 10:26:42",
-      "last_seen": "2026-10-10T05:06:22.341593"
+      "last_seen": "2026-10-10T05:08:20.713581"
     },
     "90150001": {
       "brand": "Total",
@@ -232,7 +232,7 @@
         }
       },
       "latest_update": "2026-10-09 12:59:55",
-      "last_seen": "2026-10-10T05:06:22.341603"
+      "last_seen": "2026-10-10T05:08:20.713588"
     },
     "90200003": {
       "brand": "Total",
@@ -275,7 +275,7 @@
         }
       },
       "latest_update": "2026-09-25 13:52:09",
-      "last_seen": "2026-10-10T05:06:22.341612"
+      "last_seen": "2026-10-10T05:08:20.713595"
     },
     "70200006": {
       "brand": "Total",
@@ -318,7 +318,7 @@
         }
       },
       "latest_update": "2026-10-09 09:03:04",
-      "last_seen": "2026-10-10T05:06:22.341620"
+      "last_seen": "2026-10-10T05:08:20.713602"
     },
     "25200007": {
       "brand": "Total Access",
@@ -362,21 +362,26 @@
         }
       },
       "latest_update": "2026-04-05 19:23:22",
-      "last_seen": "2026-10-10T05:06:22.341629"
+      "last_seen": "2026-10-10T05:08:20.713609"
     },
     "25420002": {
       "brand": "Total",
       "city": "Voujeaucourt",
       "address": "Rue de la Cray",
-      "status": "RUPTURE_TOTALE",
+      "status": "RUPTURE_PARTIELLE",
       "distance_km": 3.4,
-      "disponibles": [],
+      "disponibles": [
+        "E10"
+      ],
       "rupture_temporaire": [
         "Gazole",
-        "E10",
         "SP98"
       ],
-      "rupture_definitive": [],
+      "rupture_definitive": [
+        "SP95",
+        "E85",
+        "GPLc"
+      ],
       "prices": {},
       "ruptures_detail": {
         "SP95": {
@@ -391,10 +396,6 @@
           "debut": "2017-09-02 07:53:49",
           "type": "definitive"
         },
-        "E10": {
-          "debut": "2026-10-03 16:24:45",
-          "type": "temporaire"
-        },
         "SP98": {
           "debut": "2026-10-04 15:11:22",
           "type": "temporaire"
@@ -405,7 +406,7 @@
         }
       },
       "latest_update": "2026-10-09 14:25:33",
-      "last_seen": "2026-10-10T05:06:22.341637"
+      "last_seen": "2026-10-10T05:08:20.713617"
     },
     "25700003": {
       "brand": "Total",
@@ -448,7 +449,7 @@
         }
       },
       "latest_update": "2026-10-08 16:30:11",
-      "last_seen": "2026-10-10T05:06:22.341644"
+      "last_seen": "2026-10-10T05:08:20.713649"
     },
     "25750002": {
       "brand": "TotalEnergies",
@@ -491,7 +492,7 @@
         }
       },
       "latest_update": "2026-10-09 13:44:22",
-      "last_seen": "2026-10-10T05:06:22.341652"
+      "last_seen": "2026-10-10T05:08:20.713655"
     },
     "70004001": {
       "brand": "TotalEnergies",
@@ -535,7 +536,7 @@
         }
       },
       "latest_update": "2026-09-30 09:26:41",
-      "last_seen": "2026-10-10T05:06:22.341659"
+      "last_seen": "2026-10-10T05:08:20.713660"
     },
     "70000005": {
       "brand": "TotalEnergies",
@@ -578,7 +579,7 @@
         }
       },
       "latest_update": "2026-10-08 11:48:58",
-      "last_seen": "2026-10-10T05:06:22.341666"
+      "last_seen": "2026-10-10T05:08:20.713665"
     }
   }
 }
