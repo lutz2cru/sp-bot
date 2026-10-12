@@ -45,6 +45,12 @@
     "server": "https://ntfy.sh",
     "priority": 4
   },
+  "verification": {
+    "cross_check": true,
+    "confirm_minutes": 10,
+    "stale_confirm_minutes": 30,
+    "outage_alert_after_failures": 6
+  },
   "check_interval_seconds": 180,
   "notify_mode": "events_only",
   "notify_on_startup": false

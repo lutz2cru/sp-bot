@@ -1,11 +1,16 @@
 import os
 import json
-from datetime import datetime
-from dataclasses import dataclass, field
-from typing import List, Dict, Any, Optional
+from datetime import timedelta
+from dataclasses import dataclass, field, asdict
+from typing import List, Dict, Any, Optional, Tuple
 
-from src.fetcher import Station
+from src.fetcher import Station, FetchResult
 from src.config import Config
+from src.timeutil import paris_now, utc_now_iso, minutes_since_utc_iso, format_relative_time
+
+STATE_VERSION = 2
+# Une station absente du flux est conservée telle quelle pendant ce délai avant d'être oubliée
+STATION_RETENTION_DAYS = 14
 
 # Groupes de compatibilité pour les alternatives (modèle Essence&CO)
 FUEL_ALTERNATIVES = {
@@ -16,24 +21,6 @@ FUEL_ALTERNATIVES = {
     "e85": ["E85"],
     "gplc": ["GPLc"]
 }
-
-def extract_station_timestamps(prices: Dict[str, Any], ruptures: Dict[str, Any]) -> List[str]:
-    """
-    Extrait l'ensemble des horodatages valides d'une station :
-    - maj des prix de carburants
-    - debut des ruptures temporaires récentes
-    """
-    ts = []
-    if prices:
-        for p in prices.values():
-            if isinstance(p, dict) and p.get("maj"):
-                ts.append(p["maj"])
-    if ruptures:
-        for r in ruptures.values():
-            if isinstance(r, dict) and r.get("debut"):
-                if r.get("type") == "temporaire":
-                    ts.append(r["debut"])
-    return ts
 
 def normalize_fuel(name: str) -> str:
     """Normalise les noms de carburants (ex: 'SP95-E10', 'E10', 'Diesel' -> 'e10', 'gazole')."""
@@ -79,247 +66,328 @@ class StockChangeEvent:
     waze_url: str
     event_type: str = "RESTOCK"  # "RESTOCK" (disponible) ou "SHORTAGE" (rupture)
     fuels_affected: List[str] = field(default_factory=list)
+    verification: str = ""  # Comment le changement a été confirmé
+    automate_24_24: bool = False
+    hours: Dict[Any, List[List[str]]] = field(default_factory=dict)
 
 # Alias pour rétrocompatibilité
 RestockEvent = StockChangeEvent
 
+def event_from_dict(data: Dict[str, Any]) -> StockChangeEvent:
+    data = dict(data)
+    data["fuels_restocked"] = [RestockedFuel(**f) for f in data.get("fuels_restocked", [])]
+    return StockChangeEvent(**data)
+
+def _migrate_station_v1(old: Dict[str, Any]) -> Dict[str, Any]:
+    """Convertit une entrée de l'ancien state.json (listes disponibles/ruptures) vers l'état par carburant."""
+    prices = old.get("prices") or {}
+    ruptures = old.get("ruptures_detail") or {}
+    fuels: Dict[str, Any] = {}
+    for f in old.get("disponibles") or []:
+        p = prices.get(f) or {}
+        fuels[f] = {"available": True, "since": p.get("maj", ""), "price": p.get("valeur")}
+    for f in (old.get("rupture_temporaire") or []) + (old.get("rupture_definitive") or []):
+        if f not in fuels:
+            fuels[f] = {"available": False, "since": (ruptures.get(f) or {}).get("debut", ""), "price": None}
+    return {
+        "brand": old.get("brand", ""),
+        "city": old.get("city", ""),
+        "address": old.get("address", ""),
+        "zone": "",
+        "distance_km": old.get("distance_km", 0.0),
+        "fuels": fuels,
+        "pending": {},
+        "last_seen": str(old.get("last_seen", ""))[:10]
+    }
+
 class FuelTracker:
-    def __init__(self, data_dir: str = "data"):
+    """Machine à états par station et par carburant.
+
+    - Un changement n'est validé (et notifié) qu'une fois confirmé : soit par le flux officiel de
+      recoupement, soit parce qu'il persiste sur plusieurs relevés espacés.
+    - Les alertes validées passent par une file d'envoi persistée dans state.json : elles y restent
+      tant que Ntfy n'a pas accusé réception.
+    """
+    def __init__(self, data_dir: str = "data", dry_run: bool = False):
         base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
         self.data_dir = os.path.join(base_dir, data_dir) if not os.path.isabs(data_dir) else data_dir
         os.makedirs(self.data_dir, exist_ok=True)
         self.state_file = os.path.join(self.data_dir, "state.json")
+        self.dry_run = dry_run
+        self._state: Optional[Dict[str, Any]] = None
+
+    # ------------------------------------------------------------------ persistance
 
     def load_state(self) -> Dict[str, Any]:
-        """Charge l'état précédent des stations."""
-        if not os.path.exists(self.state_file):
-            return {"initialized": False, "stations": {}}
-        try:
-            with open(self.state_file, "r", encoding="utf-8") as f:
-                return json.load(f)
-        except Exception as e:
-            print(f"[!] Erreur de lecture de state.json : {e}")
-            return {"initialized": False, "stations": {}}
+        """Charge l'état précédent des stations (et migre l'ancien format si besoin)."""
+        state: Dict[str, Any] = {}
+        if os.path.exists(self.state_file):
+            try:
+                with open(self.state_file, "r", encoding="utf-8") as f:
+                    state = json.load(f)
+            except Exception as e:
+                # Fichier corrompu : on repart d'un état de référence silencieux plutôt que d'alerter à tort
+                print(f"[!] Erreur de lecture de state.json : {e}")
+                state = {}
+
+        stations = state.get("stations") or {}
+        if state.get("version") != STATE_VERSION:
+            stations = {sid: (st if "fuels" in st else _migrate_station_v1(st)) for sid, st in stations.items()}
+        return {
+            "version": STATE_VERSION,
+            "initialized": bool(state.get("initialized", False)),
+            "consecutive_failures": int(state.get("consecutive_failures", 0)),
+            "outage_notified": bool(state.get("outage_notified", False)),
+            "stations": stations,
+            "outbox": list(state.get("outbox") or [])
+        }
+
+    def _current_state(self) -> Dict[str, Any]:
+        # En simulation rien n'est écrit : l'état de travail ne vit qu'en mémoire
+        return self._state if (self.dry_run and self._state) else self.load_state()
 
     def save_state(self, state: Dict[str, Any]) -> None:
-        """Sauvegarde l'état actuel des stations."""
+        """Sauvegarde atomique ; le fichier n'est pas réécrit si rien n'a changé (pas de commit inutile)."""
+        self._state = state
+        if self.dry_run:
+            return
+        content = json.dumps(state, indent=2, ensure_ascii=False, sort_keys=True) + "\n"
         try:
-            with open(self.state_file, "w", encoding="utf-8") as f:
-                json.dump(state, f, indent=2, ensure_ascii=False)
+            if os.path.exists(self.state_file):
+                with open(self.state_file, "r", encoding="utf-8") as f:
+                    if f.read() == content:
+                        return
+            tmp = self.state_file + ".tmp"
+            with open(tmp, "w", encoding="utf-8", newline="\n") as f:
+                f.write(content)
+            os.replace(tmp, self.state_file)
         except Exception as e:
             print(f"[!] Erreur d'écriture de state.json : {e}")
 
-    def process_stations(self, stations: List[Station], config: Config) -> List[StockChangeEvent]:
+    # ------------------------------------------------------------------ détection
+
+    def process_stations(self, stations: List[Station], config: Config, verifier: Any = None) -> List[StockChangeEvent]:
+        """Compatibilité : traite un relevé considéré comme complet."""
+        return self.process(FetchResult(stations=list(stations), zones_total=1), config, verifier)
+
+    def process(self, result: FetchResult, config: Config, verifier: Any = None) -> List[StockChangeEvent]:
         """
-        Compare l'état actuel et précédent en détectant :
+        Compare le relevé à l'état validé et retourne les changements CONFIRMÉS (également placés
+        dans la file d'envoi) :
         1. Les réapprovisionnements (RESTOCK) : un carburant ciblé redevient disponible.
         2. Les ruptures (SHORTAGE) : un carburant ciblé tombe en rupture de stock.
         """
-        old_state = self.load_state()
-        old_stations = old_state.get("stations", {})
-        is_initialized = old_state.get("initialized", False)
+        state = self._current_state()
+        ver = config.verification
 
-        events: List[StockChangeEvent] = []
-        new_stations_state: Dict[str, Any] = {}
+        # Panne de la source : on ne touche à aucune station (jamais de fausse alerte sur une erreur réseau)
+        if not result.ok:
+            state["consecutive_failures"] += 1
+            if state["consecutive_failures"] >= ver.outage_alert_after_failures and not state["outage_notified"]:
+                state["outage_notified"] = True
+                self._enqueue_system(state, "outage", "⚠️ SP-Bot : source de données injoignable",
+                                     f"L'API officielle des carburants ne répond plus depuis {state['consecutive_failures']} "
+                                     "vérifications. Les alertes sont suspendues jusqu'au rétablissement.",
+                                     ["warning", "electric_plug"])
+            self.save_state(state)
+            return []
+
+        if state["outage_notified"]:
+            self._enqueue_system(state, "recovery", "✅ SP-Bot : surveillance rétablie",
+                                 "La source de données répond de nouveau. Les alertes reprennent normalement.",
+                                 ["white_check_mark"])
+        state["consecutive_failures"] = 0
+        state["outage_notified"] = False
+
+        baseline = not state["initialized"] and not config.notify_on_startup
         target_fuels = [normalize_fuel(f) for f in config.filters.fuels]
+        today = paris_now().strftime("%Y-%m-%d")
+        now_iso = utc_now_iso()
+        entries = state["stations"]
+        candidates: List[Tuple[Station, str]] = []
 
-        for s in stations:
-            sid_str = str(s.id)
-            prev = old_stations.get(sid_str)
+        for s in result.stations:
+            sid = str(s.id)
+            entry = entries.get(sid) or {"fuels": {}, "pending": {}}
+            entry.update({"brand": s.brand, "city": s.city, "address": s.address, "zone": s.zone_name,
+                          "distance_km": s.distance_km, "last_seen": today})
+            entries[sid] = entry
+            fuels, pending = entry["fuels"], entry["pending"]
 
-            s_ruptures = getattr(s, "ruptures_detail", {})
-            curr_timestamps = extract_station_timestamps(s.prices, s_ruptures)
-            curr_latest_ts = max(curr_timestamps, default="")
+            for fuel in sorted(set(s.prices) | set(s.ruptures_detail) | set(s.disponibles) | set(fuels)):
+                avail, ts, price = s.fuel_observation(fuel)
+                is_target = normalize_fuel(fuel) in target_fuels
+                conf = fuels.get(fuel)
 
-            # Protection Anti-Cache Obsolète (Désynchronisation entre nœuds API Opendatasoft)
-            # Rejette les instantanés périmés pour éviter les faux signaux (flapping)
-            if prev:
-                prev_prices = prev.get("prices", {})
-                prev_ruptures = prev.get("ruptures_detail", {})
-                prev_timestamps = extract_station_timestamps(prev_prices, prev_ruptures)
-                prev_latest_ts = prev.get("latest_update") or max(prev_timestamps, default="")
-
-                prev_had_dispos = len(prev.get("disponibles", [])) > 0
-                curr_has_dispos = len(s.disponibles) > 0
-
-                if prev_latest_ts:
-                    # Cas 1 : Le nœud renvoie des données avec un horodatage antérieur à ce qu'on a déjà validé
-                    if curr_latest_ts and curr_latest_ts < prev_latest_ts:
-                        new_stations_state[sid_str] = prev
+                if conf is None:
+                    if baseline or not is_target or not avail:
+                        fuels[fuel] = {"available": avail, "since": ts, "price": price}
                         continue
-                    # Cas 2 : La station avait du carburant disponible avec un horodatage récent validé,
-                    # mais le nouveau snapshot renvoie 0 carburant/prix et AUCUN horodatage récent
-                    # (ex: nœud obsolète servant l'état de rupture d'avant livraison sans prix)
-                    if prev_had_dispos and not curr_has_dispos and not curr_latest_ts:
-                        new_stations_state[sid_str] = prev
-                        continue
+                    # Carburant ciblé annoncé en stock sur une station encore inconnue : à confirmer comme les autres
+                    conf = fuels[fuel] = {"available": False, "since": "", "price": None}
 
-            # Enregistrement de l'état actuel
-            new_stations_state[sid_str] = {
-                "brand": s.brand,
-                "city": s.city,
-                "address": s.address,
-                "status": s.status,
-                "distance_km": s.distance_km,
-                "disponibles": s.disponibles,
-                "rupture_temporaire": s.rupture_temporaire,
-                "rupture_definitive": s.rupture_definitive,
-                "prices": s.prices,
-                "ruptures_detail": s_ruptures,
-                "latest_update": curr_latest_ts or (prev.get("latest_update", "") if prev else ""),
-                "last_seen": datetime.now().isoformat()
-            }
+                if avail == conf["available"]:
+                    pending.pop(fuel, None)
+                    if ts >= (conf.get("since") or ""):
+                        conf["since"], conf["price"] = ts, price
+                    continue
 
-            if not is_initialized and not config.notify_on_startup:
+                if not is_target:
+                    fuels[fuel] = {"available": avail, "since": ts, "price": price}
+                    continue
+
+                p = pending.get(fuel)
+                if p and p.get("available") == avail:
+                    p["seen"] = int(p.get("seen", 1)) + 1
+                    p["ts"] = ts
+                else:
+                    pending[fuel] = {"available": avail, "ts": ts, "seen": 1, "first_seen": now_iso}
+                candidates.append((s, fuel))
+
+        # Recoupement : le flux officiel n'est téléchargé que s'il y a quelque chose à confirmer
+        cross: Optional[Dict[int, Station]] = None
+        if candidates and verifier is not None and ver.cross_check:
+            cross = verifier.lookup(sorted({s.id for s, _ in candidates}))
+
+        confirmed: Dict[int, Dict[str, Any]] = {}
+        for s, fuel in candidates:
+            entry = entries[str(s.id)]
+            conf, p = entry["fuels"][fuel], entry["pending"][fuel]
+            avail, ts, price = s.fuel_observation(fuel)
+
+            # Relevé plus ancien que l'état déjà validé : très probablement un nœud de cache obsolète
+            stale = bool(ts and conf.get("since") and ts < conf["since"])
+            agrees: Optional[bool] = None
+            if cross is not None and s.id in cross:
+                agrees = cross[s.id].fuel_observation(fuel)[0] == avail
+
+            waited = minutes_since_utc_iso(p["first_seen"])
+            label = ""
+            if agrees is False:
+                print(f"[~] {s.city} [{s.id}] {fuel} : les deux sources officielles se contredisent, alerte retenue.")
+            elif agrees and (not stale or p["seen"] >= 2):
+                label = "2 sources officielles concordantes"
+            elif agrees is None and p["seen"] >= 2 and waited >= (ver.stale_confirm_minutes if stale else ver.confirm_minutes):
+                label = f"confirmé sur {p['seen']} relevés consécutifs"
+            if not label:
+                if agrees is not False:
+                    print(f"[~] {s.city} [{s.id}] {fuel} : changement en attente de confirmation (relevé n°{p['seen']}).")
                 continue
 
-            restocked_fuels: List[RestockedFuel] = []
-            shortage_fuels: List[str] = []
+            entry["fuels"][fuel] = {"available": avail, "since": ts, "price": price}
+            del entry["pending"][fuel]
+            bucket = confirmed.setdefault(s.id, {"station": s, "restock": [], "shortage": [], "labels": []})
+            bucket["restock" if avail else "shortage"].append(fuel)
+            if label not in bucket["labels"]:
+                bucket["labels"].append(label)
 
-            if prev is None:
-                if is_initialized:
-                    for fuel_name in s.disponibles:
-                        if normalize_fuel(fuel_name) in target_fuels:
-                            price_info = s.prices.get(fuel_name, {})
-                            restocked_fuels.append(RestockedFuel(
-                                fuel=fuel_name,
-                                price=price_info.get("valeur"),
-                                maj=price_info.get("maj", ""),
-                                relative_time=price_info.get("relative_time", "À l'instant")
-                            ))
-            else:
-                prev_dispos = prev.get("disponibles", [])
-                prev_status = prev.get("status", "")
-                prev_prices = prev.get("prices", {})
+        events: List[StockChangeEvent] = []
+        for bucket in confirmed.values():
+            s, verification = bucket["station"], " / ".join(bucket["labels"])
+            if bucket["restock"]:
+                events.append(self._build_event(s, "RESTOCK", bucket["restock"], verification))
+            if bucket["shortage"]:
+                events.append(self._build_event(s, "SHORTAGE", bucket["shortage"], verification))
 
-                for f_norm in target_fuels:
-                    prev_matching = [d for d in prev_dispos if normalize_fuel(d) == f_norm]
-                    was_avail = len(prev_matching) > 0
+        if result.complete:
+            # L'état de référence n'est acquis qu'après un relevé complet de toutes les zones
+            state["initialized"] = True
+            limit = (paris_now() - timedelta(days=STATION_RETENTION_DAYS)).strftime("%Y-%m-%d")
+            for sid in [k for k, v in entries.items() if (v.get("last_seen") or today) < limit]:
+                del entries[sid]
 
-                    curr_matching = [d for d in s.disponibles if normalize_fuel(d) == f_norm]
-                    is_avail = len(curr_matching) > 0
+        queued = [ev for ev in events if self._enqueue_event(state, ev)]
+        self.save_state(state)
+        return queued
 
-                    # Cas 1 : Réapprovisionnement (n'était pas dispo -> est dispo maintenant)
-                    if not was_avail and is_avail:
-                        for fuel_name in curr_matching:
-                            price_info = s.prices.get(fuel_name, {})
-                            restocked_fuels.append(RestockedFuel(
-                                fuel=fuel_name,
-                                price=price_info.get("valeur"),
-                                maj=price_info.get("maj", ""),
-                                relative_time=price_info.get("relative_time", "À l'instant")
-                            ))
+    def _build_event(self, s: Station, event_type: str, fuels: List[str], verification: str) -> StockChangeEvent:
+        alternatives: List[str] = []
+        for fuel in fuels:
+            for alt in FUEL_ALTERNATIVES.get(normalize_fuel(fuel), []):
+                if alt.lower() != fuel.lower() and alt in s.disponibles and alt not in fuels:
+                    p = s.prices.get(alt, {}).get("valeur")
+                    alt_entry = f"{alt} ({p:.3f} €/L)" if p else alt
+                    if alt_entry not in alternatives:
+                        alternatives.append(alt_entry)
 
-                    # Cas 2 : Rupture (était dispo -> n'est plus dispo)
-                    elif was_avail and not is_avail:
-                        for fuel_name in prev_matching:
-                            # Vérification Anti-Fausse Rupture par carburant :
-                            # Le carburant ne peut être déclaré en rupture que si sa déclaration
-                            # de rupture est postérieure ou égale à sa dernière livraison connue.
-                            prev_fuel_maj = prev_prices.get(fuel_name, {}).get("maj", "")
-                            rupt_info = s_ruptures.get(fuel_name, {})
-                            rupt_debut = rupt_info.get("debut", "")
+        restocked: List[RestockedFuel] = []
+        if event_type == "RESTOCK":
+            badge = "🟢 DISPONIBLE" if s.status == "DISPONIBLE" else "🟠 RUPTURE PARTIELLE"
+            for fuel in fuels:
+                info = s.prices.get(fuel, {})
+                restocked.append(RestockedFuel(fuel=fuel, price=info.get("valeur"), maj=info.get("maj", ""),
+                                               relative_time=format_relative_time(info.get("maj", ""))))
+        else:
+            badge = "🔴 RUPTURE TOTALE" if not s.disponibles else "🟠 RUPTURE PARTIELLE"
 
-                            # Si la rupture a un horodatage antérieur à la livraison, c'est un nœud périmé
-                            if prev_fuel_maj and rupt_debut and rupt_debut < prev_fuel_maj:
-                                continue
-                            # Si le carburant était disponible récemment mais qu'aucune rupture n'est horodatée
-                            # et que le nœud n'a aucun horodatage valide récent, on ignore
-                            if prev_fuel_maj and not rupt_debut and not curr_latest_ts:
-                                continue
+        return StockChangeEvent(
+            station_id=s.id, brand=s.brand, address=s.address, city=s.city, postal_code=s.postal_code,
+            latitude=s.latitude, longitude=s.longitude, distance_km=s.distance_km, zone_name=s.zone_name,
+            status=s.status, status_badge=badge, fuels_restocked=restocked, all_available=list(s.disponibles),
+            alternatives=alternatives, google_maps_url=s.google_maps_url, waze_url=s.waze_url,
+            event_type=event_type, fuels_affected=list(fuels), verification=verification,
+            automate_24_24=s.automate_24_24, hours=s.hours
+        )
 
-                            if fuel_name not in shortage_fuels:
-                                shortage_fuels.append(fuel_name)
+    # ------------------------------------------------------------------ file d'envoi
 
-                    # Cas 3 : Déjà dispo, mais nouvelle livraison confirmée par nouveau prix après rupture totale
-                    elif was_avail and is_avail:
-                        for fuel_name in curr_matching:
-                            price_info = s.prices.get(fuel_name, {})
-                            price_maj = price_info.get("maj", "")
-                            prev_maj = prev_prices.get(fuel_name, {}).get("maj", "")
-                            was_total_shortage = prev_status == "RUPTURE_TOTALE"
-                            if price_maj and price_maj != prev_maj and was_total_shortage:
-                                restocked_fuels.append(RestockedFuel(
-                                    fuel=fuel_name,
-                                    price=price_info.get("valeur"),
-                                    maj=price_maj,
-                                    relative_time=price_info.get("relative_time", "À l'instant")
-                                ))
+    def _enqueue_system(self, state: Dict[str, Any], kind: str, title: str, message: str, tags: List[str]) -> None:
+        state["outbox"] = [e for e in state["outbox"] if e.get("kind") != "system"]
+        state["outbox"].append({"id": f"system:{kind}:{utc_now_iso()}", "kind": "system", "created": utc_now_iso(),
+                                "attempts": 0, "title": title, "message": message, "tags": tags})
 
-            # Événement RESTOCK (disponible)
-            if restocked_fuels:
-                badge = "🟢 DISPONIBLE" if s.status == "DISPONIBLE" else "🟠 RUPTURE PARTIELLE"
-                alternatives = []
-                for rf in restocked_fuels:
-                    alts = FUEL_ALTERNATIVES.get(normalize_fuel(rf.fuel), [])
-                    for alt in alts:
-                        if alt.lower() != rf.fuel.lower() and alt in s.disponibles:
-                            p = s.prices.get(alt, {}).get("valeur")
-                            p_str = f" ({p:.3f} €/L)" if p else ""
-                            alt_entry = f"{alt}{p_str}"
-                            if alt_entry not in alternatives:
-                                alternatives.append(alt_entry)
-
-                events.append(StockChangeEvent(
-                    station_id=s.id,
-                    brand=s.brand,
-                    address=s.address,
-                    city=s.city,
-                    postal_code=s.postal_code,
-                    latitude=s.latitude,
-                    longitude=s.longitude,
-                    distance_km=s.distance_km,
-                    zone_name=s.zone_name,
-                    status=s.status,
-                    status_badge=badge,
-                    fuels_restocked=restocked_fuels,
-                    all_available=s.disponibles,
-                    alternatives=alternatives,
-                    google_maps_url=s.google_maps_url,
-                    waze_url=s.waze_url,
-                    event_type="RESTOCK",
-                    fuels_affected=[rf.fuel for rf in restocked_fuels]
-                ))
-
-            # Événement SHORTAGE (rupture)
-            if shortage_fuels:
-                badge = "🔴 RUPTURE" if not s.disponibles else ("🔴 RUPTURE TOTALE" if s.status == "RUPTURE_TOTALE" else "🟠 RUPTURE PARTIELLE")
-                remaining_alts = []
-                for sf in shortage_fuels:
-                    alts = FUEL_ALTERNATIVES.get(normalize_fuel(sf), [])
-                    for alt in alts:
-                        if alt.lower() != sf.lower() and alt in s.disponibles:
-                            p = s.prices.get(alt, {}).get("valeur")
-                            p_str = f" ({p:.3f} €/L)" if p else ""
-                            alt_entry = f"{alt}{p_str}"
-                            if alt_entry not in remaining_alts:
-                                remaining_alts.append(alt_entry)
-
-                events.append(StockChangeEvent(
-                    station_id=s.id,
-                    brand=s.brand,
-                    address=s.address,
-                    city=s.city,
-                    postal_code=s.postal_code,
-                    latitude=s.latitude,
-                    longitude=s.longitude,
-                    distance_km=s.distance_km,
-                    zone_name=s.zone_name,
-                    status=s.status,
-                    status_badge=badge,
-                    fuels_restocked=[],
-                    all_available=s.disponibles,
-                    alternatives=remaining_alts,
-                    google_maps_url=s.google_maps_url,
-                    waze_url=s.waze_url,
-                    event_type="SHORTAGE",
-                    fuels_affected=shortage_fuels
-                ))
-
-        self.save_state({
-            "initialized": True,
-            "last_check": datetime.now().isoformat(),
-            "stations": new_stations_state
+    def _enqueue_event(self, state: Dict[str, Any], event: StockChangeEvent) -> bool:
+        """Ajoute l'alerte à la file. Une alerte contraire encore non remise (ex. « dispo » jamais reçue
+        suivie d'une « rupture ») s'annule avec la nouvelle : le téléphone n'a rien à corriger."""
+        data = asdict(event)
+        for queued in list(state["outbox"]):
+            q = queued.get("event")
+            if queued.get("kind") != "event" or not q:
+                continue
+            if q["station_id"] != event.station_id or q["event_type"] == event.event_type:
+                continue
+            common = set(q["fuels_affected"]) & set(data["fuels_affected"])
+            if not common:
+                continue
+            for d in (q, data):
+                d["fuels_affected"] = [f for f in d["fuels_affected"] if f not in common]
+                d["fuels_restocked"] = [f for f in d["fuels_restocked"] if f["fuel"] not in common]
+            if not q["fuels_affected"]:
+                state["outbox"].remove(queued)
+        if not data["fuels_affected"]:
+            return False
+        event.fuels_affected = data["fuels_affected"]
+        event.fuels_restocked = [f for f in event.fuels_restocked if f.fuel in data["fuels_affected"]]
+        now = utc_now_iso()
+        state["outbox"].append({
+            "id": f"{event.station_id}:{event.event_type}:{'+'.join(event.fuels_affected)}:{now}",
+            "kind": "event", "created": now, "attempts": 0, "event": data
         })
+        return True
 
-        return events
+    def pending_notifications(self) -> int:
+        state = self._current_state()
+        return len(state["outbox"])
+
+    def deliver_outbox(self, notifier: Any) -> Tuple[int, int]:
+        """Envoie tout ce qui attend dans la file. Une alerte n'en sort qu'après accusé de réception de Ntfy ;
+        sinon elle est retentée à la vérification suivante. Retourne (envoyées, restantes)."""
+        state = self._current_state()
+        sent = 0
+        for item in list(state["outbox"]):
+            try:
+                if item.get("kind") == "system":
+                    ok = notifier.send_system(item["title"], item["message"], item.get("tags") or [])
+                else:
+                    ok = notifier.send_stock_event(event_from_dict(item["event"]))
+            except Exception as e:
+                print(f"[!] Erreur d'envoi de la notification {item.get('id')} : {e}")
+                ok = False
+            if ok:
+                state["outbox"].remove(item)
+                sent += 1
+                self.save_state(state)  # immédiatement, pour ne jamais renvoyer une alerte déjà remise
+            else:
+                item["attempts"] = int(item.get("attempts", 0)) + 1
+        self.save_state(state)
+        return sent, len(state["outbox"])

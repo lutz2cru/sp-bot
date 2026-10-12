@@ -38,12 +38,25 @@ class NtfyConfig:
     topic: str = "sp-bot-alerte-total-belfort"
     server: str = "https://ntfy.sh"
     priority: int = 4
+    token: str = ""  # Jeton d'accès Ntfy optionnel (variable d'environnement NTFY_TOKEN)
+
+@dataclass
+class VerificationConfig:
+    # Recoupe chaque changement avec le flux XML officiel du ministère avant d'alerter
+    cross_check: bool = True
+    # Sans recoupement possible : durée pendant laquelle le changement doit persister avant d'alerter
+    confirm_minutes: int = 10
+    # Idem pour un relevé dont l'horodatage est antérieur à l'état déjà validé (cache obsolète probable)
+    stale_confirm_minutes: int = 30
+    # Nombre de vérifications consécutives en échec avant l'alerte « source injoignable »
+    outage_alert_after_failures: int = 6
 
 @dataclass
 class Config:
     location: LocationConfig = field(default_factory=LocationConfig)
     filters: FiltersConfig = field(default_factory=FiltersConfig)
     ntfy: NtfyConfig = field(default_factory=NtfyConfig)
+    verification: VerificationConfig = field(default_factory=VerificationConfig)
     check_interval_seconds: int = 180
     notify_mode: str = "events_only"  # "events_only" (reappro/rupture) ou "periodic_list"
     notify_on_startup: bool = False
@@ -120,13 +133,24 @@ def load_config(config_path: str = "config.json") -> Config:
         enabled=True,
         topic=ntfy_topic,
         server=ntfy_data.get("server", "https://ntfy.sh"),
-        priority=int(ntfy_data.get("priority", 4))
+        priority=int(ntfy_data.get("priority", 4)),
+        token=os.environ.get("NTFY_TOKEN") or ntfy_data.get("token", "")
+    )
+
+    ver_data = data.get("verification", {})
+    defaults = VerificationConfig()
+    verification = VerificationConfig(
+        cross_check=bool(ver_data.get("cross_check", defaults.cross_check)),
+        confirm_minutes=int(ver_data.get("confirm_minutes", defaults.confirm_minutes)),
+        stale_confirm_minutes=int(ver_data.get("stale_confirm_minutes", defaults.stale_confirm_minutes)),
+        outage_alert_after_failures=int(ver_data.get("outage_alert_after_failures", defaults.outage_alert_after_failures))
     )
 
     return Config(
         location=loc,
         filters=filters,
         ntfy=ntfy,
+        verification=verification,
         check_interval_seconds=int(os.environ.get("CHECK_INTERVAL", data.get("check_interval_seconds", 180))),
         notify_mode=data.get("notify_mode", "events_only"),
         notify_on_startup=bool(data.get("notify_on_startup", False))
@@ -159,6 +183,12 @@ def save_config(config: Config, config_path: str = "config.json") -> None:
             "topic": config.ntfy.topic,
             "server": config.ntfy.server,
             "priority": config.ntfy.priority
+        },
+        "verification": {
+            "cross_check": config.verification.cross_check,
+            "confirm_minutes": config.verification.confirm_minutes,
+            "stale_confirm_minutes": config.verification.stale_confirm_minutes,
+            "outage_alert_after_failures": config.verification.outage_alert_after_failures
         },
         "check_interval_seconds": config.check_interval_seconds,
         "notify_mode": config.notify_mode,
