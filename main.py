@@ -13,7 +13,7 @@ if sys.platform.startswith("win"):
         pass
 
 from src.config import load_config, Config
-from src.fetcher import FuelFetcher, Station
+from src.fetcher import FuelFetcher, OfficialFeedVerifier, Station
 from src.tracker import FuelTracker, RestockEvent
 from src.notifier import NotificationManager
 
@@ -55,6 +55,9 @@ def display_station(s: Station, target_fuels: list):
     # Ruptures temporaires
     if s.rupture_temporaire:
         print(f"   🟠 Rupture temporaire : \033[0;33m{', '.join(s.rupture_temporaire)}\033[0m")
+    opening = s.opening_label()
+    if opening:
+        print(f"   🕐 {opening}")
 
 def cmd_list(config: Config):
     print("=" * 75)
@@ -68,9 +71,11 @@ def cmd_list(config: Config):
     print(f"   Enseignes suivies : {', '.join(config.filters.brands)}")
     print("=" * 75)
 
-    fetcher = FuelFetcher()
-    stations = fetcher.fetch_stations(config)
-    
+    result = FuelFetcher().fetch(config)
+    stations = result.stations
+    if result.failed_zones:
+        print(f"\n\033[1;31m[!] Zones sans réponse de l'API (liste incomplète) : {', '.join(result.failed_zones)}\033[0m")
+
     # Statistiques du secteur (Baromètre pénurie comme Essence&CO)
     total = len(stations)
     dispo_count = sum(1 for s in stations if s.status == "DISPONIBLE")
@@ -91,29 +96,32 @@ def cmd_list(config: Config):
         display_station(s, config.filters.fuels)
     print("\n" + "=" * 75)
 
-def cmd_check(config: Config, send_notifications: bool = True):
+def cmd_check(config: Config, send_notifications: bool = True) -> int:
+    """Une vérification complète. Retourne 0 si tout va bien, 1 si la surveillance est dégradée
+    (source injoignable de façon prolongée ou alerte impossible à remettre)."""
     print(f"[*] [{datetime.now().strftime('%H:%M:%S')}] Analyse du secteur (modèle temps réel Gasoil Now)...")
     fetcher = FuelFetcher()
-    tracker = FuelTracker()
+    tracker = FuelTracker(dry_run=not send_notifications)
     notifier = NotificationManager(config)
 
-    stations = fetcher.fetch_stations(config)
+    result = fetcher.fetch(config)
+    stations = result.stations
+    if result.failed_zones:
+        print(f"[!] Zones sans réponse de l'API : {', '.join(result.failed_zones)} (leur dernier état connu est conservé).")
     print(f"[*] {len(stations)} station(s) surveillée(s) dans le secteur.")
 
-    events = tracker.process_stations(stations, config)
+    events = tracker.process(result, config, OfficialFeedVerifier())
 
     # Mode périodique (digest toutes les X minutes, si explicitement activé)
-    if config.notify_mode == "periodic_list":
-        if send_notifications:
-            ok = notifier.broadcast_stock_list(stations, config.filters.fuels)
-            if ok:
-                print(f"[*] 📲 Liste des stations avec {'/'.join(config.filters.fuels)} en stock envoyée sur votre téléphone via Ntfy.")
+    if config.notify_mode == "periodic_list" and send_notifications and result.complete:
+        ok = notifier.broadcast_stock_list(stations, config.filters.fuels)
+        if ok:
+            print(f"[*] 📲 Liste des stations avec {'/'.join(config.filters.fuels)} en stock envoyée sur votre téléphone via Ntfy.")
 
     if not events:
-        print("[*] Aucun changement de stock (ni réapprovisionnement, ni rupture). Aucune notification envoyée.")
-        return
-
-    print(f"\n🚨 \033[1;33m{len(events)} CHANGEMENT(S) DE STOCK DÉTECTÉ(S) !\033[0m")
+        print("[*] Aucun changement de stock confirmé (ni réapprovisionnement, ni rupture).")
+    else:
+        print(f"\n🚨 \033[1;33m{len(events)} CHANGEMENT(S) DE STOCK CONFIRMÉ(S) !\033[0m")
     for ev in events:
         if ev.event_type == "RESTOCK":
             print(f"\n✨ \033[1;32m{ev.status_badge} [RÉAPPROVISIONNEMENT]\033[0m : {ev.brand} ({ev.city} - {ev.distance_km} km)")
@@ -133,11 +141,24 @@ def cmd_check(config: Config, send_notifications: bool = True):
             elif ev.all_available:
                 print(f"   -> Reste en stock : {', '.join(ev.all_available)}")
 
+        print(f"   Vérification : {ev.verification}")
         print(f"   Lien : {ev.google_maps_url}")
 
-        if send_notifications:
-            sent = notifier.broadcast_stock_event(ev)
-            print(f"   📲 Alerte expédiée avec succès vers {sent} canal/canaux.")
+    if not send_notifications:
+        print("[*] Mode simulation : aucune notification envoyée, state.json inchangé.")
+        return 0
+
+    # La file contient les alertes de ce passage ET celles qui n'avaient pas pu partir auparavant
+    remaining = 0
+    if tracker.pending_notifications():
+        sent, remaining = tracker.deliver_outbox(notifier)
+        if sent:
+            print(f"[*] 📲 {sent} notification(s) remise(s) à Ntfy.")
+        if remaining:
+            print(f"\033[1;31m[!] {remaining} notification(s) non remise(s) : conservée(s) et retentée(s) à la prochaine vérification.\033[0m")
+
+    degraded = remaining > 0 or (not result.ok and tracker.load_state()["outage_notified"])
+    return 1 if degraded else 0
 
 def cmd_run(config: Config):
     notifier = NotificationManager(config)
@@ -154,7 +175,11 @@ def cmd_run(config: Config):
 
     try:
         while True:
-            cmd_check(config, send_notifications=True)
+            try:
+                cmd_check(config, send_notifications=True)
+            except Exception as e:
+                # Une erreur imprévue ne doit jamais arrêter la surveillance
+                print(f"[!] Vérification interrompue par une erreur : {e!r}")
             print(f"\n[*] Prochaine vérification dans {config.check_interval_seconds}s... (CTRL+C pour quitter)")
             time.sleep(config.check_interval_seconds)
     except KeyboardInterrupt:
@@ -195,6 +220,11 @@ def main():
         default="config.json",
         help="Chemin vers le fichier de configuration JSON (défaut: config.json)."
     )
+    parser.add_argument(
+        "--dry-run",
+        action="store_true",
+        help="Avec 'check' : simule sans envoyer de notification ni modifier state.json."
+    )
 
     args = parser.parse_args()
     config = load_config(args.config)
@@ -202,7 +232,7 @@ def main():
     if args.action == "list":
         cmd_list(config)
     elif args.action == "check":
-        cmd_check(config, send_notifications=True)
+        sys.exit(cmd_check(config, send_notifications=not args.dry_run))
     elif args.action == "run":
         cmd_run(config)
     elif args.action == "test-notify":

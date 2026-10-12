@@ -17,6 +17,8 @@
   - 🟢 **Alerte Réapprovisionnement** dès qu'une livraison de carburant arrive ou qu'une station repasse au vert (avec prix en direct et boutons GPS Google Maps / Waze).
   - 🔴 **Alerte Rupture** dès qu'une station tombe à sec sur ces carburants.
   - 🔇 **Silence total** entre les événements : aucun message inutile tant que la situation ne change pas.
+- **Alertes vérifiées** : chaque changement est recoupé avec une seconde source officielle avant d'être envoyé (voir la section 6).
+- **Aucune alerte perdue** : une notification reste en file d'attente tant que Ntfy n'a pas accusé réception.
 - **Autonomie 24h/24 sans PC allumé** : Fonctionne gratuitement sur le cloud via GitHub Actions toutes les 5 minutes.
 - **Ultra-léger & économe** : ~3,7 Ko par requête, moins de 0,2s de temps de réponse, aucune clé d'API requise.
 
@@ -52,25 +54,30 @@ Votre téléphone va immédiatement vibrer / sonner avec la notification de test
 ## 🔔 2. À quoi ressemblent les alertes ?
 
 ### 🟢 Réapprovisionnement (Livraison détectée)
-> **Titre** : `⛽ [Lure (Axe N19)] E10 DISPONIBLE : Total (Lure)`  
-> **Message** :  
-> 📍 16 Rue de Belfort, 70200 Lure (2.4 km)  
-> Statut : 🟢 DISPONIBLE  
-> ✨ Carburants de nouveau en stock :  
-> • E10 : 1.990 €/L (il y a 5 min)  
-> 🔄 Alternatives disponibles : SP98 (1.990 €/L)  
-> **Actions 1-clic intégrées** :  
+> **Titre** : `🟢 DISPO : E10 (1.990 €/L) à Voujeaucourt`
+> **Message** :
+> ⛽ Total Access - Rue de la Cray, Voujeaucourt (4.1 km)
+> ✨ E10 : 1.990 €/L (déclaré à 05:46, il y a 12 min)
+> ✅ Vérifié : 2 sources officielles concordantes
+> 🕐 Automate 24h/24
+> 🔄 Alternatives : SP98 (1.990 €/L)
+> **Actions 1-clic intégrées** :
 > `[🗺️ Google Maps]` `[🚗 Waze]`
 
+La ligne 🕐 indique si la station est réellement accessible maintenant (`Ouvert jusqu'à 18h00`, `Fermé · ouvre demain à 07h00`, `Automate 24h/24`).
+
 ### 🔴 Rupture de stock (Station épuisée)
-> **Titre** : `⚠️ [Belfort] RUPTURE E10 : Total Access (Belfort)`  
-> **Message** :  
-> 📍 56 Avenue du Général Leclerc, 90000 Belfort (2.0 km)  
-> Statut : 🔴 RUPTURE  
-> 🔴 Carburant épuisé : E10 n'est plus disponible.  
-> 🔄 Alternatives restantes : SP98 (1.990 €/L)  
-> **Action intégrée** :  
+> **Titre** : `🔴 RUPTURE E10 : Total Access (Belfort)`
+> **Message** :
+> ⛽ Total Access - 56 Avenue du Général Leclerc, Belfort (2.0 km)
+> ❌ E10 n'est plus disponible (rupture de stock).
+> 🔄 Alternatives encore en stock : SP98 (1.990 €/L)
+> ✅ Vérifié : 2 sources officielles concordantes
+> **Action intégrée** :
 > `[🗺️ Google Maps]`
+
+### ⚠️ Messages de service
+Si la source de données officielle ne répond plus pendant plusieurs vérifications consécutives, le bot envoie **une** alerte `⚠️ SP-Bot : source de données injoignable`, puis `✅ SP-Bot : surveillance rétablie` au retour. Vous savez ainsi toujours si le silence signifie « rien n'a changé » ou « le bot est aveugle ».
 
 ---
 
@@ -81,8 +88,13 @@ Vous n'avez **pas besoin de laisser votre ordinateur allumé**. Le robot tourne 
 ### Comment ça marche ?
 1. Le fichier [`.github/workflows/fuel_monitor.yml`](.github/workflows/fuel_monitor.yml) est programmé pour tourner **toutes les 5 minutes** (`cron: '*/5 * * * *'`).
 2. À chaque passage, il exécute `python main.py check`.
-3. Si un changement de stock est repéré, il envoie la notification push via Ntfy.
-4. L'état des cuves est automatiquement archivé dans `data/state.json` via un commit automatique pour comparer le stock lors du prochain passage.
+3. Si un changement de stock est repéré **et confirmé**, il envoie la notification push via Ntfy.
+4. L'état des cuves et la file des alertes à envoyer sont archivés dans `data/state.json` par un commit automatique (uniquement lorsque quelque chose a changé).
+5. Si la surveillance est dégradée (source injoignable de façon prolongée, alerte impossible à remettre), l'exécution est marquée **en échec** : GitHub vous prévient par e-mail.
+
+> ℹ️ Le cron GitHub est souvent retardé de plusieurs minutes. Pour une cadence fiable, gardez un cron externe qui déclenche l'événement `repository_dispatch` de type `check-fuel`.
+
+> 🔑 Optionnel : le serveur public ntfy.sh limite le nombre de messages par adresse IP, et celles de GitHub sont partagées. Si des envois sont refusés (HTTP 429), créez un jeton d'accès Ntfy et ajoutez-le comme secret `NTFY_TOKEN` du dépôt.
 
 ### Avantages :
 - **0 € de coût** (utilise les quotas gratuits GitHub Actions).
@@ -108,7 +120,10 @@ python main.py test-notify
 # 4. Lancer la surveillance continue locale (boucle toutes les 3 minutes)
 python main.py run
 
-# 5. Lancer la suite de tests unitaires et de simulation
+# 5. Simuler une vérification sans rien envoyer ni modifier l'état
+python main.py check --dry-run
+
+# 6. Lancer la suite de tests unitaires et de simulation
 python tests/test_simulation.py
 ```
 
@@ -191,6 +206,12 @@ Le comportement du robot est entièrement personnalisable via le fichier [`confi
     "server": "https://ntfy.sh",
     "priority": 4
   },
+  "verification": {
+    "cross_check": true,
+    "confirm_minutes": 10,
+    "stale_confirm_minutes": 30,
+    "outage_alert_after_failures": 6
+  },
   "check_interval_seconds": 180,
   "notify_mode": "events_only",
   "notify_on_startup": false
@@ -205,19 +226,39 @@ Le comportement du robot est entièrement personnalisable via le fichier [`confi
 | `filters.fuels` | Carburants ciblés pour les alertes. | `["E10", "SP95"]` |
 | `ntfy.topic` | Nom du canal de notification Ntfy sur lequel s'abonner. | `sp-bot-alerte-total-belfort` |
 | `notify_mode` | Mode d'envoi : `"events_only"` (uniquement si réapprovisionnement ou rupture) ou `"periodic_list"` (récapitulatif régulier). | `"events_only"` |
+| `verification.cross_check` | Recoupe chaque changement avec le flux XML officiel avant d'alerter. | `true` |
+| `verification.confirm_minutes` | Si le recoupement est impossible : durée pendant laquelle le changement doit persister avant l'alerte. | `10` |
+| `verification.stale_confirm_minutes` | Idem pour un relevé plus ancien que l'état déjà validé (cache obsolète probable). | `30` |
+| `verification.outage_alert_after_failures` | Nombre de vérifications en échec avant le message « source injoignable ». | `6` |
 | `notify_on_startup` | Si `true`, envoie l'état de toutes les stations au tout premier lancement. | `false` |
 
 ---
 
-## 🔬 6. Précision des données & Architecture Technique
+## 🔬 6. Fiabilité : comment une alerte est vérifiée
 
 ### 📡 D'où proviennent les données ?
-Les données proviennent directement du **flux officiel en temps réel du Ministère de l'Économie et des Finances** via la plateforme [data.economie.gouv.fr](https://data.economie.gouv.fr/explore/dataset/prix-des-carburants-en-france-flux-instantane-v2/).
-- Mise à jour légalement obligatoire pour toutes les stations-service débitant plus de 500 m³ par an.
-- Actualisation du flux officiel toutes les 10 minutes par le gouvernement.
+Deux sources officielles indépendantes, toutes deux alimentées par les déclarations obligatoires des stations :
+1. **Source principale** : l'API [data.economie.gouv.fr](https://data.economie.gouv.fr/explore/dataset/prix-des-carburants-en-france-flux-instantane-v2/) (requêtes géographiques légères, interrogée à chaque passage).
+2. **Source de recoupement** : le flux XML d'origine du ministère ([donnees.roulez-eco.fr](https://donnees.roulez-eco.fr/opendata/instantane_ruptures), ~1 Mo), téléchargé **uniquement** lorsqu'un changement doit être confirmé.
+
+### ✅ Quand un carburant est-il considéré « en stock » ?
+Il faut **à la fois** un prix valide et daté, et **aucune rupture en cours** déclarée pour ce carburant. Un prix accompagné d'une rupture active n'est pas compté comme disponible.
+
+### 🛡️ Du relevé à la notification
+| Situation | Comportement |
+| :--- | :--- |
+| Les deux sources concordent | Alerte immédiate, mention `2 sources officielles concordantes`. |
+| Les deux sources se contredisent | Alerte **retenue** jusqu'à ce qu'elles soient d'accord. |
+| Flux de recoupement injoignable | Alerte seulement si le changement persiste `confirm_minutes` sur au moins 2 relevés. |
+| Relevé plus ancien que l'état validé (nœud de cache périmé) | Ignoré tant que la seconde source ne le confirme pas. |
+| Erreur réseau / zone sans réponse | 3 tentatives, puis le dernier état connu est conservé : jamais de fausse rupture ni de faux réappro. |
+| Ntfy injoignable ou saturé | 3 tentatives, puis l'alerte reste dans la file de `state.json` et repart au passage suivant. |
+| « Dispo » jamais remis puis rupture | Les deux s'annulent : on ne vous envoie pas vers une pompe déjà vide. |
+
+> ⚠️ **Limite à connaître** : le bot garantit que l'alerte reflète fidèlement ce que la station a **déclaré** aux autorités. Il ne peut pas voir les cuves : si un gérant tarde à déclarer une rupture, ou si la station est dévalisée dans les minutes qui suivent la livraison, aucune source de données ne permet de le savoir.
 
 ### ⚡ Optimisations & Sobriété
-- **Requêtes ultra-légères** : Le bot filtre les champs demandés à l'API (`select=id,adresse,ville,cp,geom,prix,carburants_disponibles,...`). Chaque requête consomme à peine **3,7 Ko** de bande passante avec compression gzip.
+- **Requêtes ultra-légères** : Le bot filtre les champs demandés à l'API (`select=id,adresse,ville,cp,geom,prix,carburants_disponibles,...`). Chaque requête ne pèse que quelques Ko avec compression gzip.
 - **Référentiel embarqué** : Le fichier [`data/total_stations.json`](data/total_stations.json) contient la cartographie des 2 327 stations Total de France (55 Ko), évitant de télécharger les 2 Mo de référentiel national à chaque tour.
 - **Calculs géodésiques rapides** : Calcul précis des distances par la formule de Haversine sans passer par des API payantes ou lentes.
 - **Moteur inspiré de Gasoil Now & Essence&CO** : Distinction fine entre rupture temporaire, rupture définitive, disponibilité et détection des livraisons récentes via les horodatages de révision de prix.
@@ -231,10 +272,14 @@ Le projet dispose d'une suite de tests complète simulant toutes les transitions
 python tests/test_simulation.py
 ```
 **Scénarios validés :**
-1. **Initialisation** : Enregistrement de l'état de référence sans déclenchement d'alerte intempestive.
-2. **Réapprovisionnement** : Arrivée d'un camion de livraison avec E10 et Gazole ➡️ Seul le E10 déclenche l'alerte (le Gazole est ignoré).
-3. **Rupture de stock** : Épuisement du E10 ➡️ Déclenchement immédiat de l'alerte rupture avec indication des carburants restants.
-4. **Silence / Anti-spam** : Scan suivant sans changement ➡️ Zéro alerte envoyée.
+1. **Cycle complet** : état de référence silencieux, réappro confirmé (seuls les carburants ciblés alertent), silence, rupture.
+2. **Sans recoupement** : le changement doit persister ; un changement fugace n'est jamais notifié.
+3. **Sources contradictoires** : aucune alerte tant qu'elles ne concordent pas.
+4. **Cache obsolète** (cas Menoncourt) : pas de fausse rupture après une livraison validée.
+5. **Pannes d'API** : zone manquante ou panne totale sans fausse alerte, message de service puis rétablissement.
+6. **File d'envoi** : Ntfy en panne, redémarrage, remise différée, zéro doublon.
+7. **Nouvelle station** et reprise de l'ancien format de `state.json`.
+8. **Lecture du flux** : prix unique, conflit prix/rupture, horaires d'ouverture.
 
 ---
 

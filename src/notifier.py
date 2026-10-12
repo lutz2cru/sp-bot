@@ -1,10 +1,16 @@
 import json
+import time
+import urllib.error
 import urllib.request
 from typing import Dict, List, Tuple
 
 from src.tracker import RestockEvent, normalize_fuel
 from src.fetcher import Station
+from src.fetcher import opening_label
 from src.config import NtfyConfig
+from src.timeutil import format_relative_time
+
+POST_ATTEMPTS = 3
 
 class NtfyNotifier:
     """Notificateur push mobile instantané via Ntfy.sh (0 compte, 0 mot de passe, ultra-sobre)."""
@@ -18,19 +24,37 @@ class NtfyNotifier:
         return f"Ntfy (topic: {self.topic})"
 
     def _post(self, payload: dict) -> bool:
-        url = self.server
+        """Publie sur Ntfy avec reprises. True uniquement si le serveur a accusé réception."""
         data = json.dumps(payload).encode("utf-8")
         headers = {
             "Content-Type": "application/json; charset=utf-8",
-            "User-Agent": "SP-Bot/1.0"
+            "User-Agent": "SP-Bot/2.0"
         }
-        try:
-            req = urllib.request.Request(url, data=data, headers=headers, method="POST")
-            with urllib.request.urlopen(req, timeout=5) as resp:
-                return resp.status in (200, 201)
-        except Exception as e:
-            print(f"[!] Erreur Ntfy : {e}")
-            return False
+        if self.config.token:
+            headers["Authorization"] = f"Bearer {self.config.token}"
+
+        for attempt in range(POST_ATTEMPTS):
+            wait = 3 * (attempt + 1)
+            try:
+                req = urllib.request.Request(self.server, data=data, headers=headers, method="POST")
+                with urllib.request.urlopen(req, timeout=15) as resp:
+                    if resp.status in (200, 201):
+                        return True
+                    print(f"[!] Erreur Ntfy : HTTP {resp.status}")
+            except urllib.error.HTTPError as e:
+                print(f"[!] Erreur Ntfy : HTTP {e.code}")
+                if e.code == 429:  # quota du serveur public : on respecte le délai demandé
+                    try:
+                        wait = min(int(e.headers.get("Retry-After", wait)), 20)
+                    except (TypeError, ValueError):
+                        pass
+                elif e.code < 500:
+                    return False  # requête refusée : réessayer à l'identique ne changera rien
+            except Exception as e:
+                print(f"[!] Erreur Ntfy : {e}")
+            if attempt < POST_ATTEMPTS - 1:
+                time.sleep(wait)
+        return False
 
     def send_stock_event(self, event: RestockEvent) -> bool:
         """Envoie une notification push instantanée pour un réapprovisionnement (RESTOCK) ou une rupture (SHORTAGE)."""
@@ -47,6 +71,8 @@ class NtfyNotifier:
                 lines.append(f"🔄 Autres carburants en stock : {', '.join(event.all_available)}")
             else:
                 lines.append("⚠️ Station désormais en rupture totale !")
+            if event.verification:
+                lines.append(f"✅ Vérifié : {event.verification}")
 
             payload = {
                 "topic": self.topic,
@@ -73,9 +99,16 @@ class NtfyNotifier:
         ]
         for f in event.fuels_restocked:
             p_str = f"{f.price:.3f} €/L" if f.price else "Prix dispo"
-            rel_str = f"({f.relative_time})" if f.relative_time else ""
+            # Recalculé à l'envoi : l'alerte peut avoir attendu dans la file
+            rel = format_relative_time(f.maj)
+            rel_str = f"(déclaré à {f.maj[11:16]}, {rel})" if rel else ""
             lines.append(f"✨ {f.fuel} : {p_str} {rel_str}".strip())
 
+        if event.verification:
+            lines.append(f"✅ Vérifié : {event.verification}")
+        opening = opening_label(event.automate_24_24, event.hours)
+        if opening:
+            lines.append(f"🕐 {opening}")
         if event.alternatives:
             lines.append(f"🔄 Alternatives : {', '.join(event.alternatives)}")
 
@@ -153,6 +186,10 @@ class NtfyNotifier:
             payload["actions"] = actions[:3]
         return self._post(payload)
 
+    def send_system(self, title: str, message: str, tags: List[str]) -> bool:
+        """Message de service (panne ou rétablissement de la source de données)."""
+        return self._post({"topic": self.topic, "title": title, "message": message, "priority": 3, "tags": tags})
+
     def send_test_message(self) -> bool:
         payload = {
             "topic": self.topic,
@@ -172,6 +209,12 @@ class NotificationManager:
     @property
     def active_channels(self) -> List[str]:
         return [self.notifier.name]
+
+    def send_stock_event(self, event: RestockEvent) -> bool:
+        return self.notifier.send_stock_event(event)
+
+    def send_system(self, title: str, message: str, tags: List[str]) -> bool:
+        return self.notifier.send_system(title, message, tags)
 
     def broadcast_stock_event(self, event: RestockEvent) -> int:
         return 1 if self.notifier.send_stock_event(event) else 0
