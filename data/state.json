@@ -77,9 +77,9 @@
           "since": "2017-09-02 07:53:49"
         },
         "SP98": {
-          "available": false,
-          "price": null,
-          "since": "2026-10-04 15:11:22"
+          "available": true,
+          "price": 1.99,
+          "since": "2026-10-13 05:38:05"
         }
       },
       "last_seen": "2026-10-13",
