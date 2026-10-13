@@ -83,7 +83,14 @@
         }
       },
       "last_seen": "2026-10-13",
-      "pending": {},
+      "pending": {
+        "SP98": {
+          "available": false,
+          "first_seen": "2026-10-13T04:10:37",
+          "seen": 1,
+          "ts": "2026-10-04 15:11:22"
+        }
+      },
       "zone": "Montbéliard"
     },
     "25700003": {
