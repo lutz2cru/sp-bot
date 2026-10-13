@@ -351,7 +351,7 @@
         "GPLc": {
           "available": true,
           "price": 1.019,
-          "since": "2026-10-13 00:01:00"
+          "since": "2026-10-14 00:01:00"
         },
         "Gazole": {
           "available": false,
@@ -395,9 +395,9 @@
           "since": "2018-10-09 10:03:39"
         },
         "Gazole": {
-          "available": false,
-          "price": null,
-          "since": "2026-10-12 19:06:46"
+          "available": true,
+          "price": 2.25,
+          "since": "2026-10-14 00:01:00"
         },
         "SP95": {
           "available": false,
