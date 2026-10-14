@@ -200,20 +200,13 @@
           "since": "2023-06-29 18:57:36"
         },
         "SP98": {
-          "available": true,
-          "price": 1.99,
-          "since": "2026-10-14 08:25:09"
+          "available": false,
+          "price": null,
+          "since": "2026-10-14 11:45:32"
         }
       },
       "last_seen": "2026-10-14",
-      "pending": {
-        "SP98": {
-          "available": false,
-          "first_seen": "2026-10-14T10:08:21",
-          "seen": 1,
-          "ts": "2026-10-14 11:45:32"
-        }
-      },
+      "pending": {},
       "zone": "Vesoul"
     },
     "70004001": {
