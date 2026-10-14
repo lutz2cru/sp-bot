@@ -177,7 +177,7 @@
         "E10": {
           "available": true,
           "price": 1.99,
-          "since": "2026-10-14 08:25:08"
+          "since": "2026-10-14 11:45:45"
         },
         "E85": {
           "available": false,
@@ -192,7 +192,7 @@
         "Gazole": {
           "available": true,
           "price": 2.25,
-          "since": "2026-10-14 08:25:08"
+          "since": "2026-10-14 11:45:45"
         },
         "SP95": {
           "available": false,
@@ -206,7 +206,14 @@
         }
       },
       "last_seen": "2026-10-14",
-      "pending": {},
+      "pending": {
+        "SP98": {
+          "available": false,
+          "first_seen": "2026-10-14T10:08:21",
+          "seen": 1,
+          "ts": "2026-10-14 11:45:32"
+        }
+      },
       "zone": "Vesoul"
     },
     "70004001": {
