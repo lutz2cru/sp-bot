@@ -149,9 +149,9 @@
           "since": "2023-10-11 10:13:25"
         },
         "Gazole": {
-          "available": true,
-          "price": 2.25,
-          "since": "2026-10-15 08:10:38"
+          "available": false,
+          "price": null,
+          "since": "2026-10-09 08:33:54"
         },
         "SP95": {
           "available": true,
@@ -165,7 +165,20 @@
         }
       },
       "last_seen": "2026-10-15",
-      "pending": {},
+      "pending": {
+        "SP95": {
+          "available": false,
+          "first_seen": "2026-10-15T06:38:23",
+          "seen": 1,
+          "ts": "2026-10-09 13:44:22"
+        },
+        "SP98": {
+          "available": false,
+          "first_seen": "2026-10-15T06:38:23",
+          "seen": 1,
+          "ts": "2026-10-09 09:22:09"
+        }
+      },
       "zone": "Montbéliard"
     },
     "70000005": {
@@ -175,9 +188,9 @@
       "distance_km": 1.1,
       "fuels": {
         "E10": {
-          "available": false,
-          "price": null,
-          "since": "2026-10-14 17:05:21"
+          "available": true,
+          "price": 1.99,
+          "since": "2026-10-15 08:11:49"
         },
         "E85": {
           "available": false,
@@ -190,9 +203,9 @@
           "since": "2021-06-02 18:13:58"
         },
         "Gazole": {
-          "available": false,
-          "price": null,
-          "since": "2026-10-14 17:05:21"
+          "available": true,
+          "price": 2.25,
+          "since": "2026-10-15 08:11:49"
         },
         "SP95": {
           "available": false,
