@@ -192,7 +192,7 @@
         "Gazole": {
           "available": true,
           "price": 2.25,
-          "since": "2026-10-15 08:11:49"
+          "since": "2026-10-15 09:39:12"
         },
         "SP95": {
           "available": false,
@@ -206,7 +206,20 @@
         }
       },
       "last_seen": "2026-10-15",
-      "pending": {},
+      "pending": {
+        "E10": {
+          "available": false,
+          "first_seen": "2026-10-15T08:10:39",
+          "seen": 1,
+          "ts": "2026-10-15 09:38:32"
+        },
+        "SP98": {
+          "available": true,
+          "first_seen": "2026-10-15T08:10:39",
+          "seen": 1,
+          "ts": "2026-10-15 09:39:12"
+        }
+      },
       "zone": "Vesoul"
     },
     "70004001": {
