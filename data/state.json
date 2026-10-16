@@ -175,9 +175,9 @@
       "distance_km": 1.1,
       "fuels": {
         "E10": {
-          "available": true,
-          "price": 1.99,
-          "since": "2026-10-16 14:46:25"
+          "available": false,
+          "price": null,
+          "since": "2026-10-16 17:15:51"
         },
         "E85": {
           "available": false,
@@ -200,26 +200,13 @@
           "since": "2023-06-29 18:57:36"
         },
         "SP98": {
-          "available": true,
-          "price": 1.99,
-          "since": "2026-10-16 14:46:25"
+          "available": false,
+          "price": null,
+          "since": "2026-10-16 17:15:52"
         }
       },
       "last_seen": "2026-10-16",
-      "pending": {
-        "E10": {
-          "available": false,
-          "first_seen": "2026-10-16T15:40:37",
-          "seen": 2,
-          "ts": "2026-10-16 17:15:51"
-        },
-        "SP98": {
-          "available": false,
-          "first_seen": "2026-10-16T15:40:37",
-          "seen": 2,
-          "ts": "2026-10-16 17:15:52"
-        }
-      },
+      "pending": {},
       "zone": "Vesoul"
     },
     "70004001": {
