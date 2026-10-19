@@ -282,20 +282,13 @@
           "since": "2026-10-02 09:26:24"
         },
         "SP98": {
-          "available": false,
-          "price": null,
-          "since": "2026-10-01 10:03:32"
+          "available": true,
+          "price": 1.99,
+          "since": "2026-10-19 10:21:27"
         }
       },
       "last_seen": "2026-10-19",
-      "pending": {
-        "SP98": {
-          "available": true,
-          "first_seen": "2026-10-19T08:54:23",
-          "seen": 1,
-          "ts": "2026-10-19 10:21:27"
-        }
-      },
+      "pending": {},
       "zone": "Lure (Axe N19)"
     },
     "90000002": {
