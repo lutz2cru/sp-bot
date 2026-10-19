@@ -272,9 +272,9 @@
           "since": "2026-10-02 09:26:10"
         },
         "Gazole": {
-          "available": false,
-          "price": null,
-          "since": "2026-10-16 08:52:03"
+          "available": true,
+          "price": 2.25,
+          "since": "2026-10-19 10:21:27"
         },
         "SP95": {
           "available": false,
@@ -288,7 +288,14 @@
         }
       },
       "last_seen": "2026-10-19",
-      "pending": {},
+      "pending": {
+        "SP98": {
+          "available": true,
+          "first_seen": "2026-10-19T08:54:23",
+          "seen": 1,
+          "ts": "2026-10-19 10:21:27"
+        }
+      },
       "zone": "Lure (Axe N19)"
     },
     "90000002": {
