@@ -351,12 +351,12 @@
         "GPLc": {
           "available": true,
           "price": 1.019,
-          "since": "2026-10-19 00:01:00"
+          "since": "2026-10-19 08:51:28"
         },
         "Gazole": {
-          "available": false,
-          "price": null,
-          "since": "2026-10-14 10:55:30"
+          "available": true,
+          "price": 2.25,
+          "since": "2026-10-19 08:51:28"
         },
         "SP95": {
           "available": false,
