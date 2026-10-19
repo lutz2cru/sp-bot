@@ -221,9 +221,9 @@
           "since": "2026-09-23 16:09:26"
         },
         "E85": {
-          "available": false,
-          "price": null,
-          "since": "2026-09-30 09:26:41"
+          "available": true,
+          "price": 1.004,
+          "since": "2026-10-19 13:27:24"
         },
         "GPLc": {
           "available": false,
@@ -231,9 +231,9 @@
           "since": "2017-08-31 15:36:11"
         },
         "Gazole": {
-          "available": false,
-          "price": null,
-          "since": "2026-09-27 16:39:15"
+          "available": true,
+          "price": 2.25,
+          "since": "2026-10-19 13:27:23"
         },
         "SP95": {
           "available": false,
@@ -241,9 +241,9 @@
           "since": "2023-06-29 18:58:23"
         },
         "SP98": {
-          "available": false,
-          "price": null,
-          "since": "2026-09-23 16:09:26"
+          "available": true,
+          "price": 1.99,
+          "since": "2026-10-19 13:27:24"
         }
       },
       "last_seen": "2026-10-19",
@@ -272,9 +272,9 @@
           "since": "2026-10-02 09:26:10"
         },
         "Gazole": {
-          "available": true,
-          "price": 2.25,
-          "since": "2026-10-19 10:21:27"
+          "available": false,
+          "price": null,
+          "since": "2026-10-19 13:29:34"
         },
         "SP95": {
           "available": false,
@@ -282,9 +282,9 @@
           "since": "2026-10-02 09:26:24"
         },
         "SP98": {
-          "available": true,
-          "price": 1.99,
-          "since": "2026-10-19 10:21:27"
+          "available": false,
+          "price": null,
+          "since": "2026-10-19 13:25:38"
         }
       },
       "last_seen": "2026-10-19",
