@@ -151,17 +151,17 @@
         "Gazole": {
           "available": false,
           "price": null,
-          "since": "2026-10-15 18:38:24"
+          "since": "2026-10-19 14:11:18"
         },
         "SP95": {
           "available": false,
           "price": null,
-          "since": "2026-10-15 18:38:24"
+          "since": "2026-10-19 14:11:18"
         },
         "SP98": {
           "available": false,
           "price": null,
-          "since": "2026-10-15 18:38:24"
+          "since": "2026-10-19 14:11:18"
         }
       },
       "last_seen": "2026-10-19",
