@@ -395,9 +395,9 @@
           "since": "2018-10-09 10:03:39"
         },
         "Gazole": {
-          "available": false,
-          "price": null,
-          "since": "2026-10-14 13:05:04"
+          "available": true,
+          "price": 2.25,
+          "since": "2026-10-19 09:23:15"
         },
         "SP95": {
           "available": false,
