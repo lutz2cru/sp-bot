@@ -247,7 +247,14 @@
         }
       },
       "last_seen": "2026-10-20",
-      "pending": {},
+      "pending": {
+        "SP98": {
+          "available": false,
+          "first_seen": "2026-10-20T06:22:29",
+          "seen": 1,
+          "ts": "2026-10-20 07:53:22"
+        }
+      },
       "zone": "Vesoul"
     },
     "70200006": {
