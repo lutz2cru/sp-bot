@@ -221,9 +221,9 @@
           "since": "2026-09-23 16:09:26"
         },
         "E85": {
-          "available": false,
-          "price": null,
-          "since": "2026-10-20 13:28:48"
+          "available": true,
+          "price": 1.004,
+          "since": "2026-10-19 13:27:24"
         },
         "GPLc": {
           "available": false,
@@ -231,9 +231,9 @@
           "since": "2017-08-31 15:36:11"
         },
         "Gazole": {
-          "available": false,
-          "price": null,
-          "since": "2026-10-20 13:28:48"
+          "available": true,
+          "price": 2.25,
+          "since": "2026-10-19 13:27:23"
         },
         "SP95": {
           "available": false,
