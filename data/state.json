@@ -154,14 +154,14 @@
           "since": "2026-10-22 08:13:52"
         },
         "SP95": {
-          "available": true,
-          "price": 1.99,
-          "since": "2026-10-22 08:13:52"
+          "available": false,
+          "price": null,
+          "since": "2026-10-22 13:56:05"
         },
         "SP98": {
-          "available": true,
-          "price": 1.99,
-          "since": "2026-10-22 08:13:53"
+          "available": false,
+          "price": null,
+          "since": "2026-10-22 13:56:05"
         }
       },
       "last_seen": "2026-10-22",
