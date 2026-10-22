@@ -154,31 +154,18 @@
           "since": "2026-10-22 08:13:52"
         },
         "SP95": {
-          "available": false,
-          "price": null,
-          "since": "2026-10-19 14:11:18"
+          "available": true,
+          "price": 1.99,
+          "since": "2026-10-22 08:13:52"
         },
         "SP98": {
-          "available": false,
-          "price": null,
-          "since": "2026-10-19 14:11:18"
+          "available": true,
+          "price": 1.99,
+          "since": "2026-10-22 08:13:53"
         }
       },
       "last_seen": "2026-10-22",
-      "pending": {
-        "SP95": {
-          "available": true,
-          "first_seen": "2026-10-22T06:42:24",
-          "seen": 1,
-          "ts": "2026-10-22 08:13:52"
-        },
-        "SP98": {
-          "available": true,
-          "first_seen": "2026-10-22T06:42:24",
-          "seen": 1,
-          "ts": "2026-10-22 08:13:53"
-        }
-      },
+      "pending": {},
       "zone": "Montbéliard"
     },
     "70000005": {
