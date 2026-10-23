@@ -206,7 +206,14 @@
         }
       },
       "last_seen": "2026-10-23",
-      "pending": {},
+      "pending": {
+        "SP98": {
+          "available": false,
+          "first_seen": "2026-10-23T13:02:29",
+          "seen": 1,
+          "ts": "2026-10-23 14:21:27"
+        }
+      },
       "zone": "Vesoul"
     },
     "70004001": {
@@ -272,9 +279,9 @@
           "since": "2026-10-02 09:26:10"
         },
         "Gazole": {
-          "available": false,
-          "price": null,
-          "since": "2026-10-23 14:22:39"
+          "available": true,
+          "price": 2.25,
+          "since": "2026-10-23 07:54:01"
         },
         "SP95": {
           "available": false,
