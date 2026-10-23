@@ -210,7 +210,7 @@
         "SP98": {
           "available": false,
           "first_seen": "2026-10-23T13:02:29",
-          "seen": 1,
+          "seen": 2,
           "ts": "2026-10-23 14:21:27"
         }
       },
@@ -279,9 +279,9 @@
           "since": "2026-10-02 09:26:10"
         },
         "Gazole": {
-          "available": true,
-          "price": 2.25,
-          "since": "2026-10-23 07:54:01"
+          "available": false,
+          "price": null,
+          "since": "2026-10-23 14:22:39"
         },
         "SP95": {
           "available": false,
