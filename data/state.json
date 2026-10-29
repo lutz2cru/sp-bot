@@ -159,20 +159,13 @@
           "since": "2026-10-29 07:56:40"
         },
         "SP98": {
-          "available": true,
-          "price": 1.99,
-          "since": "2026-10-29 07:56:40"
+          "available": false,
+          "price": null,
+          "since": "2026-10-29 14:03:26"
         }
       },
       "last_seen": "2026-10-29",
-      "pending": {
-        "SP98": {
-          "available": false,
-          "first_seen": "2026-10-29T13:26:26",
-          "seen": 1,
-          "ts": "2026-10-29 14:03:26"
-        }
-      },
+      "pending": {},
       "zone": "Montbéliard"
     },
     "70000005": {
