@@ -1,5 +1,5 @@
 {
-  "consecutive_failures": 0,
+  "consecutive_failures": 1,
   "initialized": true,
   "outage_notified": false,
   "outbox": [],
