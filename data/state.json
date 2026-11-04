@@ -354,9 +354,9 @@
           "since": "2026-11-04 00:01:00"
         },
         "Gazole": {
-          "available": false,
-          "price": null,
-          "since": "2026-10-24 14:01:54"
+          "available": true,
+          "price": 2.25,
+          "since": "2026-11-04 10:44:24"
         },
         "SP95": {
           "available": false,
@@ -423,7 +423,7 @@
         "E10": {
           "available": false,
           "price": null,
-          "since": "2026-10-08 10:26:42"
+          "since": "2026-11-04 15:42:13"
         },
         "E85": {
           "available": false,
