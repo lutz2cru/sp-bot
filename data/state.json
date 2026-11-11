@@ -339,9 +339,9 @@
       "distance_km": 1.0,
       "fuels": {
         "E10": {
-          "available": false,
-          "price": null,
-          "since": "2026-11-05 15:17:48"
+          "available": true,
+          "price": 1.99,
+          "since": "2026-11-11 08:07:19"
         },
         "E85": {
           "available": false,
