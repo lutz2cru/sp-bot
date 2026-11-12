@@ -52,9 +52,9 @@
       "distance_km": 3.4,
       "fuels": {
         "E10": {
-          "available": true,
-          "price": 1.99,
-          "since": "2026-11-10 05:57:38"
+          "available": false,
+          "price": null,
+          "since": "2026-11-12 05:48:04"
         },
         "E85": {
           "available": false,
@@ -67,9 +67,9 @@
           "since": "2017-09-02 07:53:49"
         },
         "Gazole": {
-          "available": false,
-          "price": null,
-          "since": "2026-11-09 19:23:36"
+          "available": true,
+          "price": 2.25,
+          "since": "2026-11-12 05:48:31"
         },
         "SP95": {
           "available": false,
@@ -175,9 +175,9 @@
       "distance_km": 1.1,
       "fuels": {
         "E10": {
-          "available": false,
-          "price": null,
-          "since": "2026-11-10 18:56:49"
+          "available": true,
+          "price": 1.99,
+          "since": "2026-11-12 07:13:58"
         },
         "E85": {
           "available": false,
@@ -190,9 +190,9 @@
           "since": "2021-06-02 18:13:58"
         },
         "Gazole": {
-          "available": false,
-          "price": null,
-          "since": "2026-11-10 18:56:49"
+          "available": true,
+          "price": 2.15,
+          "since": "2026-11-12 07:13:58"
         },
         "SP95": {
           "available": false,
@@ -257,9 +257,9 @@
       "distance_km": 2.4,
       "fuels": {
         "E10": {
-          "available": false,
-          "price": null,
-          "since": "2026-10-02 09:25:27"
+          "available": true,
+          "price": 1.99,
+          "since": "2026-11-12 08:04:49"
         },
         "E85": {
           "available": false,
@@ -272,9 +272,9 @@
           "since": "2026-10-02 09:26:10"
         },
         "Gazole": {
-          "available": false,
-          "price": null,
-          "since": "2026-10-23 14:22:39"
+          "available": true,
+          "price": 2.25,
+          "since": "2026-11-12 08:04:49"
         },
         "SP95": {
           "available": false,
