@@ -52,9 +52,9 @@
       "distance_km": 3.4,
       "fuels": {
         "E10": {
-          "available": true,
-          "price": 1.99,
-          "since": "2026-11-13 05:52:56"
+          "available": false,
+          "price": null,
+          "since": "2026-11-13 19:42:43"
         },
         "E85": {
           "available": false,
@@ -175,9 +175,9 @@
       "distance_km": 1.1,
       "fuels": {
         "E10": {
-          "available": false,
-          "price": null,
-          "since": "2026-11-12 14:09:52"
+          "available": true,
+          "price": 1.989,
+          "since": "2026-11-13 17:10:22"
         },
         "E85": {
           "available": false,
@@ -190,9 +190,9 @@
           "since": "2021-06-02 18:13:58"
         },
         "Gazole": {
-          "available": false,
-          "price": null,
-          "since": "2026-11-13 11:01:42"
+          "available": true,
+          "price": 2.15,
+          "since": "2026-11-13 17:10:22"
         },
         "SP95": {
           "available": false,
@@ -200,9 +200,9 @@
           "since": "2023-06-29 18:57:36"
         },
         "SP98": {
-          "available": false,
-          "price": null,
-          "since": "2026-11-10 16:56:51"
+          "available": true,
+          "price": 1.99,
+          "since": "2026-11-13 17:10:22"
         }
       },
       "last_seen": "2026-11-13",
@@ -257,9 +257,9 @@
       "distance_km": 2.4,
       "fuels": {
         "E10": {
-          "available": true,
-          "price": 1.99,
-          "since": "2026-11-13 08:06:58"
+          "available": false,
+          "price": null,
+          "since": "2026-11-13 16:53:25"
         },
         "E85": {
           "available": false,
@@ -272,9 +272,9 @@
           "since": "2026-10-02 09:26:10"
         },
         "Gazole": {
-          "available": true,
-          "price": 2.23,
-          "since": "2026-11-13 08:19:53"
+          "available": false,
+          "price": null,
+          "since": "2026-11-13 16:53:25"
         },
         "SP95": {
           "available": false,
@@ -339,9 +339,9 @@
       "distance_km": 1.0,
       "fuels": {
         "E10": {
-          "available": false,
-          "price": null,
-          "since": "2026-11-12 18:17:35"
+          "available": true,
+          "price": 1.99,
+          "since": "2026-11-13 16:39:36"
         },
         "E85": {
           "available": false,
@@ -421,9 +421,9 @@
       "distance_km": 2.0,
       "fuels": {
         "E10": {
-          "available": true,
-          "price": 1.99,
-          "since": "2026-11-13 08:08:13"
+          "available": false,
+          "price": null,
+          "since": "2026-11-13 18:47:03"
         },
         "E85": {
           "available": false,
