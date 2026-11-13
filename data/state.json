@@ -52,9 +52,9 @@
       "distance_km": 3.4,
       "fuels": {
         "E10": {
-          "available": false,
-          "price": null,
-          "since": "2026-11-12 18:43:01"
+          "available": true,
+          "price": 1.99,
+          "since": "2026-11-13 05:52:56"
         },
         "E85": {
           "available": false,
@@ -190,9 +190,9 @@
           "since": "2021-06-02 18:13:58"
         },
         "Gazole": {
-          "available": false,
-          "price": null,
-          "since": "2026-11-12 17:48:17"
+          "available": true,
+          "price": 2.15,
+          "since": "2026-11-13 07:09:47"
         },
         "SP95": {
           "available": false,
