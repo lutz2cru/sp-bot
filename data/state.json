@@ -175,9 +175,9 @@
       "distance_km": 1.1,
       "fuels": {
         "E10": {
-          "available": true,
-          "price": 1.989,
-          "since": "2026-11-13 17:10:22"
+          "available": false,
+          "price": null,
+          "since": "2026-11-14 17:52:03"
         },
         "E85": {
           "available": false,
@@ -200,9 +200,9 @@
           "since": "2023-06-29 18:57:36"
         },
         "SP98": {
-          "available": true,
-          "price": 1.99,
-          "since": "2026-11-13 17:10:22"
+          "available": false,
+          "price": null,
+          "since": "2026-11-14 17:52:03"
         }
       },
       "last_seen": "2026-11-14",
