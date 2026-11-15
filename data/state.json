@@ -341,7 +341,7 @@
         "E10": {
           "available": true,
           "price": 1.99,
-          "since": "2026-11-14 00:01:00"
+          "since": "2026-11-15 00:01:00"
         },
         "E85": {
           "available": false,
@@ -351,7 +351,7 @@
         "GPLc": {
           "available": true,
           "price": 1.073,
-          "since": "2026-11-14 00:01:00"
+          "since": "2026-11-15 00:01:00"
         },
         "Gazole": {
           "available": false,
@@ -382,12 +382,12 @@
         "E10": {
           "available": true,
           "price": 1.99,
-          "since": "2026-11-14 00:01:00"
+          "since": "2026-11-15 00:01:00"
         },
         "E85": {
           "available": true,
           "price": 0.953,
-          "since": "2026-11-14 00:01:00"
+          "since": "2026-11-15 00:01:00"
         },
         "GPLc": {
           "available": false,
