@@ -69,7 +69,7 @@
         "Gazole": {
           "available": false,
           "price": null,
-          "since": "2026-11-16 19:13:22"
+          "since": "2026-11-17 11:44:31"
         },
         "SP95": {
           "available": false,
@@ -192,7 +192,7 @@
         "Gazole": {
           "available": true,
           "price": 2.15,
-          "since": "2026-11-16 18:56:40"
+          "since": "2026-11-17 16:32:27"
         },
         "SP95": {
           "available": false,
@@ -200,9 +200,9 @@
           "since": "2023-06-29 18:57:36"
         },
         "SP98": {
-          "available": true,
-          "price": 1.99,
-          "since": "2026-11-16 18:56:40"
+          "available": false,
+          "price": null,
+          "since": "2026-11-17 16:31:25"
         }
       },
       "last_seen": "2026-11-17",
@@ -231,9 +231,9 @@
           "since": "2017-08-31 15:36:11"
         },
         "Gazole": {
-          "available": false,
-          "price": null,
-          "since": "2026-11-12 14:10:22"
+          "available": true,
+          "price": 2.15,
+          "since": "2026-11-17 11:06:36"
         },
         "SP95": {
           "available": false,
@@ -241,9 +241,9 @@
           "since": "2023-06-29 18:58:23"
         },
         "SP98": {
-          "available": false,
-          "price": null,
-          "since": "2026-10-20 07:53:22"
+          "available": true,
+          "price": 1.99,
+          "since": "2026-11-17 11:06:36"
         }
       },
       "last_seen": "2026-11-17",
@@ -272,9 +272,9 @@
           "since": "2026-10-02 09:26:10"
         },
         "Gazole": {
-          "available": true,
-          "price": 2.23,
-          "since": "2026-11-17 08:06:17"
+          "available": false,
+          "price": null,
+          "since": "2026-11-17 14:55:56"
         },
         "SP95": {
           "available": false,
@@ -446,9 +446,9 @@
           "since": "2026-05-28 16:53:23"
         },
         "SP98": {
-          "available": true,
-          "price": 1.99,
-          "since": "2026-11-17 07:54:32"
+          "available": false,
+          "price": null,
+          "since": "2026-11-17 17:25:38"
         }
       },
       "last_seen": "2026-11-17",
