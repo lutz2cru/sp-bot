@@ -108,9 +108,9 @@
           "since": "2022-08-12 08:14:09"
         },
         "Gazole": {
-          "available": true,
-          "price": 2.19,
-          "since": "2026-11-18 06:41:22"
+          "available": false,
+          "price": null,
+          "since": "2026-11-18 17:57:13"
         },
         "SP95": {
           "available": false,
@@ -175,9 +175,9 @@
       "distance_km": 1.1,
       "fuels": {
         "E10": {
-          "available": true,
-          "price": 1.99,
-          "since": "2026-11-18 09:32:00"
+          "available": false,
+          "price": null,
+          "since": "2026-11-18 18:55:23"
         },
         "E85": {
           "available": false,
@@ -192,7 +192,7 @@
         "Gazole": {
           "available": true,
           "price": 2.15,
-          "since": "2026-11-18 09:31:59"
+          "since": "2026-11-18 18:55:36"
         },
         "SP95": {
           "available": false,
@@ -202,7 +202,7 @@
         "SP98": {
           "available": false,
           "price": null,
-          "since": "2026-11-18 15:04:56"
+          "since": "2026-11-18 18:55:23"
         }
       },
       "last_seen": "2026-11-18",
@@ -487,9 +487,9 @@
           "since": "2017-09-20 12:54:12"
         },
         "SP98": {
-          "available": true,
-          "price": 1.99,
-          "since": "2026-11-18 11:05:52"
+          "available": false,
+          "price": null,
+          "since": "2026-11-18 18:32:37"
         }
       },
       "last_seen": "2026-11-18",
