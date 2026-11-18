@@ -54,7 +54,7 @@
         "E10": {
           "available": false,
           "price": null,
-          "since": "2026-11-17 18:52:15"
+          "since": "2026-11-18 12:08:08"
         },
         "E85": {
           "available": false,
@@ -108,9 +108,9 @@
           "since": "2022-08-12 08:14:09"
         },
         "Gazole": {
-          "available": false,
-          "price": null,
-          "since": "2026-10-15 13:05:40"
+          "available": true,
+          "price": 2.19,
+          "since": "2026-11-18 06:41:22"
         },
         "SP95": {
           "available": false,
@@ -150,18 +150,18 @@
         },
         "Gazole": {
           "available": true,
-          "price": 2.25,
-          "since": "2026-11-12 16:48:53"
+          "price": 2.23,
+          "since": "2026-11-18 14:51:53"
         },
         "SP95": {
-          "available": false,
-          "price": null,
-          "since": "2026-11-13 09:38:43"
+          "available": true,
+          "price": 1.99,
+          "since": "2026-11-18 14:51:54"
         },
         "SP98": {
-          "available": false,
-          "price": null,
-          "since": "2026-11-06 08:06:34"
+          "available": true,
+          "price": 1.99,
+          "since": "2026-11-18 14:51:54"
         }
       },
       "last_seen": "2026-11-18",
@@ -175,9 +175,9 @@
       "distance_km": 1.1,
       "fuels": {
         "E10": {
-          "available": false,
-          "price": null,
-          "since": "2026-11-14 17:52:03"
+          "available": true,
+          "price": 1.99,
+          "since": "2026-11-18 09:32:00"
         },
         "E85": {
           "available": false,
@@ -192,7 +192,7 @@
         "Gazole": {
           "available": true,
           "price": 2.15,
-          "since": "2026-11-17 16:32:27"
+          "since": "2026-11-18 09:31:59"
         },
         "SP95": {
           "available": false,
@@ -202,7 +202,7 @@
         "SP98": {
           "available": false,
           "price": null,
-          "since": "2026-11-17 16:31:25"
+          "since": "2026-11-18 15:04:56"
         }
       },
       "last_seen": "2026-11-18",
@@ -231,9 +231,9 @@
           "since": "2017-08-31 15:36:11"
         },
         "Gazole": {
-          "available": true,
-          "price": 2.15,
-          "since": "2026-11-17 11:06:36"
+          "available": false,
+          "price": null,
+          "since": "2026-11-18 13:27:20"
         },
         "SP95": {
           "available": false,
@@ -241,9 +241,9 @@
           "since": "2023-06-29 18:58:23"
         },
         "SP98": {
-          "available": true,
-          "price": 1.99,
-          "since": "2026-11-17 11:06:36"
+          "available": false,
+          "price": null,
+          "since": "2026-11-18 08:19:55"
         }
       },
       "last_seen": "2026-11-18",
@@ -339,9 +339,9 @@
       "distance_km": 1.0,
       "fuels": {
         "E10": {
-          "available": false,
-          "price": null,
-          "since": "2026-11-17 18:55:17"
+          "available": true,
+          "price": 1.99,
+          "since": "2026-11-18 08:31:14"
         },
         "E85": {
           "available": true,
@@ -349,9 +349,9 @@
           "since": "2026-11-18 00:01:00"
         },
         "GPLc": {
-          "available": true,
-          "price": 1.073,
-          "since": "2026-11-18 00:01:00"
+          "available": false,
+          "price": null,
+          "since": "2026-11-18 13:09:08"
         },
         "Gazole": {
           "available": false,
@@ -438,7 +438,7 @@
         "Gazole": {
           "available": false,
           "price": null,
-          "since": "2026-11-16 18:15:17"
+          "since": "2026-11-18 14:22:23"
         },
         "SP95": {
           "available": false,
@@ -477,9 +477,9 @@
           "since": "2017-09-20 12:54:14"
         },
         "Gazole": {
-          "available": false,
-          "price": null,
-          "since": "2026-10-13 06:23:02"
+          "available": true,
+          "price": 2.23,
+          "since": "2026-11-18 11:05:26"
         },
         "SP95": {
           "available": false,
@@ -487,9 +487,9 @@
           "since": "2017-09-20 12:54:12"
         },
         "SP98": {
-          "available": false,
-          "price": null,
-          "since": "2026-09-30 19:16:39"
+          "available": true,
+          "price": 1.99,
+          "since": "2026-11-18 11:05:52"
         }
       },
       "last_seen": "2026-11-18",
