@@ -118,9 +118,9 @@
           "since": "2022-08-12 08:14:09"
         },
         "SP98": {
-          "available": true,
-          "price": 1.99,
-          "since": "2026-11-21 00:01:00"
+          "available": false,
+          "price": null,
+          "since": "2026-11-21 11:31:28"
         }
       },
       "last_seen": "2026-11-21",
@@ -339,9 +339,9 @@
       "distance_km": 1.0,
       "fuels": {
         "E10": {
-          "available": true,
-          "price": 1.99,
-          "since": "2026-11-21 00:01:00"
+          "available": false,
+          "price": null,
+          "since": "2026-11-21 11:24:26"
         },
         "E85": {
           "available": true,
@@ -364,9 +364,9 @@
           "since": "2026-09-04 11:36:51"
         },
         "SP98": {
-          "available": false,
-          "price": null,
-          "since": "2026-09-28 10:46:47"
+          "available": true,
+          "price": 1.99,
+          "since": "2026-11-21 11:25:01"
         }
       },
       "last_seen": "2026-11-21",
@@ -446,9 +446,9 @@
           "since": "2026-05-28 16:53:23"
         },
         "SP98": {
-          "available": false,
-          "price": null,
-          "since": "2026-11-20 18:30:12"
+          "available": true,
+          "price": 1.99,
+          "since": "2026-11-21 08:06:11"
         }
       },
       "last_seen": "2026-11-21",
