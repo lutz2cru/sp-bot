@@ -446,9 +446,9 @@
           "since": "2026-05-28 16:53:23"
         },
         "SP98": {
-          "available": false,
-          "price": null,
-          "since": "2026-11-21 18:41:03"
+          "available": true,
+          "price": 1.99,
+          "since": "2026-11-22 08:03:31"
         }
       },
       "last_seen": "2026-11-22",
