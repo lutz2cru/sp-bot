@@ -41,7 +41,7 @@
           "since": "2026-04-02 18:16:30"
         }
       },
-      "last_seen": "2026-11-26",
+      "last_seen": "2026-11-27",
       "pending": {},
       "zone": "Montbéliard"
     },
@@ -52,9 +52,9 @@
       "distance_km": 3.4,
       "fuels": {
         "E10": {
-          "available": true,
-          "price": 1.99,
-          "since": "2026-11-26 07:33:38"
+          "available": false,
+          "price": null,
+          "since": "2026-11-26 19:11:36"
         },
         "E85": {
           "available": false,
@@ -67,9 +67,9 @@
           "since": "2017-09-02 07:53:49"
         },
         "Gazole": {
-          "available": true,
-          "price": 2.19,
-          "since": "2026-11-26 07:33:38"
+          "available": false,
+          "price": null,
+          "since": "2026-11-26 19:11:36"
         },
         "SP95": {
           "available": false,
@@ -82,7 +82,7 @@
           "since": "2026-11-25 18:54:11"
         }
       },
-      "last_seen": "2026-11-26",
+      "last_seen": "2026-11-27",
       "pending": {},
       "zone": "Montbéliard"
     },
@@ -95,7 +95,7 @@
         "E10": {
           "available": true,
           "price": 1.99,
-          "since": "2026-11-26 00:01:00"
+          "since": "2026-11-27 00:01:00"
         },
         "E85": {
           "available": false,
@@ -108,9 +108,9 @@
           "since": "2022-08-12 08:14:09"
         },
         "Gazole": {
-          "available": true,
-          "price": 2.162,
-          "since": "2026-11-26 00:01:00"
+          "available": false,
+          "price": null,
+          "since": "2026-11-26 15:40:20"
         },
         "SP95": {
           "available": false,
@@ -123,7 +123,7 @@
           "since": "2026-11-25 11:13:43"
         }
       },
-      "last_seen": "2026-11-26",
+      "last_seen": "2026-11-27",
       "pending": {},
       "zone": "Montbéliard"
     },
@@ -164,7 +164,7 @@
           "since": "2026-11-25 16:03:00"
         }
       },
-      "last_seen": "2026-11-26",
+      "last_seen": "2026-11-27",
       "pending": {},
       "zone": "Montbéliard"
     },
@@ -205,7 +205,7 @@
           "since": "2026-11-26 07:09:18"
         }
       },
-      "last_seen": "2026-11-26",
+      "last_seen": "2026-11-27",
       "pending": {},
       "zone": "Vesoul"
     },
@@ -246,7 +246,7 @@
           "since": "2026-11-24 13:25:19"
         }
       },
-      "last_seen": "2026-11-26",
+      "last_seen": "2026-11-27",
       "pending": {},
       "zone": "Vesoul"
     },
@@ -287,7 +287,7 @@
           "since": "2026-11-26 08:10:08"
         }
       },
-      "last_seen": "2026-11-26",
+      "last_seen": "2026-11-27",
       "pending": {},
       "zone": "Lure (Axe N19)"
     },
@@ -328,7 +328,7 @@
           "since": "2026-11-24 15:59:13"
         }
       },
-      "last_seen": "2026-11-26",
+      "last_seen": "2026-11-27",
       "pending": {},
       "zone": "Belfort"
     },
@@ -346,12 +346,12 @@
         "E85": {
           "available": true,
           "price": 0.952,
-          "since": "2026-11-26 00:01:00"
+          "since": "2026-11-27 00:01:00"
         },
         "GPLc": {
           "available": true,
           "price": 1.079,
-          "since": "2026-11-26 00:01:00"
+          "since": "2026-11-27 00:01:00"
         },
         "Gazole": {
           "available": false,
@@ -369,7 +369,7 @@
           "since": "2026-11-23 06:56:29"
         }
       },
-      "last_seen": "2026-11-26",
+      "last_seen": "2026-11-27",
       "pending": {},
       "zone": "Belfort"
     },
@@ -381,13 +381,13 @@
       "fuels": {
         "E10": {
           "available": true,
-          "price": 1.885,
-          "since": "2026-11-26 00:01:00"
+          "price": 1.874,
+          "since": "2026-11-27 00:01:00"
         },
         "E85": {
           "available": true,
           "price": 0.953,
-          "since": "2026-11-26 00:01:00"
+          "since": "2026-11-27 00:01:00"
         },
         "GPLc": {
           "available": false,
@@ -395,9 +395,9 @@
           "since": "2018-10-09 10:03:39"
         },
         "Gazole": {
-          "available": true,
-          "price": 2.029,
-          "since": "2026-11-26 00:01:00"
+          "available": false,
+          "price": null,
+          "since": "2026-11-26 16:26:54"
         },
         "SP95": {
           "available": false,
@@ -410,7 +410,7 @@
           "since": "2026-11-25 10:10:27"
         }
       },
-      "last_seen": "2026-11-26",
+      "last_seen": "2026-11-27",
       "pending": {},
       "zone": "Belfort"
     },
@@ -421,9 +421,9 @@
       "distance_km": 2.0,
       "fuels": {
         "E10": {
-          "available": true,
-          "price": 1.885,
-          "since": "2026-11-26 13:33:33"
+          "available": false,
+          "price": null,
+          "since": "2026-11-26 18:39:11"
         },
         "E85": {
           "available": false,
@@ -451,7 +451,7 @@
           "since": "2026-11-22 17:43:05"
         }
       },
-      "last_seen": "2026-11-26",
+      "last_seen": "2026-11-27",
       "pending": {},
       "zone": "Belfort"
     },
@@ -477,9 +477,9 @@
           "since": "2017-09-20 12:54:14"
         },
         "Gazole": {
-          "available": true,
-          "price": 1.999,
-          "since": "2026-11-26 05:48:21"
+          "available": false,
+          "price": null,
+          "since": "2026-11-26 18:13:35"
         },
         "SP95": {
           "available": false,
@@ -487,12 +487,12 @@
           "since": "2017-09-20 12:54:12"
         },
         "SP98": {
-          "available": true,
-          "price": 1.99,
-          "since": "2026-11-25 19:04:49"
+          "available": false,
+          "price": null,
+          "since": "2026-11-26 17:32:04"
         }
       },
-      "last_seen": "2026-11-26",
+      "last_seen": "2026-11-27",
       "pending": {},
       "zone": "Belfort"
     },
@@ -533,7 +533,7 @@
           "since": "2026-11-19 11:49:46"
         }
       },
-      "last_seen": "2026-11-26",
+      "last_seen": "2026-11-27",
       "pending": {},
       "zone": "Belfort"
     }
